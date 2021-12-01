@@ -5,22 +5,29 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.35" />
-        <PackageReference Include="SpecFlow.xUnit" Version="3.9.22" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.21"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
+        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.35"/>
+        <PackageReference Include="SpecFlow.xUnit" Version="3.9.40"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="FluentAssertions" Version="5.10.3"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Drivers" />
-      <Folder Include="Features" />
-      <Folder Include="Hooks" />
-      <Folder Include="Steps" />
+        <ProjectReference Include="..\..\src\CleanEventSourcing.Api\CleanEventSourcing.Api.csproj"/>
+        <ProjectReference Include="..\..\src\CleanEventSourcing.Application\CleanEventSourcing.Application.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.Test.json">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
