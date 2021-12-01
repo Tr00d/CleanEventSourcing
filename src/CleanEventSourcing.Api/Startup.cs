@@ -1,4 +1,5 @@
 using System.Reflection;
+using CleanEventSourcing.Application;
 using CleanEventSourcing.Application.Items.CreateItem;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -11,13 +12,6 @@ namespace CleanEventSourcing.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();
@@ -26,6 +20,7 @@ namespace CleanEventSourcing.Api
                 .AddFluentValidation(configuration =>
                     configuration.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                         .RegisterValidatorsFromAssemblyContaining<CreateItemRequestValidation>());
+            services.RegisterApplication();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,7 +30,9 @@ namespace CleanEventSourcing.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }

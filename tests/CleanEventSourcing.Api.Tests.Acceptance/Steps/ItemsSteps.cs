@@ -22,9 +22,13 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [Then(@"the creation response should return a ""(.*)"" status code")]
         public void CreateItemShouldReturnStatusCode(string statusCode) => context.CreationResponse.StatusCode.Should()
-            .Be(Enum.Parse(typeof(HttpStatusCode), statusCode));
+            .Be((HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"I create a new item ""(.*)""")]
         public async Task CreateItem(string description) => await driver.CreateItem(description).ConfigureAwait(false);
+
+        [Then(@"the creation response contains location header for retrieving the item")]
+        public void CreateItemShouldReturnItemLocation() =>
+            context.CreationResponse.Headers.Location.Should().NotBeNull();
     }
 }
