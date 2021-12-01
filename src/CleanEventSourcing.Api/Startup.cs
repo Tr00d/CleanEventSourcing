@@ -1,3 +1,6 @@
+using System.Reflection;
+using CleanEventSourcing.Application.Items.CreateItem;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +22,10 @@ namespace CleanEventSourcing.Api
         {
             services.AddRouting();
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IgnoreNullValues = true);
+            services.AddMvc()
+                .AddFluentValidation(configuration =>
+                    configuration.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+                        .RegisterValidatorsFromAssemblyContaining<CreateItemRequestValidation>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

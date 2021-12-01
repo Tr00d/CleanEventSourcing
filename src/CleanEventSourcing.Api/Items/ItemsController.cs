@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CleanEventSourcing.Application.Items.CreateItem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanEventSourcing.Api.Items
@@ -14,7 +15,7 @@ namespace CleanEventSourcing.Api.Items
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateItemAsync()
+        public async Task<IActionResult> CreateItemAsync([FromBody] CreateItemRequest request)
         {
             throw new NotImplementedException();
         }
