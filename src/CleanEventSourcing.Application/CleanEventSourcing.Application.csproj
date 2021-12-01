@@ -7,4 +7,9 @@
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="10.3.5" />
+      <PackageReference Include="xunit" Version="2.4.1" />
+    </ItemGroup>
+
 </Project>
