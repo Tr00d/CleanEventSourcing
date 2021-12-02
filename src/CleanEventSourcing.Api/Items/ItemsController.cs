@@ -1,9 +1,9 @@
 using System;
-using Dawn;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using Dawn;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanEventSourcing.Api.Items
@@ -12,20 +12,22 @@ namespace CleanEventSourcing.Api.Items
     [ApiController]
     public class ItemsController : ControllerBase
     {
-        private readonly IService service;
-        public ItemsController(IService service)
+        private readonly IItemService itemService;
+
+        public ItemsController(IItemService itemService)
         {
-            this.service = Guard.Argument(service, nameof(service)).NotNull().Value;
+            this.itemService = Guard.Argument(itemService, nameof(itemService)).NotNull().Value;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateItemRequest request)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateItemRequest request)
         {
-            throw new NotImplementedException();
+            await this.itemService.CreateAsync(request).ConfigureAwait(false);
+            return this.CreatedAtAction("Get", new GetItemRequest() {Id = request.Id}, request.Id);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] GetItemRequest request)
+        public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request)
         {
             throw new NotImplementedException();
         }

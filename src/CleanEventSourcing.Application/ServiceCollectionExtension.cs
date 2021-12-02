@@ -8,7 +8,7 @@ namespace CleanEventSourcing.Application
         public static void RegisterApplication(this IServiceCollection services)
         {
             //services.AddMediatR(typeof(CreateItemHandler).Assembly);
-            services.AddScoped<IService, Service>();
+            services.AddScoped<IItemService, ItemService>();
         }
     }
 }
