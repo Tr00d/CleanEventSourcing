@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items.CreateItem;
 using FluentValidation.TestHelper;
@@ -29,7 +28,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            CreateItemRequest request = new CreateItemRequest {Description = String.Empty};
+            CreateItemRequest request = new CreateItemRequest {Description = string.Empty};
             CreateItemRequestValidation validator = new CreateItemRequestValidation();
             TestValidationResult<CreateItemRequest> result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
@@ -38,7 +37,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            CreateItemRequest request = new CreateItemRequest{Description = String.Empty};
+            CreateItemRequest request = new CreateItemRequest {Description = string.Empty};
             CreateItemRequestValidation validator = new CreateItemRequestValidation();
             TestValidationResult<CreateItemRequest> result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);

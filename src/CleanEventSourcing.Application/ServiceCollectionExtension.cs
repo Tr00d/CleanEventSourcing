@@ -1,4 +1,5 @@
 using CleanEventSourcing.Application.Items;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanEventSourcing.Application
@@ -7,7 +8,8 @@ namespace CleanEventSourcing.Application
     {
         public static void RegisterApplication(this IServiceCollection services)
         {
-            //services.AddMediatR(typeof(CreateItemHandler).Assembly);
+            services.AddAutoMapper(typeof(ServiceCollectionExtension).Assembly);
+            services.AddMediatR(typeof(ServiceCollectionExtension).Assembly);
             services.AddScoped<IItemService, ItemService>();
         }
     }

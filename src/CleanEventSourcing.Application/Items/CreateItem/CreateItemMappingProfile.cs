@@ -1,4 +1,3 @@
-using System.Threading;
 using AutoMapper;
 
 namespace CleanEventSourcing.Application.Items.CreateItem
@@ -7,7 +6,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
     {
         public CreateItemMappingProfile()
         {
-            this.CreateMap<CreateItemRequest, CreateItemCommand>();
+            CreateMap<CreateItemRequest, CreateItemCommand>();
         }
     }
 }

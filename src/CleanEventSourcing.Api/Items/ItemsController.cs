@@ -22,8 +22,8 @@ namespace CleanEventSourcing.Api.Items
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateItemRequest request)
         {
-            await this.itemService.CreateAsync(request).ConfigureAwait(false);
-            return this.CreatedAtAction("Get", new GetItemRequest() {Id = request.Id}, request.Id);
+            await itemService.CreateAsync(request).ConfigureAwait(false);
+            return CreatedAtAction("Get", new GetItemRequest {Id = request.Id}, request.Id);
         }
 
         [HttpGet("{id}")]

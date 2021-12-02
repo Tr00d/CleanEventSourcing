@@ -15,8 +15,8 @@ namespace CleanEventSourcing.Api.Tests.Items
 {
     public class ItemsControllerTest
     {
-        private Fixture fixture;
-        private Mock<IItemService> mockService;
+        private readonly Fixture fixture;
+        private readonly Mock<IItemService> mockService;
 
         public ItemsControllerTest()
         {
@@ -34,22 +34,22 @@ namespace CleanEventSourcing.Api.Tests.Items
         [Fact]
         public async Task CreateAsync_ShouldReturnCreatedStatus()
         {
-            CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
-            ItemsController controller = new ItemsController(this.mockService.Object);
+            CreateItemRequest request = fixture.Create<CreateItemRequest>();
+            ItemsController controller = new ItemsController(mockService.Object);
             IActionResult result = await controller.CreateAsync(request).ConfigureAwait(false);
             result.Should().BeOfType<CreatedAtActionResult>();
-            CreatedAtActionResult createdResult = (CreatedAtActionResult)result;
+            CreatedAtActionResult createdResult = (CreatedAtActionResult) result;
             createdResult.ActionName.Should().Be("Get");
             createdResult.Value.Should().Be(request.Id);
             createdResult.RouteValues.First().Key.Should().Be(nameof(GetItemRequest.Id));
             createdResult.RouteValues.First().Value.Should().Be(request.Id);
         }
-        
+
         [Fact]
         public async Task CreateAsync_ShouldCreateItem()
         {
-            CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
-            ItemsController controller = new ItemsController(this.mockService.Object);
+            CreateItemRequest request = fixture.Create<CreateItemRequest>();
+            ItemsController controller = new ItemsController(mockService.Object);
             IActionResult result = await controller.CreateAsync(request).ConfigureAwait(false);
             mockService.Verify(service => service.CreateAsync(request), Times.Once);
         }

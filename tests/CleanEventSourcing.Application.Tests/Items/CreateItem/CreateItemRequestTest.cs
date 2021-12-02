@@ -1,4 +1,3 @@
-using System;
 using AutoFixture;
 using CleanEventSourcing.Application.Items.CreateItem;
 using FluentAssertions;
@@ -9,11 +8,12 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
     public class CreateItemRequestTest
     {
         private readonly Fixture fixture;
+
         public CreateItemRequestTest()
         {
-            this.fixture = new Fixture();
+            fixture = new Fixture();
         }
-        
+
         [Fact]
         public void Constructor_ShouldInstanciateRequestWithNonEmptyGuid()
         {
