@@ -2,6 +2,7 @@ using System.Reflection;
 using CleanEventSourcing.Application;
 using CleanEventSourcing.Application.Items.CreateItem;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ namespace CleanEventSourcing.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();
+            services.AddMediatR(typeof(Startup).Assembly);
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddMvc()
                 .AddFluentValidation(configuration =>
