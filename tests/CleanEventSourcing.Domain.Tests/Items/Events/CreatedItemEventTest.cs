@@ -28,7 +28,8 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         {
             string description = fixture.Create<string>();
             CreatedItemEvent createdEvent = new CreatedItemEvent(fixture.Create<Guid>(), description);
-            createdEvent.Description.Should().Be(description);
+            createdEvent.Description.IsSome.Should().Be(true);
+            createdEvent.Description.IfNone(string.Empty).Should().Be(description);
         }
     }
 }

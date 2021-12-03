@@ -20,7 +20,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
         public async Task<Unit> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = new(request.Id, request.Description);
-            await eventStore.PublishEventsAsync(item.GetStream(), Some(item.GetIntegrationEvents()));
+            await eventStore.PublishEventsAsync(item.GetStream(), item.GetIntegrationEvents());
             return Unit.Value;
         }
     }

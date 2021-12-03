@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using CleanEventSourcing.Domain.Items;
@@ -30,7 +31,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         {
             string description = fixture.Create<string>();
             Item item = new Item(fixture.Create<Guid>(), description);
-            item.Description.Should().Be(description);
+            item.Description.IsSome.Should().Be(true);
+            item.Description.IfNone(string.Empty).Should().Be(description);
         }
 
         [Fact]
@@ -39,11 +41,12 @@ namespace CleanEventSourcing.Domain.Tests.Items
             Guid id = fixture.Create<Guid>();
             string description = fixture.Create<string>();
             Item item = new Item(id, description);
-            IIntegrationEvent[] events = item.GetIntegrationEvents().ToArray();
+            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(new List<IIntegrationEvent>()).ToArray();
             events.First().Should().BeOfType<CreatedItemEvent>();
             CreatedItemEvent result = (CreatedItemEvent) events.First();
             result.Id.Should().Be(id);
-            result.Description.Should().Be(description);
+            result.Description.IsSome.Should().Be(true);
+            result.Description.IfNone(string.Empty).Should().Be(description);
         }
 
         [Fact]
@@ -53,7 +56,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
             string description = fixture.Create<string>();
             string expectedStream = $"{nameof(Item)}-{id}";
             Item item = new Item(id, description);
-            item.GetStream().Should().Be(expectedStream);
+            item.GetStream().IsSome.Should().Be(true);
+            item.GetStream().IfNone(string.Empty).Should().Be(expectedStream);
         }
     }
 }

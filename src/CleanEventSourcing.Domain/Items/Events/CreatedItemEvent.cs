@@ -5,18 +5,17 @@ namespace CleanEventSourcing.Domain.Items.Events
 {
     public class CreatedItemEvent : IIntegrationEvent<Item>
     {
-        public CreatedItemEvent(Guid id, string description)
+        public CreatedItemEvent(Guid id, Option<string> description)
         {
             Id = id;
             Description = description;
         }
 
-
         public Guid Id { get; set; }
 
-        public string Description { get; set; }
+        public Option<string> Description { get; set; }
 
-        public void Apply(Item aggregate)
+        public void Apply(Option<Item> aggregate)
         {
             throw new NotImplementedException();
         }

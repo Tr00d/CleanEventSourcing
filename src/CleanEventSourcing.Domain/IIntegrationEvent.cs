@@ -14,9 +14,9 @@ namespace CleanEventSourcing.Domain
         Option<IIntegrationEvent<T>> TryConvertTo<T>() where T : IAggregate;
     }
 
-    public interface IIntegrationEvent<in T> : IIntegrationEvent
+    public interface IIntegrationEvent<T> : IIntegrationEvent
         where T : IAggregate
     {
-        void Apply(T aggregate);
+        void Apply(Option<T> aggregate);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CleanEventSourcing.Domain.Items.Events;
+using LanguageExt;
 
 namespace CleanEventSourcing.Domain.Items
 {
@@ -13,7 +14,7 @@ namespace CleanEventSourcing.Domain.Items
             events = new List<IIntegrationEvent<Item>>();
         }
 
-        public Item(Guid id, string description)
+        public Item(Guid id, Option<string> description)
             : this()
         {
             Id = id;
@@ -21,12 +22,12 @@ namespace CleanEventSourcing.Domain.Items
             events.Add(new CreatedItemEvent(Id, Description));
         }
 
-        public string Description { get; }
+        public Option<string> Description { get; }
 
         public Guid Id { get; }
 
-        public string GetStream() => $"{nameof(Item)}-{Id}";
+        public Option<string> GetStream() => $"{nameof(Item)}-{Id}";
 
-        public IEnumerable<IIntegrationEvent> GetIntegrationEvents() => new List<IIntegrationEvent>(events);
+        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() => new List<IIntegrationEvent>(events);
     }
 }

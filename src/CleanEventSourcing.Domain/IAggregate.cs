@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LanguageExt;
 
 namespace CleanEventSourcing.Domain
 {
@@ -7,8 +8,8 @@ namespace CleanEventSourcing.Domain
     {
         Guid Id { get; }
 
-        string GetStream();
+        Option<string> GetStream();
 
-        IEnumerable<IIntegrationEvent> GetIntegrationEvents();
+        Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents();
     }
 }
