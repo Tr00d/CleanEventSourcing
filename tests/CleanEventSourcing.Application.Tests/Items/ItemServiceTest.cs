@@ -6,6 +6,7 @@ using AutoMapper;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Domain.Items;
 using FluentAssertions;
 using LanguageExt;
 using MediatR;
@@ -84,9 +85,11 @@ namespace CleanEventSourcing.Application.Tests.Items
             GetItemRequest request = this.fixture.Create<GetItemRequest>();
             GetItemQuery query = this.fixture.Create<GetItemQuery>();
             GetItemResponse response = this.fixture.Create<GetItemResponse>();
+            ItemSummary summary = this.fixture.Create<ItemSummary>();
             this.mockMapper.Setup(mapper => mapper.Map<GetItemQuery>(request)).Returns(query);
+            this.mockMapper.Setup(mapper => mapper.Map<GetItemResponse>(summary)).Returns(response);
             this.mockMediator.Setup(mediator => mediator.Send(query, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(response);
+                .ReturnsAsync(summary);
             ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
             Option<GetItemResponse> result = await service.GetAsync(request).ConfigureAwait(false);
             result.IsSome.Should().Be(true);

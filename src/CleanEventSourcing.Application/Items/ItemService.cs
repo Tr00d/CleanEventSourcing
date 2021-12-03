@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Domain.Items;
 using Dawn;
 using LanguageExt;
 using MediatR;
@@ -24,7 +26,9 @@ namespace CleanEventSourcing.Application.Items
                 .ConfigureAwait(false);
 
         public async Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) =>
-            await request.MatchAsync(value => this.mediator.Send(this.mapper.Map<GetItemQuery>(value)),
-                () => Task.FromResult(Option<GetItemResponse>.None));
+            (await request
+                .Map(value => this.mapper.Map<GetItemQuery>(value))
+                .MapAsync(async query => await this.mediator.Send(query)))
+            .Map(summary => this.mapper.Map<GetItemResponse>(summary));
     }
 }

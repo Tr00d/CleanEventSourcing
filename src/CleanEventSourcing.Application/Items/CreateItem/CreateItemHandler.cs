@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,13 +23,12 @@ namespace CleanEventSourcing.Application.Items.CreateItem
         public async Task<Unit> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = new(request.Id, request.Description);
-
-            //await this.eventStore.PublishEventsAsync(item.GetStream(), item.GetIntegrationEvents());
-            async void Action(IIntegrationEvent integrationEvent) =>
-                await this.mediator.Publish(integrationEvent, cancellationToken);
-
-            item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).ToList().ForEach(Action);
+            item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).ToList()
+                .ForEach(async integrationEvent => await this.PublishEvent(integrationEvent, cancellationToken));
             return Unit.Value;
         }
+
+        private async Task PublishEvent(IIntegrationEvent integrationEvent, CancellationToken cancellationToken) =>
+            await this.mediator.Publish(integrationEvent, cancellationToken);
     }
 }

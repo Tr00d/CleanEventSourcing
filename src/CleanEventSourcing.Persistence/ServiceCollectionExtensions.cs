@@ -10,7 +10,7 @@ namespace CleanEventSourcing.Persistence
         public static void RegisterPersistence(this IServiceCollection services)
         {
             services.AddScoped<IEventStore, InMemoryEventStore>();
-            services.AddScoped<IReadModel, InMemoryReadModel>();
+            services.AddScoped<IReadService, InMemoryReadService>();
         } 
     }
 }

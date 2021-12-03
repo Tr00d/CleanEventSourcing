@@ -1,8 +1,8 @@
 using System;
 
-namespace CleanEventSourcing.Application.Items.GetItem
+namespace CleanEventSourcing.Domain.Items
 {
-    public class GetItemResponse
+    public class ItemSummary
     {
         public Guid Id { get; set; }
         

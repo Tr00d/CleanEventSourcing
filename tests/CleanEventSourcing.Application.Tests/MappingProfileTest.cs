@@ -7,29 +7,27 @@ using CleanEventSourcing.Application.Items.CreateItem;
 using FluentAssertions;
 using Xunit;
 
-namespace CleanEventSourcing.Application.Tests.Items.CreateItem
+namespace CleanEventSourcing.Application.Tests
 {
-    public class CreateItemMappingProfileTest
+    public class MappingProfileTest
     {
         private readonly MapperConfiguration configuration;
         private readonly Fixture fixture;
 
-        public CreateItemMappingProfileTest()
+        public MappingProfileTest()
         {
             this.fixture = new Fixture();
-            this.configuration = new MapperConfiguration(configurationExpression =>
-                configurationExpression.AddProfile(new CreateItemMappingProfile()));
+            this.configuration = GetConfiguration();
         }
 
-        public static IEnumerable<object[]> GetMappingTypes => new MapperConfiguration(configurationExpression =>
-                configurationExpression.AddProfile(new CreateItemMappingProfile())).GetAllTypeMaps()
+        public static IEnumerable<object[]> GetMappingTypes => GetConfiguration().GetAllTypeMaps()
             .Select(typeMap => new object[] {typeMap});
 
+        private static MapperConfiguration GetConfiguration() => new MapperConfiguration(configurationExpression =>
+            configurationExpression.AddMaps(typeof(CreateItemMappingProfile).Assembly));
+
         [Fact]
-        public void MapperConfiguration_ShouldBeValid()
-        {
-            this.configuration.AssertConfigurationIsValid();
-        }
+        public void MapperConfiguration_ShouldBeValid() => this.configuration.AssertConfigurationIsValid();
 
         [Theory]
         [MemberData(nameof(GetMappingTypes))]
