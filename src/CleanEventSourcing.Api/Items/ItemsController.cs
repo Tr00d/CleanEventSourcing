@@ -27,9 +27,8 @@ namespace CleanEventSourcing.Api.Items
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request) =>
+            (await this.itemService.GetAsync(request).ConfigureAwait(false)).Match(this.Ok,
+                (IActionResult)this.NotFound(request));
     }
 }

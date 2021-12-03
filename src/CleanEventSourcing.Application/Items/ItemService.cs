@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.GetItem;
 using Dawn;
 using LanguageExt;
 using MediatR;
@@ -21,5 +22,7 @@ namespace CleanEventSourcing.Application.Items
         public async Task CreateAsync(Option<CreateItemRequest> request)
             => await request.IfSomeAsync(value => this.mediator.Send(this.mapper.Map<CreateItemCommand>(value)))
                 .ConfigureAwait(false);
+
+        public Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) => throw new System.NotImplementedException();
     }
 }

@@ -28,5 +28,13 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Get, $"/api/items/{id}")
                     .ConfigureAwait(false);
+
+        public async Task GetItemUsingLocationHeader()
+        {
+            this.context.GetItemResponse =
+                await this.clientDriver
+                    .ProcessRequest(HttpMethod.Get, this.context.CreateItemResponse.Headers.Location.AbsolutePath)
+                    .ConfigureAwait(false);
+        }
     }
 }

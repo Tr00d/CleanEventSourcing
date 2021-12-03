@@ -111,7 +111,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
             {
                 this.ScenarioStart();
 #line 6
-        testRunner.When("I create a new item \"\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.When("a user creates a new item \"\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
         testRunner.Then("the creation response should return a \"400\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -151,7 +151,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
             {
                 this.ScenarioStart();
 #line 11
-        testRunner.When("I create a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.When("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
         testRunner.Then("the creation response should return a \"201\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -198,6 +198,46 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
 #line hidden
 #line 18
         testRunner.Then("the retrieval response should return a \"400\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="A user successfully retrieves an item after creating it")]
+        [Xunit.TraitAttribute("FeatureTitle", "ItemsFeature")]
+        [Xunit.TraitAttribute("Description", "A user successfully retrieves an item after creating it")]
+        [Xunit.TraitAttribute("Category", "Acceptance")]
+        public virtual void AUserSuccessfullyRetrievesAnItemAfterCreatingIt()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Acceptance"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user successfully retrieves an item after creating it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 21
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 22
+        testRunner.When("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 23
+        testRunner.Then("a user gets the created item using the location header", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

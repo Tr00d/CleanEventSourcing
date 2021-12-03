@@ -26,8 +26,8 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
             this.VerifyStatusCode(this.context.CreateItemResponse,
                 (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
-        [When(@"I create a new item ""(.*)""")]
-        public async Task WhenICreateANewItem(string description) =>
+        [When(@"a user creates a new item ""(.*)""")]
+        public async Task WhenAUserCreatesANewItem(string description) =>
             await this.driver.CreateItem(description).ConfigureAwait(false);
 
         [Then(@"the creation response contains location header for retrieving the item")]
@@ -45,5 +45,9 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         private void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
             response.StatusCode.Should().Be(expectedStatusCode);
+
+        [Then(@"a user gets the created item using the location header")]
+        public async Task ThenAUserGetsTheCreatedItemUsingTheLocationHeader() =>
+            await this.driver.GetItemUsingLocationHeader();
     }
 }
