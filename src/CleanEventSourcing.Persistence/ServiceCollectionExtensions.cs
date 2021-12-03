@@ -1,5 +1,6 @@
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Persistence.EventStore;
+using CleanEventSourcing.Persistence.ReadModel;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanEventSourcing.Persistence
@@ -9,6 +10,7 @@ namespace CleanEventSourcing.Persistence
         public static void RegisterPersistence(this IServiceCollection services)
         {
             services.AddScoped<IEventStore, InMemoryEventStore>();
-        }
+            services.AddScoped<IReadModel, InMemoryReadModel>();
+        } 
     }
 }

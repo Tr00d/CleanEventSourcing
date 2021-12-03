@@ -41,7 +41,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
             Guid id = this.fixture.Create<Guid>();
             string description = this.fixture.Create<string>();
             Item item = new Item(id, description);
-            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(new List<IIntegrationEvent>()).ToArray();
+            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).ToArray();
             events.First().Should().BeOfType<CreatedItemEvent>();
             CreatedItemEvent result = (CreatedItemEvent) events.First();
             result.Id.Should().Be(id);

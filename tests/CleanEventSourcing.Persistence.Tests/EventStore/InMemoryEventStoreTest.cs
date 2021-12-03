@@ -32,7 +32,7 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
             await eventStore.Handle(mockEvent.Object, this.fixture.Create<CancellationToken>());
             Option<IEnumerable<IIntegrationEvent>> savedEvents = await eventStore.GetEvents(stream);
             savedEvents.IsSome.Should().Be(true);
-            IIntegrationEvent[] integrationEvents = savedEvents.IfNone(new List<IIntegrationEvent>()).ToArray();
+            IIntegrationEvent[] integrationEvents = savedEvents.IfNone(Enumerable.Empty<IIntegrationEvent>()).ToArray();
             integrationEvents.Should().HaveCount(1);
             integrationEvents.First().Should().BeEquivalentTo(mockEvent.Object);
         }

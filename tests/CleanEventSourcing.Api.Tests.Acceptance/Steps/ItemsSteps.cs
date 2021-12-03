@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CleanEventSourcing.Api.Tests.Acceptance.Contexts;
 using CleanEventSourcing.Api.Tests.Acceptance.Drivers;
@@ -22,8 +23,8 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [Then(@"the creation response should return a ""(.*)"" status code")]
         public void ThenTheCreationResponseShouldReturnAStatusCode(string statusCode) =>
-            this.context.CreationResponse.StatusCode.Should()
-                .Be((HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+            this.VerifyStatusCode(this.context.CreateItemResponse,
+                (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"I create a new item ""(.*)""")]
         public async Task WhenICreateANewItem(string description) =>
@@ -31,6 +32,18 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [Then(@"the creation response contains location header for retrieving the item")]
         public void ThenTheCreationResponseContainsLocationHeaderForRetrievingTheItem() =>
-            this.context.CreationResponse.Headers.Location.Should().NotBeNull();
+            this.context.CreateItemResponse.Headers.Location.Should().NotBeNull();
+
+        [When(@"I retrieve the item using an empty id")]
+        public async Task WhenIRetrieveTheItemUsingAnEmptyId() =>
+            await this.driver.GetItem(Guid.Empty).ConfigureAwait(false);
+
+        [Then(@"the retrieval response should return a ""(.*)"" status code")]
+        public void ThenTheRetrievalResponseShouldReturnAStatusCode(string statusCode) =>
+            this.VerifyStatusCode(this.context.GetItemResponse,
+                (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+
+        private void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
+            response.StatusCode.Should().Be(expectedStatusCode);
     }
 }

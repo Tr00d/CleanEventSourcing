@@ -29,7 +29,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
             async void Action(IIntegrationEvent integrationEvent) =>
                 await this.mediator.Publish(integrationEvent, cancellationToken);
 
-            item.GetIntegrationEvents().IfNone(new List<IIntegrationEvent>()).ToList().ForEach(Action);
+            item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).ToList().ForEach(Action);
             return Unit.Value;
         }
     }
