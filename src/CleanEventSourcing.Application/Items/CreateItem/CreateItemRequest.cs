@@ -6,7 +6,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
     {
         public CreateItemRequest()
         {
-            Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
         }
 
         public string Description { get; set; }

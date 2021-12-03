@@ -20,8 +20,8 @@ namespace CleanEventSourcing.Api.Tests.Items
 
         public ItemsControllerTest()
         {
-            mockService = new Mock<IItemService>();
-            fixture = new Fixture();
+            this.mockService = new Mock<IItemService>();
+            this.fixture = new Fixture();
         }
 
         [Fact]
@@ -34,8 +34,8 @@ namespace CleanEventSourcing.Api.Tests.Items
         [Fact]
         public async Task CreateAsync_ShouldReturnCreatedStatus()
         {
-            CreateItemRequest request = fixture.Create<CreateItemRequest>();
-            ItemsController controller = new ItemsController(mockService.Object);
+            CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
             IActionResult result = await controller.CreateAsync(request).ConfigureAwait(false);
             result.Should().BeOfType<CreatedAtActionResult>();
             CreatedAtActionResult createdResult = (CreatedAtActionResult) result;
@@ -48,10 +48,10 @@ namespace CleanEventSourcing.Api.Tests.Items
         [Fact]
         public async Task CreateAsync_ShouldCreateItem()
         {
-            CreateItemRequest request = fixture.Create<CreateItemRequest>();
-            ItemsController controller = new ItemsController(mockService.Object);
-            IActionResult result = await controller.CreateAsync(request).ConfigureAwait(false);
-            mockService.Verify(service => service.CreateAsync(request), Times.Once);
+            CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
+            await controller.CreateAsync(request).ConfigureAwait(false);
+            this.mockService.Verify(service => service.CreateAsync(request), Times.Once);
         }
     }
 }

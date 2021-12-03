@@ -22,8 +22,8 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
 
         public CreateItemHandlerTest()
         {
-            fixture = new Fixture();
-            mockEventStore = new Mock<IEventStore>();
+            this.fixture = new Fixture();
+            this.mockEventStore = new Mock<IEventStore>();
         }
 
         [Fact]
@@ -36,15 +36,17 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public async Task Handle_ShouldPublishEvents()
         {
-            IIntegrationEvent expectedEvent = fixture.Create<CreatedItemEvent>();
-            CreateItemCommand command = fixture.Create<CreateItemCommand>();
-            CreateItemHandler handler = new CreateItemHandler(mockEventStore.Object);
-            await handler.Handle(command, fixture.Create<CancellationToken>());
-            mockEventStore.Verify(
+            IIntegrationEvent expectedEvent = this.fixture.Create<CreatedItemEvent>();
+            CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
+            CreateItemHandler handler = new CreateItemHandler(this.mockEventStore.Object);
+            await handler.Handle(command, this.fixture.Create<CancellationToken>());
+            this.mockEventStore.Verify(
                 eventStore =>
-                    eventStore.PublishEventsAsync($"Item-{command.Id}", It.IsAny<Option<IEnumerable<IIntegrationEvent>>>()),
+                    eventStore.PublishEventsAsync($"Item-{command.Id}",
+                        It.IsAny<Option<IEnumerable<IIntegrationEvent>>>()),
                 Times.Once);
-            Option<IEnumerable<IIntegrationEvent>> argument = (Option<IEnumerable<IIntegrationEvent>>) mockEventStore.Invocations
+            Option<IEnumerable<IIntegrationEvent>> argument = (Option<IEnumerable<IIntegrationEvent>>) this.mockEventStore
+                .Invocations
                 .First().Arguments.First(argument => argument is Option<IEnumerable<IIntegrationEvent>>);
             argument.IfNone(new List<IIntegrationEvent>()).First().Should().BeEquivalentTo(expectedEvent);
         }

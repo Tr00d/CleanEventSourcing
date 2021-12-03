@@ -19,7 +19,7 @@ namespace CleanEventSourcing.Application.Items
         }
 
         public async Task CreateAsync(Option<CreateItemRequest> request)
-            => await request.IfSomeAsync(value => mediator.Send(mapper.Map<CreateItemCommand>(value)))
+            => await request.IfSomeAsync(value => this.mediator.Send(this.mapper.Map<CreateItemCommand>(value)))
                 .ConfigureAwait(false);
     }
 }

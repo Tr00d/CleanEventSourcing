@@ -17,14 +17,14 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
 
         public InMemoryEventStoreTest()
         {
-            fixture = new Fixture();
+            this.fixture = new Fixture();
         }
 
         [Fact]
         public async Task PublishEvents_ShouldStoreEvents()
         {
-            string stream = fixture.Create<string>();
-            DummyEvent[] events = fixture.CreateMany<DummyEvent>().ToArray();
+            string stream = this.fixture.Create<string>();
+            DummyEvent[] events = this.fixture.CreateMany<DummyEvent>().ToArray();
             InMemoryEventStore eventStore = new InMemoryEventStore();
             await eventStore.PublishEventsAsync(stream, events);
             Option<IEnumerable<IIntegrationEvent>> savedEvents = await eventStore.GetEvents(stream);

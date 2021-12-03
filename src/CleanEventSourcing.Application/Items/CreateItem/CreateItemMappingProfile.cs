@@ -6,7 +6,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
     {
         public CreateItemMappingProfile()
         {
-            CreateMap<CreateItemRequest, CreateItemCommand>();
+            this.CreateMap<CreateItemRequest, CreateItemCommand>();
         }
     }
 }

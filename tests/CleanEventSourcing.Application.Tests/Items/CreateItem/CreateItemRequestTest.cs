@@ -11,11 +11,11 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
 
         public CreateItemRequestTest()
         {
-            fixture = new Fixture();
+            this.fixture = new Fixture();
         }
 
         [Fact]
-        public void Constructor_ShouldInstanciateRequestWithNonEmptyGuid()
+        public void Constructor_ShouldInstantiateRequestWithNonEmptyGuid()
         {
             CreateItemRequest request = new CreateItemRequest();
             request.Id.Should().NotBeEmpty();

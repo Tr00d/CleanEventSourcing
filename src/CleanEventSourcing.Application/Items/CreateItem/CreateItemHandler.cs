@@ -4,7 +4,6 @@ using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
 using MediatR;
-using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Application.Items.CreateItem
 {
@@ -20,7 +19,7 @@ namespace CleanEventSourcing.Application.Items.CreateItem
         public async Task<Unit> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = new(request.Id, request.Description);
-            await eventStore.PublishEventsAsync(item.GetStream(), item.GetIntegrationEvents());
+            await this.eventStore.PublishEventsAsync(item.GetStream(), item.GetIntegrationEvents());
             return Unit.Value;
         }
     }

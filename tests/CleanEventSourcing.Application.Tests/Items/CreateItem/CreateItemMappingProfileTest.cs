@@ -16,8 +16,8 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
 
         public CreateItemMappingProfileTest()
         {
-            fixture = new Fixture();
-            configuration = new MapperConfiguration(configurationExpression =>
+            this.fixture = new Fixture();
+            this.configuration = new MapperConfiguration(configurationExpression =>
                 configurationExpression.AddProfile(new CreateItemMappingProfile()));
         }
 
@@ -28,15 +28,15 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public void MapperConfiguration_ShouldBeValid()
         {
-            configuration.AssertConfigurationIsValid();
+            this.configuration.AssertConfigurationIsValid();
         }
 
         [Theory]
         [MemberData(nameof(GetMappingTypes))]
         public void Map_ShouldConvertObject_GivenMappingIsRegistered(TypeMap type)
         {
-            object sourceValue = new SpecimenContext(fixture).Resolve(type.SourceType);
-            IMapper mapper = configuration.CreateMapper();
+            object sourceValue = new SpecimenContext(this.fixture).Resolve(type.SourceType);
+            IMapper mapper = this.configuration.CreateMapper();
             object destinationValue = mapper.Map(sourceValue, type.SourceType, type.DestinationType);
             destinationValue.Should().BeEquivalentTo(sourceValue);
         }

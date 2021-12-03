@@ -14,34 +14,34 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 
         public HttpClientDriver(HttpScenarioContext context)
         {
-            httpScenarioContext = context;
-            client = context.Client;
+            this.httpScenarioContext = context;
+            this.client = context.Client;
         }
 
         public async Task<HttpResponseMessage> ProcessRequest(HttpMethod method, string relativeUri) =>
-            await ProcessRequest(CreateRequest(method, relativeUri)).ConfigureAwait(false);
+            await this.ProcessRequest(this.CreateRequest(method, relativeUri)).ConfigureAwait(false);
 
         public async Task<HttpResponseMessage> ProcessRequest<TRequest>(HttpMethod method, string relativeUri,
-            TRequest data) => await ProcessRequest(CreateRequest(method, relativeUri, data)).ConfigureAwait(false);
+            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data)).ConfigureAwait(false);
 
         public async Task<TResponse> ProcessRequest<TResponse, TRequest>(HttpMethod method, string relativeUri,
             TRequest data)
         {
-            HttpResponseMessage response = await ProcessRequest(method, relativeUri, data).ConfigureAwait(false);
+            HttpResponseMessage response = await this.ProcessRequest(method, relativeUri, data).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<TResponse>(await response.EnsureSuccessStatusCode().Content
                 .ReadAsStringAsync().ConfigureAwait(false));
         }
 
         public async Task<TResponse> ProcessRequest<TResponse>(HttpMethod method, string relativeUri)
         {
-            HttpResponseMessage response = await ProcessRequest(method, relativeUri).ConfigureAwait(false);
+            HttpResponseMessage response = await this.ProcessRequest(method, relativeUri).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<TResponse>(await response.EnsureSuccessStatusCode().Content
                 .ReadAsStringAsync().ConfigureAwait(false));
         }
 
         private HttpRequestMessage CreateRequest<T>(HttpMethod method, string relativeUri, T data)
         {
-            HttpRequestMessage requestMessage = CreateRequest(method, relativeUri);
+            HttpRequestMessage requestMessage = this.CreateRequest(method, relativeUri);
             requestMessage.Content =
                 new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             return requestMessage;
@@ -51,10 +51,10 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
             new HttpRequestMessage
             {
                 Method = method,
-                RequestUri = new Uri(client.BaseAddress, relativeUri)
+                RequestUri = new Uri(this.client.BaseAddress, relativeUri),
             };
 
         private async Task<HttpResponseMessage> ProcessRequest(HttpRequestMessage message) =>
-            await client.SendAsync(message).ConfigureAwait(false);
+            await this.client.SendAsync(message).ConfigureAwait(false);
     }
 }

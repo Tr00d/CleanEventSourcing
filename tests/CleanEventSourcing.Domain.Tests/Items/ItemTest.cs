@@ -15,22 +15,22 @@ namespace CleanEventSourcing.Domain.Tests.Items
 
         public ItemTest()
         {
-            fixture = new Fixture();
+            this.fixture = new Fixture();
         }
 
         [Fact]
         public void Constructor_ShouldSetId()
         {
-            Guid id = fixture.Create<Guid>();
-            Item item = new Item(id, fixture.Create<string>());
+            Guid id = this.fixture.Create<Guid>();
+            Item item = new Item(id, this.fixture.Create<string>());
             item.Id.Should().Be(id);
         }
 
         [Fact]
         public void Constructor_ShouldSetDescription()
         {
-            string description = fixture.Create<string>();
-            Item item = new Item(fixture.Create<Guid>(), description);
+            string description = this.fixture.Create<string>();
+            Item item = new Item(this.fixture.Create<Guid>(), description);
             item.Description.IsSome.Should().Be(true);
             item.Description.IfNone(string.Empty).Should().Be(description);
         }
@@ -38,8 +38,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void GetIntegrationEvents_ShouldContainCreateItemEvent_GivenItemIsCreated()
         {
-            Guid id = fixture.Create<Guid>();
-            string description = fixture.Create<string>();
+            Guid id = this.fixture.Create<Guid>();
+            string description = this.fixture.Create<string>();
             Item item = new Item(id, description);
             IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(new List<IIntegrationEvent>()).ToArray();
             events.First().Should().BeOfType<CreatedItemEvent>();
@@ -52,8 +52,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void GetStream_ShouldReturnClassNameWithId()
         {
-            Guid id = fixture.Create<Guid>();
-            string description = fixture.Create<string>();
+            Guid id = this.fixture.Create<Guid>();
+            string description = this.fixture.Create<string>();
             string expectedStream = $"{nameof(Item)}-{id}";
             Item item = new Item(id, description);
             item.GetStream().IsSome.Should().Be(true);

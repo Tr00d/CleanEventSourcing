@@ -7,8 +7,8 @@ namespace CleanEventSourcing.Domain.Items.Events
     {
         public CreatedItemEvent(Guid id, Option<string> description)
         {
-            Id = id;
-            Description = description;
+            this.Id = id;
+            this.Description = description;
         }
 
         public Guid Id { get; set; }

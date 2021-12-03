@@ -10,7 +10,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Contexts
         public HttpResponseMessage CreationResponse { get; set; }
 
         public async Task<Guid> GetCreatedIdAsync() =>
-            await DeserializeResponse<Guid>(CreationResponse).ConfigureAwait(false);
+            await this.DeserializeResponse<Guid>(this.CreationResponse).ConfigureAwait(false);
 
         private async Task<T> DeserializeResponse<T>(HttpResponseMessage response) =>
             JsonConvert.DeserializeObject<T>(await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync()

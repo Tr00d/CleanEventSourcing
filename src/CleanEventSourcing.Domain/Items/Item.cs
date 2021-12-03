@@ -11,23 +11,23 @@ namespace CleanEventSourcing.Domain.Items
 
         private Item()
         {
-            events = new List<IIntegrationEvent<Item>>();
+            this.events = new List<IIntegrationEvent<Item>>();
         }
 
         public Item(Guid id, Option<string> description)
             : this()
         {
-            Id = id;
-            Description = description;
-            events.Add(new CreatedItemEvent(Id, Description));
+            this.Id = id;
+            this.Description = description;
+            this.events.Add(new CreatedItemEvent(this.Id, this.Description));
         }
 
         public Option<string> Description { get; }
 
         public Guid Id { get; }
 
-        public Option<string> GetStream() => $"{nameof(Item)}-{Id}";
+        public Option<string> GetStream() => $"{nameof(Item)}-{this.Id}";
 
-        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() => new List<IIntegrationEvent>(events);
+        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() => new List<IIntegrationEvent>(this.events);
     }
 }

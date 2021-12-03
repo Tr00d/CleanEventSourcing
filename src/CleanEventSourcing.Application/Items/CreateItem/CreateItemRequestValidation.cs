@@ -9,20 +9,20 @@ namespace CleanEventSourcing.Application.Items.CreateItem
     {
         public override ValidationResult Validate(ValidationContext<CreateItemRequest> context)
         {
-            Validate();
+            this.Validate();
             return base.Validate(context);
         }
 
         public override Task<ValidationResult> ValidateAsync(ValidationContext<CreateItemRequest> context,
             CancellationToken cancellation = new())
         {
-            Validate();
+            this.Validate();
             return base.ValidateAsync(context, cancellation);
         }
 
         private void Validate()
         {
-            RuleFor(request => request.Description).NotNull().NotEmpty();
+            this.RuleFor(request => request.Description).NotNull().NotEmpty();
         }
     }
 }

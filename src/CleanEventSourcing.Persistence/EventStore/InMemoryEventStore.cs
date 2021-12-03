@@ -14,38 +14,36 @@ namespace CleanEventSourcing.Persistence.EventStore
 
         public InMemoryEventStore()
         {
-            eventData = new Dictionary<string, List<IIntegrationEvent>>();
+            this.eventData = new Dictionary<string, List<IIntegrationEvent>>();
         }
 
         public Task PublishEventsAsync(Option<string> stream, Option<IEnumerable<IIntegrationEvent>> events)
         {
-            stream.IfSome(streamValue => PublishEvents(streamValue, events));
+            stream.IfSome(streamValue => this.PublishEvents(streamValue, events));
             return Task.CompletedTask;
         }
 
         public Task<Option<IEnumerable<IIntegrationEvent>>> GetEvents(Option<string> stream) =>
             Task.FromResult(stream.Match(
-                streamValue => Some(GetEvents(streamValue)),
+                streamValue => Some(this.GetEvents(streamValue)),
                 Option<IEnumerable<IIntegrationEvent>>.None));
 
-        private IEnumerable<IIntegrationEvent> GetEvents(string stream) =>
-            eventData.Where(pair => pair.Key == stream).SelectMany(pair => pair.Value);
+        private IEnumerable<IIntegrationEvent> GetEvents(string stream) => this.eventData.Where(pair => pair.Key == stream).SelectMany(pair => pair.Value);
 
         private void AddEventInDictionary(string stream)
         {
-            if (!eventData.ContainsKey(stream))
+            if (!this.eventData.ContainsKey(stream))
             {
-                eventData.Add(stream, new List<IIntegrationEvent>());
+                this.eventData.Add(stream, new List<IIntegrationEvent>());
             }
         }
 
-        private void AppendEventsInDictionary(string stream, IEnumerable<IIntegrationEvent> events) =>
-            eventData[stream].AddRange(events);
+        private void AppendEventsInDictionary(string stream, IEnumerable<IIntegrationEvent> events) => this.eventData[stream].AddRange(events);
 
         private void PublishEvents(string stream, Option<IEnumerable<IIntegrationEvent>> events)
         {
-            AddEventInDictionary(stream);
-            AppendEventsInDictionary(stream, events.IfNone(new List<IIntegrationEvent>()));
+            this.AddEventInDictionary(stream);
+            this.AppendEventsInDictionary(stream, events.IfNone(new List<IIntegrationEvent>()));
         }
     }
 }
