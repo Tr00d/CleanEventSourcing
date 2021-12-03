@@ -23,6 +23,8 @@ namespace CleanEventSourcing.Application.Items
             => await request.IfSomeAsync(value => this.mediator.Send(this.mapper.Map<CreateItemCommand>(value)))
                 .ConfigureAwait(false);
 
-        public Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) => throw new System.NotImplementedException();
+        public async Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) =>
+            await request.MatchAsync(value => this.mediator.Send(this.mapper.Map<GetItemQuery>(value)),
+                () => Task.FromResult(Option<GetItemResponse>.None));
     }
 }

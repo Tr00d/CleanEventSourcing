@@ -5,6 +5,7 @@ using AutoFixture;
 using AutoMapper;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.GetItem;
 using FluentAssertions;
 using LanguageExt;
 using MediatR;
@@ -41,7 +42,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldSendCommand_GivenRequestContainsValue()
+        public async Task CreateAsync_ShouldSendCommand_GivenRequestContainsSome()
         {
             CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
             CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
@@ -58,6 +59,38 @@ namespace CleanEventSourcing.Application.Tests.Items
             await service.CreateAsync(Option<CreateItemRequest>.None).ConfigureAwait(false);
             this.mockMediator.Verify(mediator => mediator.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never);
+        }
+
+        [Fact]
+        public async Task GetAsync_ShouldNotSendQuery_GivenRequestContainsNone()
+        {
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
+            this.mockMediator.Verify(mediator => mediator.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>()),
+                Times.Never);
+        }
+        
+        [Fact]
+        public async Task GetAsync_ShouldReturnNone_GivenRequestContainsNone()
+        {
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            Option<GetItemResponse> response = await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
+            response.IsNone.Should().Be(true);
+        }
+        
+        [Fact]
+        public async Task GetAsync_ShouldReturnSome_GivenRequestContainsSome()
+        {
+            GetItemRequest request = this.fixture.Create<GetItemRequest>();
+            GetItemQuery query = this.fixture.Create<GetItemQuery>();
+            GetItemResponse response = this.fixture.Create<GetItemResponse>();
+            this.mockMapper.Setup(mapper => mapper.Map<GetItemQuery>(request)).Returns(query);
+            this.mockMediator.Setup(mediator => mediator.Send(query, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            Option<GetItemResponse> result = await service.GetAsync(request).ConfigureAwait(false);
+            result.IsSome.Should().Be(true);
+            result.IfNone(new GetItemResponse()).Should().Be(response);
         }
     }
 }
