@@ -27,8 +27,9 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
             DummyEvent[] events = fixture.CreateMany<DummyEvent>().ToArray();
             InMemoryEventStore eventStore = new InMemoryEventStore();
             await eventStore.PublishEventsAsync(stream, events);
-            IEnumerable<IIntegrationEvent> savedEvents = await eventStore.GetEvents(stream);
-            IIntegrationEvent[] integrationEvents = savedEvents.ToArray();
+            Option<IEnumerable<IIntegrationEvent>> savedEvents = await eventStore.GetEvents(stream);
+            savedEvents.IsSome.Should().Be(true);
+            IIntegrationEvent[] integrationEvents = savedEvents.IfNone(new List<IIntegrationEvent>()).ToArray();
             integrationEvents.Should().HaveCount(events.Length);
             integrationEvents.Should().BeEquivalentTo(events);
         }

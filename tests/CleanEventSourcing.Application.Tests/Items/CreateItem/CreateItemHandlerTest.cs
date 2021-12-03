@@ -9,6 +9,7 @@ using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Domain;
 using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
+using LanguageExt;
 using Moq;
 using Xunit;
 
@@ -41,11 +42,11 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
             await handler.Handle(command, fixture.Create<CancellationToken>());
             mockEventStore.Verify(
                 eventStore =>
-                    eventStore.PublishEventsAsync($"Item-{command.Id}", It.IsAny<IEnumerable<IIntegrationEvent>>()),
+                    eventStore.PublishEventsAsync($"Item-{command.Id}", It.IsAny<Option<IEnumerable<IIntegrationEvent>>>()),
                 Times.Once);
-            IEnumerable<IIntegrationEvent> argument = (IEnumerable<IIntegrationEvent>) mockEventStore.Invocations
-                .First().Arguments.First(argument => argument is IEnumerable<IIntegrationEvent>);
-            argument.First().Should().BeEquivalentTo(expectedEvent);
+            Option<IEnumerable<IIntegrationEvent>> argument = (Option<IEnumerable<IIntegrationEvent>>) mockEventStore.Invocations
+                .First().Arguments.First(argument => argument is Option<IEnumerable<IIntegrationEvent>>);
+            argument.IfNone(new List<IIntegrationEvent>()).First().Should().BeEquivalentTo(expectedEvent);
         }
     }
 }

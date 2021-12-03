@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CleanEventSourcing.Domain;
+using LanguageExt;
 
 namespace CleanEventSourcing.Application.Interfaces
 {
     public interface IEventStore
     {
-        Task PublishEventsAsync(string stream, IEnumerable<IIntegrationEvent> events);
+        Task PublishEventsAsync(Option<string> stream, Option<IEnumerable<IIntegrationEvent>> events);
 
-        Task<IEnumerable<IIntegrationEvent>> GetEvents(string stream);
+        Task<Option<IEnumerable<IIntegrationEvent>>> GetEvents(Option<string> stream);
     }
 }
