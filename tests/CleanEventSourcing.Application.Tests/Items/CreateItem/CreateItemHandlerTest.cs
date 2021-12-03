@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -9,7 +7,7 @@ using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Domain;
 using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
-using LanguageExt;
+using MediatR;
 using Moq;
 using Xunit;
 
@@ -19,36 +17,44 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
     {
         private readonly Fixture fixture;
         private readonly Mock<IEventStore> mockEventStore;
+        private readonly Mock<IMediator> mockMediator;
 
         public CreateItemHandlerTest()
         {
             this.fixture = new Fixture();
             this.mockEventStore = new Mock<IEventStore>();
+            this.mockMediator = new Mock<IMediator>();
         }
 
         [Fact]
         public void Constructor_ShouldThrowArgumentNullException_GivenEventStoreIsNull()
         {
-            Action instantiation = () => new CreateItemHandler(null);
+            Action instantiation = () => new CreateItemHandler(null, this.mockMediator.Object);
             instantiation.Should().ThrowExactly<ArgumentNullException>().WithParameterName("eventStore");
         }
 
         [Fact]
-        public async Task Handle_ShouldPublishEvents()
+        public void Constructor_ShouldThrowArgumentNullException_GivenMediatorIsNull()
         {
-            IIntegrationEvent expectedEvent = this.fixture.Create<CreatedItemEvent>();
+            Action instantiation = () => new CreateItemHandler(this.mockEventStore.Object, null);
+            instantiation.Should().ThrowExactly<ArgumentNullException>().WithParameterName("mediator");
+        }
+
+        [Fact]
+        public async Task Handle_ShouldPublishCreatedItemEvent()
+        {
             CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
-            CreateItemHandler handler = new CreateItemHandler(this.mockEventStore.Object);
+            string stream = $"Item-{command.Id}";
+            CreatedItemEvent expectedEvent = new CreatedItemEvent(stream, command.Id, command.Description);
+            CreateItemHandler handler = new CreateItemHandler(this.mockEventStore.Object, this.mockMediator.Object);
             await handler.Handle(command, this.fixture.Create<CancellationToken>());
-            this.mockEventStore.Verify(
-                eventStore =>
-                    eventStore.PublishEventsAsync($"Item-{command.Id}",
-                        It.IsAny<Option<IEnumerable<IIntegrationEvent>>>()),
+            this.mockMediator.Verify(mediator
+                    => mediator.Publish<IIntegrationEvent>(
+                        It.Is<CreatedItemEvent>(input =>
+                            input.Id.Equals(expectedEvent.Id) && input.Description.Equals(expectedEvent.Description) &&
+                            input.Stream.Equals(expectedEvent.Stream)),
+                        It.IsAny<CancellationToken>()),
                 Times.Once);
-            Option<IEnumerable<IIntegrationEvent>> argument = (Option<IEnumerable<IIntegrationEvent>>) this.mockEventStore
-                .Invocations
-                .First().Arguments.First(argument => argument is Option<IEnumerable<IIntegrationEvent>>);
-            argument.IfNone(new List<IIntegrationEvent>()).First().Should().BeEquivalentTo(expectedEvent);
         }
     }
 }

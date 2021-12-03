@@ -5,8 +5,9 @@ namespace CleanEventSourcing.Domain.Items.Events
 {
     public class CreatedItemEvent : IIntegrationEvent<Item>
     {
-        public CreatedItemEvent(Guid id, Option<string> description)
+        public CreatedItemEvent(Option<string> stream, Guid id, Option<string> description)
         {
+            this.Stream = stream;
             this.Id = id;
             this.Description = description;
         }
@@ -19,6 +20,8 @@ namespace CleanEventSourcing.Domain.Items.Events
         {
             throw new NotImplementedException();
         }
+
+        public Option<string> Stream { get; }
 
         public DateTime CreationDate { get; }
 

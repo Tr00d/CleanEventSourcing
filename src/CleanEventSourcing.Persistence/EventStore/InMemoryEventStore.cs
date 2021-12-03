@@ -1,49 +1,34 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
+using CleanEventSourcing.Domain.Items.Events;
 using LanguageExt;
+using MediatR;
 using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Persistence.EventStore
 {
-    public class InMemoryEventStore : IEventStore
+    public class InMemoryEventStore : IEventStore, INotificationHandler<IIntegrationEvent>
     {
-        private readonly Dictionary<string, List<IIntegrationEvent>> eventData;
+        private readonly List<IIntegrationEvent> events;
 
         public InMemoryEventStore()
         {
-            this.eventData = new Dictionary<string, List<IIntegrationEvent>>();
-        }
-
-        public Task PublishEventsAsync(Option<string> stream, Option<IEnumerable<IIntegrationEvent>> events)
-        {
-            stream.IfSome(streamValue => this.PublishEvents(streamValue, events));
-            return Task.CompletedTask;
+            this.events = new List<IIntegrationEvent>();
         }
 
         public Task<Option<IEnumerable<IIntegrationEvent>>> GetEvents(Option<string> stream) =>
-            Task.FromResult(stream.Match(
-                streamValue => Some(this.GetEvents(streamValue)),
-                Option<IEnumerable<IIntegrationEvent>>.None));
+            Task.FromResult(Some(stream.Match(
+                streamValue => this.events.Where(data => data.Stream.IfNone(string.Empty).Equals(streamValue)),
+                new List<IIntegrationEvent>())));
 
-        private IEnumerable<IIntegrationEvent> GetEvents(string stream) => this.eventData.Where(pair => pair.Key == stream).SelectMany(pair => pair.Value);
-
-        private void AddEventInDictionary(string stream)
+        public Task Handle(IIntegrationEvent notification, CancellationToken cancellationToken)
         {
-            if (!this.eventData.ContainsKey(stream))
-            {
-                this.eventData.Add(stream, new List<IIntegrationEvent>());
-            }
-        }
-
-        private void AppendEventsInDictionary(string stream, IEnumerable<IIntegrationEvent> events) => this.eventData[stream].AddRange(events);
-
-        private void PublishEvents(string stream, Option<IEnumerable<IIntegrationEvent>> events)
-        {
-            this.AddEventInDictionary(stream);
-            this.AppendEventsInDictionary(stream, events.IfNone(new List<IIntegrationEvent>()));
+            this.events.Add(notification);
+            return Task.CompletedTask;
         }
     }
 }

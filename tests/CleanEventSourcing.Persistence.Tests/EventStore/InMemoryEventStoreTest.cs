@@ -1,12 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using CleanEventSourcing.Domain;
+using CleanEventSourcing.Domain.Items.Events;
 using CleanEventSourcing.Persistence.EventStore;
 using FluentAssertions;
 using LanguageExt;
+using Moq;
 using Xunit;
 
 namespace CleanEventSourcing.Persistence.Tests.EventStore
@@ -21,37 +23,18 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
         }
 
         [Fact]
-        public async Task PublishEvents_ShouldStoreEvents()
+        public async Task HandleCreatedItemEvent_ShouldStoreEvent()
         {
             string stream = this.fixture.Create<string>();
-            DummyEvent[] events = this.fixture.CreateMany<DummyEvent>().ToArray();
+            Mock<IIntegrationEvent> mockEvent = new Mock<IIntegrationEvent>();
+            mockEvent.SetupGet(mock => mock.Stream).Returns(stream);
             InMemoryEventStore eventStore = new InMemoryEventStore();
-            await eventStore.PublishEventsAsync(stream, events);
+            await eventStore.Handle(mockEvent.Object, this.fixture.Create<CancellationToken>());
             Option<IEnumerable<IIntegrationEvent>> savedEvents = await eventStore.GetEvents(stream);
             savedEvents.IsSome.Should().Be(true);
             IIntegrationEvent[] integrationEvents = savedEvents.IfNone(new List<IIntegrationEvent>()).ToArray();
-            integrationEvents.Should().HaveCount(events.Length);
-            integrationEvents.Should().BeEquivalentTo(events);
-        }
-
-        private class DummyEvent : IIntegrationEvent
-        {
-            public DateTime CreationDate { get; }
-
-            public Type GetEventType()
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool CanConvertTo<T>() where T : IAggregate
-            {
-                throw new NotImplementedException();
-            }
-
-            public Option<IIntegrationEvent<T>> TryConvertTo<T>() where T : IAggregate
-            {
-                throw new NotImplementedException();
-            }
+            integrationEvents.Should().HaveCount(1);
+            integrationEvents.First().Should().BeEquivalentTo(mockEvent.Object);
         }
     }
 }

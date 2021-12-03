@@ -22,7 +22,8 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
             await this.ProcessRequest(this.CreateRequest(method, relativeUri)).ConfigureAwait(false);
 
         public async Task<HttpResponseMessage> ProcessRequest<TRequest>(HttpMethod method, string relativeUri,
-            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data)).ConfigureAwait(false);
+            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data))
+            .ConfigureAwait(false);
 
         public async Task<TResponse> ProcessRequest<TResponse, TRequest>(HttpMethod method, string relativeUri,
             TRequest data)

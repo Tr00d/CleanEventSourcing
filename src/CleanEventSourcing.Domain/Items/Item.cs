@@ -19,7 +19,7 @@ namespace CleanEventSourcing.Domain.Items
         {
             this.Id = id;
             this.Description = description;
-            this.events.Add(new CreatedItemEvent(this.Id, this.Description));
+            this.events.Add(new CreatedItemEvent(this.GetStream(), this.Id, this.Description));
         }
 
         public Option<string> Description { get; }
@@ -28,6 +28,7 @@ namespace CleanEventSourcing.Domain.Items
 
         public Option<string> GetStream() => $"{nameof(Item)}-{this.Id}";
 
-        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() => new List<IIntegrationEvent>(this.events);
+        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
+            new List<IIntegrationEvent>(this.events);
     }
 }

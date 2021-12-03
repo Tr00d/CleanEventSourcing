@@ -1,10 +1,13 @@
 using System;
 using LanguageExt;
+using MediatR;
 
 namespace CleanEventSourcing.Domain
 {
-    public interface IIntegrationEvent
+    public interface IIntegrationEvent : INotification
     {
+        Option<string> Stream { get; }
+
         DateTime CreationDate { get; }
 
         Type GetEventType();
