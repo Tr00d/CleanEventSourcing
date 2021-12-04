@@ -14,12 +14,13 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
     public class InMemoryReadServiceTest
     {
         private readonly Fixture fixture;
-        private Context context;
-        
+        private readonly Context context;
+
         public InMemoryReadServiceTest()
         {
             this.fixture = new Fixture();
-            DbContextOptions<Context> options = new DbContextOptionsBuilder<Context>().UseInMemoryDatabase(this.fixture.Create<string>()).Options;
+            DbContextOptions<Context> options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase(this.fixture.Create<string>()).Options;
             this.context = new Context(options);
         }
 

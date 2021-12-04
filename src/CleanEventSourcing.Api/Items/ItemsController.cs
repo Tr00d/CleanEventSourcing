@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
@@ -29,6 +28,6 @@ namespace CleanEventSourcing.Api.Items
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request) =>
             (await this.itemService.GetAsync(request).ConfigureAwait(false)).Match(this.Ok,
-                (IActionResult)this.NotFound(request));
+                (IActionResult) this.NotFound(request));
     }
 }

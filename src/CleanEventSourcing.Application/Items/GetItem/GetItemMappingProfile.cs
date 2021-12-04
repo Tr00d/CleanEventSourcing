@@ -3,7 +3,7 @@ using CleanEventSourcing.Domain.Items;
 
 namespace CleanEventSourcing.Application.Items.GetItem
 {
-    public class GetItemMappingProfile: Profile
+    public class GetItemMappingProfile : Profile
     {
         public GetItemMappingProfile()
         {

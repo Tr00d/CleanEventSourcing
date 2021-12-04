@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using CleanEventSourcing.Domain;
-using CleanEventSourcing.Domain.Items.Events;
 using CleanEventSourcing.Persistence.EventStore;
 using FluentAssertions;
 using LanguageExt;

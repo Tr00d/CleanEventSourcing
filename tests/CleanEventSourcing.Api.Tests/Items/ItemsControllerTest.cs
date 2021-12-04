@@ -67,8 +67,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             NotFoundObjectResult notFoundResult = (NotFoundObjectResult) result;
             notFoundResult.Value.Should().Be(request);
         }
-        
-        
+
         [Fact]
         public async Task GetAsync_ShouldReturnOk_GivenRetrievedItemIsSome()
         {

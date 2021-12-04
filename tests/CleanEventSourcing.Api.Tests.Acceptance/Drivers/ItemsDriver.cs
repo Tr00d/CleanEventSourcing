@@ -23,7 +23,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Post, "/api/items", new CreateItemRequest {Description = description})
                     .ConfigureAwait(false);
-        
+
         public async Task GetItem(Guid id) =>
             this.context.GetItemResponse =
                 await this.clientDriver

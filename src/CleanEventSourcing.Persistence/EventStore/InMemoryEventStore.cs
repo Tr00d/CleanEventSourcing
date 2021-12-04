@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
-using CleanEventSourcing.Domain.Items.Events;
 using LanguageExt;
 using MediatR;
 using static LanguageExt.Prelude;

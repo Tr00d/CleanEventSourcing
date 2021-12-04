@@ -25,7 +25,6 @@ namespace CleanEventSourcing.Api
 
         public IConfiguration Configuration { get; }
 
-        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();

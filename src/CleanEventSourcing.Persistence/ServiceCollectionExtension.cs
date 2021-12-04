@@ -15,6 +15,6 @@ namespace CleanEventSourcing.Persistence
             services.AddMediatR(typeof(ServiceCollectionExtension).Assembly);
             services.AddScoped<IReadService, InMemoryReadService>();
             services.AddScoped<IEventStore, InMemoryEventStore>();
-        } 
+        }
     }
 }

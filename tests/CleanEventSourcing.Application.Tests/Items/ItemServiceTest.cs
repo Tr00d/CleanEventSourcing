@@ -70,15 +70,16 @@ namespace CleanEventSourcing.Application.Tests.Items
             this.mockMediator.Verify(mediator => mediator.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
-        
+
         [Fact]
         public async Task GetAsync_ShouldReturnNone_GivenRequestContainsNone()
         {
             ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            Option<GetItemResponse> response = await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
+            Option<GetItemResponse> response =
+                await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
             response.IsNone.Should().Be(true);
         }
-        
+
         [Fact]
         public async Task GetAsync_ShouldReturnSome_GivenRequestContainsSome()
         {
