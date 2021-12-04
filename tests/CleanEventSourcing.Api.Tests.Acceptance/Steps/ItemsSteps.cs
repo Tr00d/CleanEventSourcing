@@ -27,6 +27,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
                 (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"a user creates a new item ""(.*)""")]
+        [Given(@"a user creates a new item ""(.*)""")]
         public async Task WhenAUserCreatesANewItem(string description) =>
             await this.driver.CreateItem(description).ConfigureAwait(false);
 
@@ -46,8 +47,12 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         private void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
             response.StatusCode.Should().Be(expectedStatusCode);
 
-        [Then(@"a user gets the created item using the location header")]
-        public async Task ThenAUserGetsTheCreatedItemUsingTheLocationHeader() =>
+        [When(@"a user gets the created item using the location header")]
+        public async Task WhenAUserGetsTheCreatedItemUsingTheLocationHeader() =>
             await this.driver.GetItemUsingLocationHeader();
+
+        [Then(@"the created item should have the description ""(.*)""")]
+        public async Task ThenTheCreatedItemShouldHaveTheDescription(string description) =>
+            (await this.driver.GetCreatedItemAsync()).Description.Should().Be(description);
     }
 }

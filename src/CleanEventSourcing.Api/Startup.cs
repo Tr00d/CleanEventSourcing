@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using CleanEventSourcing.Application;
 using CleanEventSourcing.Application.Items.CreateItem;
@@ -6,6 +7,7 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,6 +15,17 @@ namespace CleanEventSourcing.Api
 {
     public class Startup
     {
+        private readonly string databaseName;
+
+        public Startup(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+            this.databaseName = Guid.NewGuid().ToString();
+        }
+
+        public IConfiguration Configuration { get; }
+
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();
@@ -23,7 +36,7 @@ namespace CleanEventSourcing.Api
                     configuration.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                         .RegisterValidatorsFromAssemblyContaining<CreateItemRequestValidation>());
             services.RegisterApplication();
-            services.RegisterPersistence();
+            services.RegisterPersistence(this.databaseName);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

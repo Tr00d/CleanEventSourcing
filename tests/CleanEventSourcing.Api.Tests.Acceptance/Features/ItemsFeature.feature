@@ -19,5 +19,6 @@ Item management for CRUD actions
         
     @Acceptance
     Scenario: A user successfully retrieves an item after creating it
-        When a user creates a new item "item 1"
-        Then a user gets the created item using the location header
+        Given a user creates a new item "item 1"
+        When a user gets the created item using the location header
+        Then the created item should have the description "item 1"

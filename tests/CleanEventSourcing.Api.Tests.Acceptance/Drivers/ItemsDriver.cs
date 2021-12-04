@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CleanEventSourcing.Api.Tests.Acceptance.Contexts;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.GetItem;
 
 namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 {
@@ -36,5 +37,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
                     .ProcessRequest(HttpMethod.Get, this.context.CreateItemResponse.Headers.Location.AbsolutePath)
                     .ConfigureAwait(false);
         }
+
+        public async Task<GetItemResponse> GetCreatedItemAsync() => await this.context.GetCreatedItemAsync();
     }
 }

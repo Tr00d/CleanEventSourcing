@@ -234,10 +234,13 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
             {
                 this.ScenarioStart();
 #line 22
-        testRunner.When("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+        testRunner.Given("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 23
-        testRunner.Then("a user gets the created item using the location header", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.When("a user gets the created item using the location header", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 24
+        testRunner.Then("the created item should have the description \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
