@@ -54,5 +54,18 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the created item should have the description ""(.*)""")]
         public async Task ThenTheCreatedItemShouldHaveTheDescription(string description) =>
             (await this.driver.GetCreatedItemAsync()).Description.Should().Be(description);
+
+        [When(@"a user updates the created item with an empty id")]
+        public async Task WhenAUserUpdatesTheCreatedItemWithAnEmptyId() =>
+            await this.driver.UpdateItem(Guid.Empty, string.Empty); 
+
+        [Then(@"the update response should return a ""(.*)"" status code")]
+        public void ThenTheUpdateResponseShouldReturnAStatusCode(string statusCode) => this.VerifyStatusCode(
+            this.context.UpdateItemResponse,
+            (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+
+        [When(@"a user updates the created item with the description ""(.*)""")]
+        public async Task WhenAUserUpdatesTheCreatedItemWithTheDescription(string description) =>
+            await this.driver.UpdateItem(await this.context.GetCreatedIdAsync(), description);
     }
 }

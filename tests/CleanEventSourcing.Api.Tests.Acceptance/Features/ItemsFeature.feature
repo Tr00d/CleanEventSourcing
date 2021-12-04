@@ -22,3 +22,17 @@ Item management for CRUD actions
         Given a user creates a new item "item 1"
         When a user gets the created item using the location header
         Then the created item should have the description "item 1"
+        And the retrieval response should return a "200" status code
+        
+    @Acceptance
+    Scenario: A user cannot update an item when providing an empty id
+        Given a user creates a new item "item 1"
+        When a user updates the created item with an empty id
+        Then the update response should return a "400" status code
+        
+    @Acceptance
+    Scenario: A user cannot update an item when providing an empty description
+        Given a user creates a new item "item 1"
+        When a user updates the created item with the description ""
+        Then the update response should return a "400" status code
+                    

@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 using Dawn;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,5 +31,11 @@ namespace CleanEventSourcing.Api.Items
         public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request) =>
             (await this.itemService.GetAsync(request).ConfigureAwait(false)).Match(this.Ok,
                 (IActionResult) this.NotFound(request));
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest, [FromBody] UpdateItemBodyRequest bodyBodyRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

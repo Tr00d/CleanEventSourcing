@@ -242,6 +242,95 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
 #line 24
         testRunner.Then("the created item should have the description \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+#line 25
+        testRunner.And("the retrieval response should return a \"200\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="A user cannot update an item when providing an empty id")]
+        [Xunit.TraitAttribute("FeatureTitle", "ItemsFeature")]
+        [Xunit.TraitAttribute("Description", "A user cannot update an item when providing an empty id")]
+        [Xunit.TraitAttribute("Category", "Acceptance")]
+        public virtual void AUserCannotUpdateAnItemWhenProvidingAnEmptyId()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Acceptance"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot update an item when providing an empty id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 28
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 29
+        testRunner.Given("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 30
+        testRunner.When("a user updates the created item with an empty id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 31
+        testRunner.Then("the update response should return a \"400\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="A user cannot update an item when providing an empty description")]
+        [Xunit.TraitAttribute("FeatureTitle", "ItemsFeature")]
+        [Xunit.TraitAttribute("Description", "A user cannot update an item when providing an empty description")]
+        [Xunit.TraitAttribute("Category", "Acceptance")]
+        public virtual void AUserCannotUpdateAnItemWhenProvidingAnEmptyDescription()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Acceptance"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user cannot update an item when providing an empty description", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 34
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 35
+        testRunner.Given("a user creates a new item \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 36
+        testRunner.When("a user updates the created item with the description \"\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 37
+        testRunner.Then("the update response should return a \"400\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }

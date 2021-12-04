@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CleanEventSourcing.Api.Tests.Acceptance.Contexts;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 
 namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 {
@@ -29,6 +30,12 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Get, $"/api/items/{id}")
                     .ConfigureAwait(false);
+        
+        public async Task UpdateItem(Guid id, string description)
+        => this.context.UpdateItemResponse =
+            await this.clientDriver
+                .ProcessRequest(HttpMethod.Put, $"/api/items/{id}", new UpdateItemBodyRequest() {Description = description})
+                .ConfigureAwait(false);
 
         public async Task GetItemUsingLocationHeader()
         {
