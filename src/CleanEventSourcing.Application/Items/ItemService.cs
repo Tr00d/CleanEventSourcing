@@ -28,7 +28,8 @@ namespace CleanEventSourcing.Application.Items
         public async Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) =>
             (await request
                 .Map(value => this.mapper.Map<GetItemQuery>(value))
-                .MapAsync(async query => await this.mediator.Send(query)))
+                .MapAsync(async query => await this.mediator.Send(query))
+                .IfNone(Option<ItemSummary>.None))
             .Map(summary => this.mapper.Map<GetItemResponse>(summary));
     }
 }

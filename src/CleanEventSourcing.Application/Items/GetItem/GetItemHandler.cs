@@ -1,7 +1,5 @@
-using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
@@ -18,7 +16,8 @@ namespace CleanEventSourcing.Application.Items.GetItem
         {
             this.readService = Guard.Argument(readService, nameof(readService)).NotNull().Value;
         }
-        
-        public Task<Option<ItemSummary>> Handle(GetItemQuery request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
+
+        public async Task<Option<ItemSummary>> Handle(GetItemQuery request, CancellationToken cancellationToken) =>
+            await this.readService.GetItemAsync(request.Id).ConfigureAwait(false);
     }
 }
