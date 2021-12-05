@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.GetItem;
 using FluentAssertions;
 using Xunit;
 
@@ -24,7 +25,10 @@ namespace CleanEventSourcing.Application.Tests
             .Select(typeMap => new object[] {typeMap});
 
         private static MapperConfiguration GetConfiguration() => new MapperConfiguration(configurationExpression =>
-            configurationExpression.AddMaps(typeof(CreateItemMappingProfile).Assembly));
+        {
+            configurationExpression.AddProfile<CreateItemMappingProfile>();
+            configurationExpression.AddProfile<GetItemMappingProfile>();
+        });
 
         [Fact]
         public void MapperConfiguration_ShouldBeValid() => this.configuration.AssertConfigurationIsValid();
