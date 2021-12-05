@@ -6,9 +6,11 @@ using AutoMapper;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using FluentAssertions;
 using LanguageExt;
+using static LanguageExt.Prelude;
 using MediatR;
 using Moq;
 using Xunit;
@@ -95,6 +97,19 @@ namespace CleanEventSourcing.Application.Tests.Items
             Option<GetItemResponse> result = await service.GetAsync(request).ConfigureAwait(false);
             result.IsSome.Should().Be(true);
             result.IfNone(new GetItemResponse()).Should().Be(response);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldSendUpdateItemCommand()
+        {
+            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
+            this.mockMapper.Setup(mapper => mapper.Map<UpdateItemCommand>(Tuple(routeRequest, bodyRequest)))
+                .Returns(command);
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.UpdateAsync(routeRequest, bodyRequest);
+            this.mockMediator.Verify(mediator => mediator.Send(command, It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

@@ -6,6 +6,7 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
 using LanguageExt;
+using static LanguageExt.Prelude;
 using MediatR;
 
 namespace CleanEventSourcing.Application.Items
@@ -32,6 +33,11 @@ namespace CleanEventSourcing.Application.Items
                 .IfNone(Option<ItemSummary>.None))
             .Map(summary => this.mapper.Map<GetItemResponse>(summary));
 
-        public Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest, Option<UpdateItemBodyRequest> bodyRequest) => throw new System.NotImplementedException();
+        public async Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest, Option<UpdateItemBodyRequest> bodyRequest) =>
+            await (from route in routeRequest
+                    from body in bodyRequest
+                    select Tuple(route, body))
+                .Map(request => this.mapper.Map<UpdateItemCommand>(request))
+                .IfSomeAsync(async command => await this.mediator.Send(command));
     }
 }
