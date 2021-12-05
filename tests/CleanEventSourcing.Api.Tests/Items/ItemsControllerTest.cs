@@ -6,6 +6,7 @@ using CleanEventSourcing.Api.Items;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 using FluentAssertions;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,26 @@ namespace CleanEventSourcing.Api.Tests.Items
             result.Should().BeOfType<OkObjectResult>();
             OkObjectResult okResult = (OkObjectResult) result;
             okResult.Value.Should().Be(response);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldUpdateItem()
+        {
+            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
+            await controller.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            this.mockService.Verify(service => service.UpdateAsync(routeRequest, bodyRequest), Times.Once);
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_ShouldReturnNoContent()
+        {
+            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
+            IActionResult result = await controller.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            result.Should().BeOfType<NoContentResult>();
         }
     }
 }

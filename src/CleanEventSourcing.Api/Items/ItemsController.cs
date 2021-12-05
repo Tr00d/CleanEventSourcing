@@ -33,9 +33,10 @@ namespace CleanEventSourcing.Api.Items
                 (IActionResult) this.NotFound(request));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest, [FromBody] UpdateItemBodyRequest bodyBodyRequest)
+        public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest, [FromBody] UpdateItemBodyRequest bodyRequest)
         {
-            throw new NotImplementedException();
+            await this.itemService.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            return this.NoContent();
         }
     }
 }

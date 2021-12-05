@@ -36,3 +36,11 @@ Item management for CRUD actions
         When a user updates the created item with the description ""
         Then the update response should return a "400" status code
                     
+    @Acceptance
+    Scenario: A user successfully updates an item after creating it
+        Given a user creates a new item "item 1"
+        When a user updates the created item with the description "item 2"
+        And a user gets the created item using the location header
+        Then the retrieval response should return a "200" status code
+        And the created item should have the description "item 2"
+        

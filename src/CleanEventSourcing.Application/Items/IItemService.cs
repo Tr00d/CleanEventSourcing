@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 using LanguageExt;
 
 namespace CleanEventSourcing.Application.Items
@@ -10,5 +11,7 @@ namespace CleanEventSourcing.Application.Items
         Task CreateAsync(Option<CreateItemRequest> request);
 
         Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request);
+
+        Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest, Option<UpdateItemBodyRequest> bodyRequest);
     }
 }

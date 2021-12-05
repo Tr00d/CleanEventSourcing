@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.GetItem;
+using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
 using LanguageExt;
@@ -30,5 +31,7 @@ namespace CleanEventSourcing.Application.Items
                 .MapAsync(async query => await this.mediator.Send(query))
                 .IfNone(Option<ItemSummary>.None))
             .Map(summary => this.mapper.Map<GetItemResponse>(summary));
+
+        public Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest, Option<UpdateItemBodyRequest> bodyRequest) => throw new System.NotImplementedException();
     }
 }
