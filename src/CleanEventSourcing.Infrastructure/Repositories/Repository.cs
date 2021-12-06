@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
@@ -46,7 +47,7 @@ namespace CleanEventSourcing.Infrastructure.Repositories
             T aggregate = new();
             events
                 .ToList()
-                .ForEach(listItem => listItem.IfSome(item => ApplyEvent(aggregate, Some(item))));
+                .ForEach(listItem => ApplyEvent(aggregate, listItem));
             return aggregate;
         }
 
