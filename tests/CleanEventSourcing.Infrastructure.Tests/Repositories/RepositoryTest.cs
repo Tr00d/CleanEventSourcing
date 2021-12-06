@@ -109,9 +109,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         private class DummyEvent : IIntegrationEvent, IIntegrationEvent<DummyAggregate>
         {
             public void Apply(Option<DummyAggregate> aggregate) => aggregate.IfSome(value => value.EventCount++);
-            public Option<string> Stream { get; }
-            public DateTime CreationDate { get; }
-            public Type GetEventType() => typeof(DummyEvent);
+            public Option<string> Stream { get; set; }
             public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(DummyAggregate);
             public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate => this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>)this) : Option<IIntegrationEvent<T>>.None;
         }

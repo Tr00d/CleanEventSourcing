@@ -17,7 +17,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Contexts
         public async Task<Guid> GetCreatedIdAsync() =>
             await this.DeserializeResponse<Guid>(this.CreateItemResponse).ConfigureAwait(false);
 
-        public async Task<GetItemResponse> GetCreatedItemAsync() =>
+        public async Task<GetItemResponse> GetRetrievedItemAsync() =>
             await this.DeserializeResponse<GetItemResponse>(this.GetItemResponse).ConfigureAwait(false);
 
         private async Task<T> DeserializeResponse<T>(HttpResponseMessage response) =>

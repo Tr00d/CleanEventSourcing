@@ -51,13 +51,9 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         public async Task WhenAUserGetsTheCreatedItemUsingTheLocationHeader() =>
             await this.driver.GetItemUsingLocationHeader();
 
-        [Then(@"the created item should have the description ""(.*)""")]
-        public async Task ThenTheCreatedItemShouldHaveTheDescription(string description) =>
-            (await this.driver.GetCreatedItemAsync()).Description.Should().Be(description);
-
         [When(@"a user updates the created item with an empty id")]
         public async Task WhenAUserUpdatesTheCreatedItemWithAnEmptyId() =>
-            await this.driver.UpdateItem(Guid.Empty, string.Empty); 
+            await this.driver.UpdateItem(Guid.Empty, string.Empty);
 
         [Then(@"the update response should return a ""(.*)"" status code")]
         public void ThenTheUpdateResponseShouldReturnAStatusCode(string statusCode) => this.VerifyStatusCode(
@@ -67,5 +63,9 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [When(@"a user updates the created item with the description ""(.*)""")]
         public async Task WhenAUserUpdatesTheCreatedItemWithTheDescription(string description) =>
             await this.driver.UpdateItem(await this.context.GetCreatedIdAsync(), description);
+
+        [Then(@"the retrieved item should have the description ""(.*)""")]
+        public async Task ThenTheRetrievedItemShouldHaveTheDescription(string description) =>
+            (await this.driver.GetRetrievedItemAsync()).Description.Should().Be(description);
     }
 }

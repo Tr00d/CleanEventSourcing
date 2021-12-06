@@ -6,8 +6,8 @@ using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
 using Dawn;
 using LanguageExt;
-using static LanguageExt.Prelude;
 using MediatR;
+using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Infrastructure.Repositories
 {
@@ -24,9 +24,10 @@ namespace CleanEventSourcing.Infrastructure.Repositories
 
         public async Task SaveAsync(Option<T> aggregate)
         {
+            string stream = aggregate.Match(value => this.GetStream(value.Id), string.Empty);
             IEnumerable<Task> tasks = aggregate
                 .Map(value => value.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()))
-                .Map(events => events.Select(this.PublishEvent))
+                .Map(events => events.Select(value =>  this.PublishEvent(value, stream)))
                 .IfNone(Enumerable.Empty<Task>());
             await Task.WhenAll(tasks);
         }
@@ -39,16 +40,21 @@ namespace CleanEventSourcing.Infrastructure.Repositories
                         .ToList())
                 .Map(this.CreateAggregate);
         }
-        
+
         private T CreateAggregate(IEnumerable<Option<IIntegrationEvent<T>>> events)
         {
-            T aggregate = new T();
-            events.ToList().ForEach(listItem => listItem.IfSome(item => this.ApplyEvent(aggregate, Some(item))));
+            T aggregate = new();
+            events
+                .ToList()
+                .ForEach(listItem => listItem.IfSome(item => this.ApplyEvent(aggregate, Some(item))));
             return aggregate;
         }
 
-        private async Task PublishEvent(IIntegrationEvent integrationEvent) =>
-            await this.mediator.Publish(integrationEvent);
+        private async Task PublishEvent(IIntegrationEvent integrationEvent, string stream)
+        {
+            integrationEvent.Stream = stream;
+            await this.mediator.Publish(integrationEvent);   
+        }
 
         private void ApplyEvent(T aggregate, Option<IIntegrationEvent<T>> integrationEvent) =>
             integrationEvent.IfSome(value => value.Apply(aggregate));

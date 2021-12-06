@@ -9,8 +9,6 @@ namespace CleanEventSourcing.Domain
     {
         Guid Id { get; }
 
-        Option<string> GetStream();
-
         Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents();
     }
 }

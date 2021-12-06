@@ -12,25 +12,18 @@ namespace CleanEventSourcing.Application.Items.CreateItem
 {
     public class CreateItemHandler : IRequestHandler<CreateItemCommand>
     {
-        private readonly IEventStore eventStore;
-        private readonly IMediator mediator;
+        private readonly IRepository<Item> repository;
 
-        public CreateItemHandler(IEventStore eventStore, IMediator mediator)
+        public CreateItemHandler(IRepository<Item> repository)
         {
-            this.eventStore = Guard.Argument(eventStore, nameof(eventStore)).NotNull().Value;
-            this.mediator = Guard.Argument(mediator, nameof(mediator)).NotNull().Value;
+            this.repository = Guard.Argument(repository, nameof(repository)).NotNull().Value;
         }
 
         public async Task<Unit> Handle(CreateItemCommand request, CancellationToken cancellationToken)
         {
             Item item = new(request.Id, request.Description);
-            IEnumerable<Task> tasks = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).Select(integrationEvent =>
-                this.PublishEvent(integrationEvent, cancellationToken));
-            await Task.WhenAll(tasks);
+            await this.repository.SaveAsync(item);
             return Unit.Value;
         }
-
-        private async Task PublishEvent(IIntegrationEvent integrationEvent, CancellationToken cancellationToken) =>
-            await this.mediator.Publish(integrationEvent, cancellationToken);
     }
 }

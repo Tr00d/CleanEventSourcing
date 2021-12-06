@@ -6,12 +6,8 @@ namespace CleanEventSourcing.Domain
 {
     public interface IIntegrationEvent : INotification
     {
-        Option<string> Stream { get; }
-
-        DateTime CreationDate { get; }
-
-        Type GetEventType();
-
+        public Option<string> Stream { get; set; }
+        
         bool CanConvertTo<T>() where T : IAggregate;
 
         Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate;

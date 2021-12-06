@@ -20,7 +20,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         {
             Guid id = this.fixture.Create<Guid>();
             CreatedItemEvent createdEvent =
-                new CreatedItemEvent(this.fixture.Create<string>(), id, this.fixture.Create<string>());
+                new CreatedItemEvent(id, this.fixture.Create<string>());
             createdEvent.Id.Should().Be(id);
         }
 
@@ -29,19 +29,9 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         {
             string description = this.fixture.Create<string>();
             CreatedItemEvent createdEvent =
-                new CreatedItemEvent(this.fixture.Create<string>(), this.fixture.Create<Guid>(), description);
+                new CreatedItemEvent(this.fixture.Create<Guid>(), description);
             createdEvent.Description.IsSome.Should().Be(true);
             createdEvent.Description.IfNone(string.Empty).Should().Be(description);
-        }
-
-        [Fact]
-        public void Constructor_ShouldSetStream()
-        {
-            string stream = this.fixture.Create<string>();
-            CreatedItemEvent createdEvent =
-                new CreatedItemEvent(stream, this.fixture.Create<Guid>(), this.fixture.Create<string>());
-            createdEvent.Stream.IsSome.Should().Be(true);
-            createdEvent.Stream.IfNone(string.Empty).Should().Be(stream);
         }
     }
 }

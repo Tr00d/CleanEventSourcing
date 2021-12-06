@@ -45,6 +45,6 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
                     .ConfigureAwait(false);
         }
 
-        public async Task<GetItemResponse> GetCreatedItemAsync() => await this.context.GetCreatedItemAsync();
+        public async Task<GetItemResponse> GetRetrievedItemAsync() => await this.context.GetRetrievedItemAsync();
     }
 }

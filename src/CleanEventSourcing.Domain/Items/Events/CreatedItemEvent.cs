@@ -5,9 +5,8 @@ namespace CleanEventSourcing.Domain.Items.Events
 {
     public class CreatedItemEvent : IIntegrationEvent<Item>
     {
-        public CreatedItemEvent(Option<string> stream, Guid id, Option<string> description)
+        public CreatedItemEvent(Guid id, Option<string> description)
         {
-            this.Stream = stream;
             this.Id = id;
             this.Description = description;
         }
@@ -21,14 +20,7 @@ namespace CleanEventSourcing.Domain.Items.Events
             throw new NotImplementedException();
         }
 
-        public Option<string> Stream { get; }
-
-        public DateTime CreationDate { get; }
-
-        public Type GetEventType()
-        {
-            throw new NotImplementedException();
-        }
+        public Option<string> Stream { get; set; }
 
         public bool CanConvertTo<T>() where T : IAggregate
         {

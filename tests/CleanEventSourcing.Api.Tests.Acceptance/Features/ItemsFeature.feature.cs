@@ -240,7 +240,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
         testRunner.When("a user gets the created item using the location header", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 24
-        testRunner.Then("the created item should have the description \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.Then("the retrieved item should have the description \"item 1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 25
         testRunner.And("the retrieval response should return a \"200\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -378,7 +378,10 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Features
         testRunner.Then("the retrieval response should return a \"200\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 45
-        testRunner.And("the created item should have the description \"item 2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("the update response should return a \"204\" status code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 46
+        testRunner.And("the retrieved item should have the description \"item 2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

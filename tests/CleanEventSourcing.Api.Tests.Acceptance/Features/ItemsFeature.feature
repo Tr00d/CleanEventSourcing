@@ -21,7 +21,7 @@ Item management for CRUD actions
     Scenario: A user successfully retrieves an item after creating it
         Given a user creates a new item "item 1"
         When a user gets the created item using the location header
-        Then the created item should have the description "item 1"
+        Then the retrieved item should have the description "item 1"
         And the retrieval response should return a "200" status code
         
     @Acceptance
@@ -42,5 +42,6 @@ Item management for CRUD actions
         When a user updates the created item with the description "item 2"
         And a user gets the created item using the location header
         Then the retrieval response should return a "200" status code
-        And the created item should have the description "item 2"
+        And the update response should return a "204" status code
+        And the retrieved item should have the description "item 2"
         

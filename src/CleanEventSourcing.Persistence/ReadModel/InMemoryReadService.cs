@@ -26,7 +26,6 @@ namespace CleanEventSourcing.Persistence.ReadModel
                 new ItemSummary
                 {
                     Id = notification.Id, Description = notification.Description.IfNone(string.Empty),
-                    CreationDate = notification.CreationDate,
                 }, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
         }

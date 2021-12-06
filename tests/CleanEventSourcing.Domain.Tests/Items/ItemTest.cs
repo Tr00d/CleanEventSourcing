@@ -4,6 +4,7 @@ using AutoFixture;
 using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
+using LanguageExt;
 using Xunit;
 
 namespace CleanEventSourcing.Domain.Tests.Items
@@ -35,7 +36,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
-        public void GetIntegrationEvents_ShouldContainCreateItemEvent_GivenItemIsCreated()
+        public void GetIntegrationEvents_ShouldContainCreatedItemEvent_GivenItemIsCreated()
         {
             Guid id = this.fixture.Create<Guid>();
             string description = this.fixture.Create<string>();
@@ -50,14 +51,26 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
-        public void GetStream_ShouldReturnClassNameWithId()
+        public void GetIntegrationEvents_ShouldContainUpdatedItemEvent_GivenItemIsUpdated()
         {
-            Guid id = this.fixture.Create<Guid>();
             string description = this.fixture.Create<string>();
-            string expectedStream = $"{nameof(Item)}-{id}";
-            Item item = new Item(id, description);
-            item.GetStream().IsSome.Should().Be(true);
-            item.GetStream().IfNone(string.Empty).Should().Be(expectedStream);
+            Item item = new Item();
+            item.Update(description);
+            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
+                .ToArray();
+            events.First().Should().BeOfType<UpdatedItemEvent>();
+            UpdatedItemEvent result = (UpdatedItemEvent) events.First();
+            result.OldDescription.IsNone.Should().Be(true);
+            result.NewDescription.IfNone(string.Empty).Should().Be(description);
+        }
+
+        [Fact]
+        public void Update_ShouldUpdateDescription()
+        {
+            string description = this.fixture.Create<string>();
+            Item item = new Item();
+            item.Update(description);
+            item.Description.IfNone(string.Empty).Should().Be(description);
         }
     }
 }

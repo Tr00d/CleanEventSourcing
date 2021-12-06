@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using CleanEventSourcing.Application;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Infrastructure;
 using CleanEventSourcing.Persistence;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -36,6 +37,7 @@ namespace CleanEventSourcing.Api
                         .RegisterValidatorsFromAssemblyContaining<CreateItemRequestValidation>());
             services.RegisterApplication();
             services.RegisterPersistence(this.databaseName);
+            services.RegisterInfrastructure();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

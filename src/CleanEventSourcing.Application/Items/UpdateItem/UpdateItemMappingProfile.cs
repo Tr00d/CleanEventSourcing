@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 
 namespace CleanEventSourcing.Application.Items.UpdateItem
@@ -6,12 +7,12 @@ namespace CleanEventSourcing.Application.Items.UpdateItem
     {
         public UpdateItemMappingProfile()
         {
-            this.CreateMap<(UpdateItemRouteRequest routeRequest, UpdateItemBodyRequest bodyRequest),
+            this.CreateMap<Tuple<UpdateItemRouteRequest, UpdateItemBodyRequest>,
                     UpdateItemCommand>()
                 .ForMember(command => command.Id,
-                    configuration => configuration.MapFrom(source => source.routeRequest.Id))
+                    configuration => configuration.MapFrom(source => source.Item1.Id))
                 .ForMember(command => command.Description,
-                    configuration => configuration.MapFrom(source => source.bodyRequest.Description));
+                    configuration => configuration.MapFrom(source => source.Item2.Description));
         }
     }
 }
