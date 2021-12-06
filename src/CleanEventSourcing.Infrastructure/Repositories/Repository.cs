@@ -24,7 +24,7 @@ namespace CleanEventSourcing.Infrastructure.Repositories
 
         public async Task SaveAsync(Option<T> aggregate)
         {
-            string stream = aggregate.Match(value => this.GetStream(value.Id), string.Empty);
+            string stream = aggregate.Match(value => GetStream(value.Id), string.Empty);
             IEnumerable<Task> tasks = aggregate
                 .Map(value => value.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()))
                 .Map(events => events.Select(value => this.PublishEvent(value, stream)))
@@ -34,19 +34,19 @@ namespace CleanEventSourcing.Infrastructure.Repositories
 
         public async Task<Option<T>> GetAsync(Guid id)
         {
-            return (await this.eventStore.GetEvents(this.GetStream(id)))
+            return (await this.eventStore.GetEvents(GetStream(id)))
                 .Map(list =>
                     list.Where(listItem => listItem.CanConvertTo<T>()).Select(listItem => listItem.ConvertTo<T>())
                         .ToList())
-                .Map(this.CreateAggregate);
+                .Map(CreateAggregate);
         }
 
-        private T CreateAggregate(IEnumerable<Option<IIntegrationEvent<T>>> events)
+        private static T CreateAggregate(IEnumerable<Option<IIntegrationEvent<T>>> events)
         {
             T aggregate = new();
             events
                 .ToList()
-                .ForEach(listItem => listItem.IfSome(item => this.ApplyEvent(aggregate, Some(item))));
+                .ForEach(listItem => listItem.IfSome(item => ApplyEvent(aggregate, Some(item))));
             return aggregate;
         }
 
@@ -56,9 +56,9 @@ namespace CleanEventSourcing.Infrastructure.Repositories
             await this.mediator.Publish(integrationEvent);
         }
 
-        private void ApplyEvent(T aggregate, Option<IIntegrationEvent<T>> integrationEvent) =>
+        private static void ApplyEvent(T aggregate, Option<IIntegrationEvent<T>> integrationEvent) =>
             integrationEvent.IfSome(value => value.Apply(aggregate));
 
-        private string GetStream(Guid id) => $"{typeof(T).Name}-{id}";
+        private static string GetStream(Guid id) => $"{typeof(T).Name}-{id}";
     }
 }

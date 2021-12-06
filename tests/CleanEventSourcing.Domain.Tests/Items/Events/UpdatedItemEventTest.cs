@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using AutoFixture;
 using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
@@ -87,12 +86,6 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             updatedEvent.Apply(aggregate);
             aggregate.Description.IsSome.Should().Be(true);
             aggregate.Description.IfNone(string.Empty).Should().Be(updatedEvent.NewDescription.IfNone(string.Empty));
-        }
-
-        private class DummyAggregate : IAggregate
-        {
-            public Guid Id { get; }
-            public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() => throw new NotImplementedException();
         }
     }
 }

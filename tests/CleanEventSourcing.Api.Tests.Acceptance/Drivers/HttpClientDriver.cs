@@ -7,14 +7,13 @@ using Newtonsoft.Json;
 
 namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class HttpClientDriver
     {
         private readonly HttpClient client;
-        private readonly HttpScenarioContext httpScenarioContext;
 
         public HttpClientDriver(HttpScenarioContext context)
         {
-            this.httpScenarioContext = context;
             this.client = context.Client;
         }
 

@@ -8,6 +8,7 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 
 namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ItemsDriver
     {
         private readonly HttpClientDriver clientDriver;

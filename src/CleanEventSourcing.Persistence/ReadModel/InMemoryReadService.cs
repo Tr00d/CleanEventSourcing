@@ -34,7 +34,8 @@ namespace CleanEventSourcing.Persistence.ReadModel
 
         public async Task Handle(UpdatedItemEvent notification, CancellationToken cancellationToken)
         {
-            ItemSummary item = await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id));
+            ItemSummary item =
+                await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id), cancellationToken);
             item.Description = notification.NewDescription.IfNone(string.Empty);
             await this.context.SaveChangesAsync(cancellationToken);
         }

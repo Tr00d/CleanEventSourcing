@@ -23,7 +23,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [Then(@"the creation response should return a ""(.*)"" status code")]
         public void ThenTheCreationResponseShouldReturnAStatusCode(string statusCode) =>
-            this.VerifyStatusCode(this.context.CreateItemResponse,
+            VerifyStatusCode(this.context.CreateItemResponse,
                 (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"a user creates a new item ""(.*)""")]
@@ -41,10 +41,10 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [Then(@"the retrieval response should return a ""(.*)"" status code")]
         public void ThenTheRetrievalResponseShouldReturnAStatusCode(string statusCode) =>
-            this.VerifyStatusCode(this.context.GetItemResponse,
+            VerifyStatusCode(this.context.GetItemResponse,
                 (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 
-        private void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
+        private static void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
             response.StatusCode.Should().Be(expectedStatusCode);
 
         [When(@"a user gets the created item using the location header")]
@@ -56,7 +56,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
             await this.driver.UpdateItem(Guid.Empty, string.Empty);
 
         [Then(@"the update response should return a ""(.*)"" status code")]
-        public void ThenTheUpdateResponseShouldReturnAStatusCode(string statusCode) => this.VerifyStatusCode(
+        public void ThenTheUpdateResponseShouldReturnAStatusCode(string statusCode) => VerifyStatusCode(
             this.context.UpdateItemResponse,
             (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
 

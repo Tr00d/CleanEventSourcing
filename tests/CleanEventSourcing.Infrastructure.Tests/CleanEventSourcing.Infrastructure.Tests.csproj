@@ -20,6 +20,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\CleanEventSourcing.Application\CleanEventSourcing.Application.csproj"/>
         <ProjectReference Include="..\..\src\CleanEventSourcing.Infrastructure\CleanEventSourcing.Infrastructure.csproj"/>
+        <ProjectReference Include="..\CleanEventSourcing.Domain.Tests\CleanEventSourcing.Domain.Tests.csproj"/>
     </ItemGroup>
 
 </Project>

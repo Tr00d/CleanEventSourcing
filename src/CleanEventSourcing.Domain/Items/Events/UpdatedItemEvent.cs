@@ -17,9 +17,9 @@ namespace CleanEventSourcing.Domain.Items.Events
 
         public Option<string> NewDescription { get; }
 
-        public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
-
         public Guid Id { get; }
+
+        public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
         public Option<string> Stream { get; set; }
 
         public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(Item);

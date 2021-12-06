@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
+// ReSharper disable All
+
 namespace CleanEventSourcing.Api.Tests.Items
 {
     public class ItemsControllerTest

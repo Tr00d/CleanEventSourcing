@@ -2,6 +2,8 @@ using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable 8618
+
 namespace CleanEventSourcing.Persistence
 {
     public class Context : DbContext
@@ -11,6 +13,7 @@ namespace CleanEventSourcing.Persistence
         {
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public DbSet<ItemSummary> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
+using CleanEventSourcing.Domain.Tests;
 using CleanEventSourcing.Infrastructure.Repositories;
 using FluentAssertions;
 using LanguageExt;
@@ -100,30 +101,6 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
             await repository.SaveAsync(Option<DummyAggregate>.None);
             this.mockMediator.Verify(
                 mediator => mediator.Publish(It.IsAny<DummyEvent>(), It.IsAny<CancellationToken>()), Times.Never);
-        }
-
-        private class DummyAggregate : IAggregate
-        {
-            public int EventCount { get; set; }
-            public Guid Id { get; set; }
-
-            public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
-                new List<DummyEvent> {new DummyEvent()};
-
-            public Option<string> GetStream() => throw new NotImplementedException();
-        }
-
-        private class DummyEvent : IIntegrationEvent, IIntegrationEvent<DummyAggregate>
-        {
-            public Guid Id { get; }
-            public Option<string> Stream { get; set; }
-            public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(DummyAggregate);
-
-            public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate => this.CanConvertTo<T>()
-                ? Some((IIntegrationEvent<T>) this)
-                : Option<IIntegrationEvent<T>>.None;
-
-            public void Apply(Option<DummyAggregate> aggregate) => aggregate.IfSome(value => value.EventCount++);
         }
     }
 }
