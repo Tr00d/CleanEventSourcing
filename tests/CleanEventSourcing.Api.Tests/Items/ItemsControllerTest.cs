@@ -92,7 +92,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             await controller.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
             this.mockService.Verify(service => service.UpdateAsync(routeRequest, bodyRequest), Times.Once);
         }
-        
+
         [Fact]
         public async Task UpdateAsync_ShouldReturnNoContent()
         {

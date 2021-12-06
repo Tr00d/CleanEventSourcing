@@ -10,10 +10,10 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using FluentAssertions;
 using LanguageExt;
-using static LanguageExt.Prelude;
 using MediatR;
 using Moq;
 using Xunit;
+using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Application.Tests.Items
 {

@@ -13,8 +13,8 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
 {
     public class InMemoryReadServiceTest
     {
-        private readonly Fixture fixture;
         private readonly Context context;
+        private readonly Fixture fixture;
 
         public InMemoryReadServiceTest()
         {
@@ -41,8 +41,9 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         public async Task HandleUpdatedItemEvent_ShouldUpdateItem()
         {
             UpdatedItemEvent receivedEvent = this.fixture.Create<UpdatedItemEvent>();
-            await this.context.Items.AddAsync(new ItemSummary()
-                {Id = receivedEvent.Id, Description = this.fixture.Create<string>()}, CancellationToken.None);
+            await this.context.Items.AddAsync(
+                new ItemSummary {Id = receivedEvent.Id, Description = this.fixture.Create<string>()},
+                CancellationToken.None);
             await this.context.SaveChangesAsync(CancellationToken.None);
             InMemoryReadService service = new InMemoryReadService(this.context);
             await service.Handle(receivedEvent, CancellationToken.None);

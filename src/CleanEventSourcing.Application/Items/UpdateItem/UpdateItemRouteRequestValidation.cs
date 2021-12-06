@@ -15,7 +15,8 @@ namespace CleanEventSourcing.Application.Items.UpdateItem
             return base.Validate(context);
         }
 
-        public override Task<ValidationResult> ValidateAsync(ValidationContext<UpdateItemRouteRequest> context, CancellationToken cancellation = new CancellationToken())
+        public override Task<ValidationResult> ValidateAsync(ValidationContext<UpdateItemRouteRequest> context,
+            CancellationToken cancellation = new())
         {
             this.ValidateId();
             return base.ValidateAsync(context, cancellation);

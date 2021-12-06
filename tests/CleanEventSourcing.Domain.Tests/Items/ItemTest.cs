@@ -4,7 +4,6 @@ using AutoFixture;
 using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
-using LanguageExt;
 using Xunit;
 
 namespace CleanEventSourcing.Domain.Tests.Items
@@ -72,7 +71,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
             item.Update(description);
             item.Description.IfNone(string.Empty).Should().Be(description);
         }
-        
+
         [Fact]
         public void ApplyCreatedItemEvent_ShouldSetId_GivenAggregateIsSome()
         {
@@ -81,7 +80,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
             aggregate.Apply(createdEvent);
             aggregate.Id.Should().Be(createdEvent.Id);
         }
-        
+
         [Fact]
         public void ApplyCreatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {
@@ -91,7 +90,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
             aggregate.Description.IsSome.Should().Be(true);
             aggregate.Description.IfNone(string.Empty).Should().Be(createdEvent.Description.IfNone(string.Empty));
         }
-        
+
         [Fact]
         public void ApplyUpdatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {

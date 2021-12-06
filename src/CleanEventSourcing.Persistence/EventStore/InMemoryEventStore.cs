@@ -18,7 +18,7 @@ namespace CleanEventSourcing.Persistence.EventStore
         {
             if (events is null)
             {
-                events = new List<IIntegrationEvent>();                
+                events = new List<IIntegrationEvent>();
             }
         }
 

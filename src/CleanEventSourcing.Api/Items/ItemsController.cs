@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
@@ -33,7 +32,8 @@ namespace CleanEventSourcing.Api.Items
                 (IActionResult) this.NotFound(request));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest, [FromBody] UpdateItemBodyRequest bodyRequest)
+        public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest,
+            [FromBody] UpdateItemBodyRequest bodyRequest)
         {
             await this.itemService.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
             return this.NoContent();

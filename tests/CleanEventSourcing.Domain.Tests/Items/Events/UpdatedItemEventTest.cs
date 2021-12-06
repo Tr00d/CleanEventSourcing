@@ -21,7 +21,8 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         [Fact]
         public void Constructor_ShouldSetOldDescription()
         {
-            string description = this.fixture.Create<string>();;
+            string description = this.fixture.Create<string>();
+            ;
             UpdatedItemEvent updatedEvent =
                 new UpdatedItemEvent(this.fixture.Create<Guid>(), description, this.fixture.Create<string>());
             updatedEvent.OldDescription.IfNone(string.Empty).Should().Be(description);
@@ -30,18 +31,19 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         [Fact]
         public void Constructor_ShouldSetNewDescription()
         {
-            string description = this.fixture.Create<string>();;
+            string description = this.fixture.Create<string>();
+            ;
             UpdatedItemEvent updatedEvent =
-                new UpdatedItemEvent(this.fixture.Create<Guid>(),this.fixture.Create<string>(), description);
+                new UpdatedItemEvent(this.fixture.Create<Guid>(), this.fixture.Create<string>(), description);
             updatedEvent.NewDescription.IfNone(string.Empty).Should().Be(description);
         }
-        
+
         [Fact]
         public void Constructor_ShouldSetId()
         {
             Guid id = this.fixture.Create<Guid>();
             UpdatedItemEvent updatedEvent =
-                new UpdatedItemEvent(id,this.fixture.Create<string>(), this.fixture.Create<string>());
+                new UpdatedItemEvent(id, this.fixture.Create<string>(), this.fixture.Create<string>());
             updatedEvent.Id.Should().Be(id);
         }
 
@@ -52,7 +54,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             bool result = updatedEvent.CanConvertTo<Item>();
             result.Should().Be(true);
         }
-        
+
         [Fact]
         public void CanConvertTo_ShouldReturnFalse_GivenTypeIsNotItem()
         {
@@ -68,7 +70,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             Option<IIntegrationEvent<DummyAggregate>> result = updatedEvent.ConvertTo<DummyAggregate>();
             result.IsNone.Should().Be(true);
         }
-        
+
         [Fact]
         public void ConvertTo_ShouldReturnSome_GivenTypeIsItem()
         {

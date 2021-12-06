@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
@@ -13,9 +12,9 @@ namespace CleanEventSourcing.Domain.Items.Events
             this.Description = description;
         }
 
-        public Guid Id { get; }
-
         public Option<string> Description { get; }
+
+        public Guid Id { get; }
 
         public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
 
@@ -24,6 +23,6 @@ namespace CleanEventSourcing.Domain.Items.Events
         public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(Item);
 
         public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate =>
-            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>)this) : Option<IIntegrationEvent<T>>.None;
+            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>) this) : Option<IIntegrationEvent<T>>.None;
     }
 }

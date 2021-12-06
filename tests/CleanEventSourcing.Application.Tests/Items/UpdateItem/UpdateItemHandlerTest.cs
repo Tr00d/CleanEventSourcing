@@ -39,6 +39,5 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
             await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(repository => repository.SaveAsync(item), Times.Once);
         }
-        
     }
 }

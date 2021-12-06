@@ -44,7 +44,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             bool result = createdEvent.CanConvertTo<Item>();
             result.Should().Be(true);
         }
-        
+
         [Fact]
         public void CanConvertTo_ShouldReturnFalse_GivenTypeIsNotItem()
         {
@@ -60,7 +60,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             Option<IIntegrationEvent<DummyAggregate>> result = createdEvent.ConvertTo<DummyAggregate>();
             result.IsNone.Should().Be(true);
         }
-        
+
         [Fact]
         public void ConvertTo_ShouldReturnSome_GivenTypeIsItem()
         {
@@ -77,7 +77,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
             createdEvent.Apply(aggregate);
             aggregate.Id.Should().Be(createdEvent.Id);
         }
-        
+
         [Fact]
         public void Apply_ShouldSetDescription_GivenAggregateIsSome()
         {

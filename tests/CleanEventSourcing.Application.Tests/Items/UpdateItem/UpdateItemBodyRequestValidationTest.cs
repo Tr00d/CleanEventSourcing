@@ -24,11 +24,11 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
             TestValidationResult<UpdateItemBodyRequest> result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
-        
+
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest() { Description = string.Empty};
+            UpdateItemBodyRequest request = new UpdateItemBodyRequest {Description = string.Empty};
             UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
             TestValidationResult<UpdateItemBodyRequest> result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
@@ -37,7 +37,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest() { Description = string.Empty};
+            UpdateItemBodyRequest request = new UpdateItemBodyRequest {Description = string.Empty};
             UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
             TestValidationResult<UpdateItemBodyRequest> result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);

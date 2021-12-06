@@ -27,7 +27,7 @@ namespace CleanEventSourcing.Infrastructure.Repositories
             string stream = aggregate.Match(value => this.GetStream(value.Id), string.Empty);
             IEnumerable<Task> tasks = aggregate
                 .Map(value => value.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()))
-                .Map(events => events.Select(value =>  this.PublishEvent(value, stream)))
+                .Map(events => events.Select(value => this.PublishEvent(value, stream)))
                 .IfNone(Enumerable.Empty<Task>());
             await Task.WhenAll(tasks);
         }
@@ -53,7 +53,7 @@ namespace CleanEventSourcing.Infrastructure.Repositories
         private async Task PublishEvent(IIntegrationEvent integrationEvent, string stream)
         {
             integrationEvent.Stream = stream;
-            await this.mediator.Publish(integrationEvent);   
+            await this.mediator.Publish(integrationEvent);
         }
 
         private void ApplyEvent(T aggregate, Option<IIntegrationEvent<T>> integrationEvent) =>

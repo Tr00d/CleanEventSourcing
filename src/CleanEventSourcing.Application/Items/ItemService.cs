@@ -6,8 +6,8 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
 using LanguageExt;
-using static LanguageExt.Prelude;
 using MediatR;
+using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Application.Items
 {
@@ -33,7 +33,8 @@ namespace CleanEventSourcing.Application.Items
                 .IfNone(Option<ItemSummary>.None))
             .Map(summary => this.mapper.Map<GetItemResponse>(summary));
 
-        public async Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest, Option<UpdateItemBodyRequest> bodyRequest) =>
+        public async Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest,
+            Option<UpdateItemBodyRequest> bodyRequest) =>
             await (from route in routeRequest
                     from body in bodyRequest
                     select Tuple(route, body))

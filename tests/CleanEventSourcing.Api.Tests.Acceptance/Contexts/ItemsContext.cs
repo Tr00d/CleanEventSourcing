@@ -11,7 +11,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Contexts
         public HttpResponseMessage CreateItemResponse { get; set; }
 
         public HttpResponseMessage GetItemResponse { get; set; }
-        
+
         public HttpResponseMessage UpdateItemResponse { get; set; }
 
         public async Task<Guid> GetCreatedIdAsync() =>
