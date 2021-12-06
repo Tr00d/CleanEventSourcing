@@ -29,12 +29,27 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         {
             CreatedItemEvent receivedEvent = this.fixture.Create<CreatedItemEvent>();
             InMemoryReadService service = new InMemoryReadService(this.context);
-            await service.Handle(receivedEvent, this.fixture.Create<CancellationToken>());
+            await service.Handle(receivedEvent, CancellationToken.None);
             Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
             result.IsSome.Should().Be(true);
             ItemSummary summary = result.IfNone(new ItemSummary());
             summary.Id.Should().Be(receivedEvent.Id);
             summary.Description.Should().Be(receivedEvent.Description.IfNone(string.Empty));
+        }
+
+        [Fact]
+        public async Task HandleUpdatedItemEvent_ShouldUpdateItem()
+        {
+            UpdatedItemEvent receivedEvent = this.fixture.Create<UpdatedItemEvent>();
+            await this.context.Items.AddAsync(new ItemSummary()
+                {Id = receivedEvent.Id, Description = this.fixture.Create<string>()}, CancellationToken.None);
+            await this.context.SaveChangesAsync(CancellationToken.None);
+            InMemoryReadService service = new InMemoryReadService(this.context);
+            await service.Handle(receivedEvent, CancellationToken.None);
+            Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
+            result.IsSome.Should().Be(true);
+            ItemSummary summary = result.IfNone(new ItemSummary());
+            summary.Description.Should().Be(receivedEvent.NewDescription.IfNone(string.Empty));
         }
     }
 }

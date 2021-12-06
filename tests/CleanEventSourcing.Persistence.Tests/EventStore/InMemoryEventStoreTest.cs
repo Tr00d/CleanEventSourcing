@@ -28,7 +28,7 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
             Mock<IIntegrationEvent> mockEvent = new Mock<IIntegrationEvent>();
             mockEvent.SetupGet(mock => mock.Stream).Returns(stream);
             InMemoryEventStore eventStore = new InMemoryEventStore();
-            await eventStore.Handle(mockEvent.Object, this.fixture.Create<CancellationToken>());
+            await eventStore.Handle(mockEvent.Object, CancellationToken.None);
             Option<IEnumerable<IIntegrationEvent>> savedEvents = await eventStore.GetEvents(stream);
             savedEvents.IsSome.Should().Be(true);
             IIntegrationEvent[] integrationEvents = savedEvents.IfNone(Enumerable.Empty<IIntegrationEvent>()).ToArray();

@@ -72,5 +72,33 @@ namespace CleanEventSourcing.Domain.Tests.Items
             item.Update(description);
             item.Description.IfNone(string.Empty).Should().Be(description);
         }
+        
+        [Fact]
+        public void ApplyCreatedItemEvent_ShouldSetId_GivenAggregateIsSome()
+        {
+            CreatedItemEvent createdEvent = this.fixture.Create<CreatedItemEvent>();
+            Item aggregate = new Item();
+            aggregate.Apply(createdEvent);
+            aggregate.Id.Should().Be(createdEvent.Id);
+        }
+        
+        [Fact]
+        public void ApplyCreatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
+        {
+            CreatedItemEvent createdEvent = this.fixture.Create<CreatedItemEvent>();
+            Item aggregate = new Item();
+            aggregate.Apply(createdEvent);
+            aggregate.Description.IsSome.Should().Be(true);
+            aggregate.Description.IfNone(string.Empty).Should().Be(createdEvent.Description.IfNone(string.Empty));
+        }
+        
+        [Fact]
+        public void ApplyUpdatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
+        {
+            UpdatedItemEvent createdEvent = this.fixture.Create<UpdatedItemEvent>();
+            Item aggregate = new Item();
+            aggregate.Apply(createdEvent);
+            aggregate.Description.IfNone(string.Empty).Should().Be(createdEvent.NewDescription.IfNone(string.Empty));
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
             UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
             this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(item);
             UpdateItemHandler handler = new UpdateItemHandler(this.mockRepository.Object);
-            await handler.Handle(command, this.fixture.Create<CancellationToken>());
+            await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(repository => repository.SaveAsync(item), Times.Once);
         }
         

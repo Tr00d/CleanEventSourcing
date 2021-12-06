@@ -6,6 +6,8 @@ namespace CleanEventSourcing.Domain
 {
     public interface IIntegrationEvent : INotification
     {
+        public Guid Id { get; }
+        
         public Option<string> Stream { get; set; }
         
         bool CanConvertTo<T>() where T : IAggregate;

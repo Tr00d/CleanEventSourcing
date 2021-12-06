@@ -1,5 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Domain.Items.Events
 {
@@ -11,25 +13,17 @@ namespace CleanEventSourcing.Domain.Items.Events
             this.Description = description;
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
-        public Option<string> Description { get; set; }
+        public Option<string> Description { get; }
 
-        public void Apply(Option<Item> aggregate)
-        {
-            throw new NotImplementedException();
-        }
+        public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
 
         public Option<string> Stream { get; set; }
 
-        public bool CanConvertTo<T>() where T : IAggregate
-        {
-            throw new NotImplementedException();
-        }
+        public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(Item);
 
-        public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate
-        {
-            throw new NotImplementedException();
-        }
+        public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate =>
+            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>)this) : Option<IIntegrationEvent<T>>.None;
     }
 }

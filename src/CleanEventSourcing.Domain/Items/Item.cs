@@ -22,18 +22,33 @@ namespace CleanEventSourcing.Domain.Items
             this.events.Add(new CreatedItemEvent(this.Id, this.Description));
         }
 
+        public Option<string> Description { get; private set; }
+
+        public Guid Id { get; private set; }
+
+        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
+            new List<IIntegrationEvent>(this.events);
+
         public void Update(Option<string> description)
         {
             Option<string> oldDescription = this.Description;
             this.Description = description;
-            this.events.Add(new UpdatedItemEvent(oldDescription, this.Description));
+            this.events.Add(new UpdatedItemEvent(this.Id, oldDescription, this.Description));
         }
-        
-        public Option<string> Description { get; private set; }
 
-        public Guid Id { get; }
+        public void Apply(Option<CreatedItemEvent> integrationEvent) => integrationEvent.IfSome(this.Apply);
 
-        public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
-            new List<IIntegrationEvent>(this.events);
+        private void Apply(CreatedItemEvent integrationEvent)
+        {
+            this.Id = integrationEvent.Id;
+            this.Description = integrationEvent.Description;
+        }
+
+        public void Apply(Option<UpdatedItemEvent> integrationEvent) => integrationEvent.IfSome(this.Apply);
+
+        private void Apply(UpdatedItemEvent integrationEvent)
+        {
+            this.Description = integrationEvent.NewDescription;
+        }
     }
 }

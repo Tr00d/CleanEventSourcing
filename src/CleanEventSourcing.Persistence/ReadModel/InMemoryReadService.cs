@@ -8,10 +8,11 @@ using CleanEventSourcing.Domain.Items.Events;
 using Dawn;
 using LanguageExt;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanEventSourcing.Persistence.ReadModel
 {
-    public class InMemoryReadService : IReadService, INotificationHandler<CreatedItemEvent>
+    public class InMemoryReadService : IReadService, INotificationHandler<CreatedItemEvent>, INotificationHandler<UpdatedItemEvent>
     {
         private readonly Context context;
 
@@ -32,5 +33,12 @@ namespace CleanEventSourcing.Persistence.ReadModel
 
         public Task<Option<ItemSummary>> GetItemAsync(Guid id) =>
             Task.FromResult(this.context.Items.FirstOrDefault(item => item.Id == id) ?? Option<ItemSummary>.None);
+
+        public async Task Handle(UpdatedItemEvent notification, CancellationToken cancellationToken)
+        {
+            ItemSummary item = await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id));
+            item.Description = notification.NewDescription.IfNone(string.Empty);
+            await this.context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

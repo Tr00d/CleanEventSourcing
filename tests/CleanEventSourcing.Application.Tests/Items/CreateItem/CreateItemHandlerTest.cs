@@ -35,7 +35,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         {
             CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
             CreateItemHandler handler = new CreateItemHandler(this.mockRepository.Object);
-            await handler.Handle(command, this.fixture.Create<CancellationToken>());
+            await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(
                 repository => repository.SaveAsync(
                     It.Is<Option<Item>>(value =>

@@ -40,7 +40,7 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
             ItemSummary item = this.fixture.Create<ItemSummary>();
             this.mockReadService.Setup(service => service.GetItemAsync(query.Id)).ReturnsAsync(item);
             GetItemHandler handler = new GetItemHandler(this.mockReadService.Object);
-            Option<ItemSummary> result = await handler.Handle(query, this.fixture.Create<CancellationToken>());
+            Option<ItemSummary> result = await handler.Handle(query, CancellationToken.None);
         }
     }
 }
