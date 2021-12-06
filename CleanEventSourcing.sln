@@ -30,6 +30,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEventSourcing.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEventSourcing.Persistence.Tests", "tests\CleanEventSourcing.Persistence.Tests\CleanEventSourcing.Persistence.Tests.csproj", "{F3B436B8-1ED9-4BB0-964E-0E132E3BBAFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{EEFE7E76-317B-4557-BD56-DD827EB50DFD}"
+ProjectSection(SolutionItems) = preProject
+	README.md = README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

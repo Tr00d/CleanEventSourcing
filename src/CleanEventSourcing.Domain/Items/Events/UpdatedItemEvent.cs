@@ -6,6 +6,8 @@ namespace CleanEventSourcing.Domain.Items.Events
 {
     public class UpdatedItemEvent : IIntegrationEvent<Item>
     {
+        private readonly ItemEventBase eventBase = new();
+        
         public UpdatedItemEvent(Guid id, Option<string> oldDescription, Option<string> newDescription)
         {
             this.Id = id;
@@ -22,9 +24,9 @@ namespace CleanEventSourcing.Domain.Items.Events
         public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
         public Option<string> Stream { get; set; }
 
-        public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(Item);
+        public bool CanConvertTo<T>() where T : IAggregate => this.eventBase.CanConvertTo<T>();
 
         public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate =>
-            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>) this) : Option<IIntegrationEvent<T>>.None;
+            this.eventBase.ConvertTo((IIntegrationEvent<T>) this);
     }
 }
