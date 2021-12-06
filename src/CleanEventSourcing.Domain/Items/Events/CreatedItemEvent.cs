@@ -35,7 +35,7 @@ namespace CleanEventSourcing.Domain.Items.Events
             throw new NotImplementedException();
         }
 
-        public Option<IIntegrationEvent<T>> TryConvertTo<T>() where T : IAggregate
+        public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate
         {
             throw new NotImplementedException();
         }

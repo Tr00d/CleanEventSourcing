@@ -14,7 +14,7 @@ namespace CleanEventSourcing.Domain
 
         bool CanConvertTo<T>() where T : IAggregate;
 
-        Option<IIntegrationEvent<T>> TryConvertTo<T>() where T : IAggregate;
+        Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate;
     }
 
     public interface IIntegrationEvent<T> : IIntegrationEvent

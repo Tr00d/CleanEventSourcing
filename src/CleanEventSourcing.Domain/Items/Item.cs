@@ -9,7 +9,7 @@ namespace CleanEventSourcing.Domain.Items
     {
         private readonly List<IIntegrationEvent<Item>> events;
 
-        private Item()
+        public Item()
         {
             this.events = new List<IIntegrationEvent<Item>>();
         }
