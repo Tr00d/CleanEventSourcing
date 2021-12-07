@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
@@ -40,5 +41,7 @@ namespace CleanEventSourcing.Application.Items
                     select Tuple(route, body))
                 .Map(request => this.mapper.Map<UpdateItemCommand>(request))
                 .IfSomeAsync(async command => await this.mediator.Send(command));
+
+        public Task DeleteAsync(Option<DeleteItemRequest> request) => throw new System.NotImplementedException();
     }
 }

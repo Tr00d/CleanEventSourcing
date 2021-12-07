@@ -5,6 +5,7 @@ using AutoFixture;
 using CleanEventSourcing.Api.Items;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
 using FluentAssertions;
@@ -40,7 +41,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         {
             CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
             ItemsController controller = new ItemsController(this.mockService.Object);
-            IActionResult result = await controller.CreateAsync(request).ConfigureAwait(false);
+            IActionResult result = await controller.CreateAsync(request);
             result.Should().BeOfType<CreatedAtActionResult>();
             CreatedAtActionResult createdResult = (CreatedAtActionResult) result;
             createdResult.ActionName.Should().Be("Get");
@@ -54,7 +55,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         {
             CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
             ItemsController controller = new ItemsController(this.mockService.Object);
-            await controller.CreateAsync(request).ConfigureAwait(false);
+            await controller.CreateAsync(request);
             this.mockService.Verify(service => service.CreateAsync(request), Times.Once);
         }
 
@@ -65,7 +66,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             this.mockService.Setup(service => service.GetAsync(request))
                 .ReturnsAsync(Option<GetItemResponse>.None);
             ItemsController controller = new ItemsController(this.mockService.Object);
-            IActionResult result = await controller.GetAsync(request).ConfigureAwait(false);
+            IActionResult result = await controller.GetAsync(request);
             result.Should().BeOfType<NotFoundObjectResult>();
             NotFoundObjectResult notFoundResult = (NotFoundObjectResult) result;
             notFoundResult.Value.Should().Be(request);
@@ -79,7 +80,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             this.mockService.Setup(service => service.GetAsync(request))
                 .ReturnsAsync(response);
             ItemsController controller = new ItemsController(this.mockService.Object);
-            IActionResult result = await controller.GetAsync(request).ConfigureAwait(false);
+            IActionResult result = await controller.GetAsync(request);
             result.Should().BeOfType<OkObjectResult>();
             OkObjectResult okResult = (OkObjectResult) result;
             okResult.Value.Should().Be(response);
@@ -91,7 +92,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
             UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
             ItemsController controller = new ItemsController(this.mockService.Object);
-            await controller.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            await controller.UpdateAsync(routeRequest, bodyRequest);
             this.mockService.Verify(service => service.UpdateAsync(routeRequest, bodyRequest), Times.Once);
         }
 
@@ -101,8 +102,26 @@ namespace CleanEventSourcing.Api.Tests.Items
             UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
             UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
             ItemsController controller = new ItemsController(this.mockService.Object);
-            IActionResult result = await controller.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            IActionResult result = await controller.UpdateAsync(routeRequest, bodyRequest);
             result.Should().BeOfType<NoContentResult>();
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldReturnNoContent()
+        {
+            DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
+            IActionResult result = await controller.DeleteAsync(request);
+            result.Should().BeOfType<NoContentResult>();
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldDeleteItem()
+        {
+            DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();
+            ItemsController controller = new ItemsController(this.mockService.Object);
+            IActionResult result = await controller.DeleteAsync(request);
+            this.mockService.Verify(service => service.DeleteAsync(request), Times.Once);
         }
     }
 }

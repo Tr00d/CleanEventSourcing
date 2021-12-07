@@ -67,5 +67,13 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the retrieved item should have the description ""(.*)""")]
         public async Task ThenTheRetrievedItemShouldHaveTheDescription(string description) =>
             (await this.driver.GetRetrievedItemAsync()).Description.Should().Be(description);
+
+        [When(@"a user deletes the created item")]
+        public async Task WhenAUserDeletesTheCreatedItem() => await this.driver.DeleteItem(await this.context.GetCreatedIdAsync());
+
+        [Then(@"the deletion response should return a ""(.*)"" status code")]
+        public void ThenTheDeletionResponseShouldReturnAStatusCode(string statusCode) => VerifyStatusCode(
+            this.context.DeleteItemResponse,
+            (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
     }
 }

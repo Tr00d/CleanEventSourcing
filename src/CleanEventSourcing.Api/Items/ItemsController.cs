@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
 using Dawn;
@@ -38,6 +40,13 @@ namespace CleanEventSourcing.Api.Items
             [FromBody] UpdateItemBodyRequest bodyRequest)
         {
             await this.itemService.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            return this.NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] DeleteItemRequest request)
+        {
+            await this.itemService.DeleteAsync(request);
             return this.NoContent();
         }
     }

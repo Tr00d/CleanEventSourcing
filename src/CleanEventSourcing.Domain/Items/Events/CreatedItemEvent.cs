@@ -1,12 +1,11 @@
 using System;
 using LanguageExt;
+using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Domain.Items.Events
 {
     public class CreatedItemEvent : IIntegrationEvent<Item>
     {
-        private readonly ItemEventBase eventBase = new();
-
         public CreatedItemEvent(Guid id, Option<string> description)
         {
             this.Id = id;
@@ -21,9 +20,9 @@ namespace CleanEventSourcing.Domain.Items.Events
 
         public Option<string> Stream { get; set; }
 
-        public bool CanConvertTo<T>() where T : IAggregate => this.eventBase.CanConvertTo<T>();
+        public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(Item);
 
         public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate =>
-            this.eventBase.ConvertTo((IIntegrationEvent<T>) this);
+            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>) this) : Option<IIntegrationEvent<T>>.None;
     }
 }

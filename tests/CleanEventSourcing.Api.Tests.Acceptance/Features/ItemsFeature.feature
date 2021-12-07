@@ -44,3 +44,10 @@ Item management for CRUD actions
         Then the retrieval response should return a "200" status code
         And the update response should return a "204" status code
         And the retrieved item should have the description "item 2"
+        
+    @Acceptance
+    Scenario: A user cannot delete an item when providing an empty guid
+        Given a user creates a new item "item 1"
+        When a user deletes the created item
+        Then the deletion response should return a "204" status code
+        
