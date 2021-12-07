@@ -18,7 +18,7 @@ approach. I do not pretend my implementation is perfect, I was just able to remo
 Here are a couple of remediation for those issues :
 
 #### No switch when creating aggregate
-
+```csharp
     private static T CreateAggregate(IEnumerable<Option<IIntegrationEvent<T>>> events)
     {
         T aggregate = new();
@@ -35,16 +35,16 @@ Here are a couple of remediation for those issues :
     {
         void Apply(Option<T> aggregate);
     }
-
+```
 #### No switch when projecting changes
-
+```csharp
     public class InMemoryReadService : IReadService, INotificationHandler<CreatedItemEvent>,
         INotificationHandler<UpdatedItemEvent>, INotificationHandler<DeletedItemEvent>
     {
     }
-
+```
 #### No inheritance on aggregates - Composition instead
-
+```csharp
     public interface IAggregate
     {
         Guid Id { get; }
@@ -55,14 +55,14 @@ Here are a couple of remediation for those issues :
     {
         private readonly AggregateBase baseAggregate = new();
     }
-
+```
 #### No inheritance on events - Composition instead
-
+```csharp
     public class CreatedItemEvent : IIntegrationEvent<Item>
     {
         private readonly ItemBaseEvent baseEvent = new();
     }
-
+```
 ## Trade-offs
 
 My proposal comes with a compromise on the workflow: an event applies its logic on an aggregate. This is not really a
