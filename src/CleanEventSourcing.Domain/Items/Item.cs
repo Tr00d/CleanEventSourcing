@@ -52,11 +52,10 @@ namespace CleanEventSourcing.Domain.Items
             this.Description = integrationEvent.Description;
         }
 
-        public void Apply(Option<UpdatedItemEvent> integrationEvent) => integrationEvent.IfSome(this.Apply);
+        public void Apply(Option<UpdatedItemEvent> integrationEvent) =>
+            integrationEvent.IfSome(value => this.Description = value.NewDescription);
 
-        private void Apply(UpdatedItemEvent integrationEvent)
-        {
-            this.Description = integrationEvent.NewDescription;
-        }
+        public void Apply(Option<DeletedItemEvent> integrationEvent) =>
+            integrationEvent.IfSomeAsync(value => this.IsDeleted = true);
     }
 }

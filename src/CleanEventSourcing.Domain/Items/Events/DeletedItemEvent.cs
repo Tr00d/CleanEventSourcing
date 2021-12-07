@@ -5,6 +5,8 @@ namespace CleanEventSourcing.Domain.Items.Events
 {
     public class DeletedItemEvent : IIntegrationEvent<Item>
     {
+        private readonly ItemBaseEvent baseEvent = new();
+
         public DeletedItemEvent(Guid id)
         {
             this.Id = id;
@@ -12,14 +14,12 @@ namespace CleanEventSourcing.Domain.Items.Events
 
         public Guid Id { get; }
 
-        public void Apply(Option<Item> aggregate)
-        {
-            throw new NotImplementedException();
-        }
+        public void Apply(Option<Item> aggregate) => aggregate.IfSome(value => value.Apply(this));
 
         public Option<string> Stream { get; set; }
-        public bool CanConvertTo<T>() where T : IAggregate => throw new NotImplementedException();
+        public bool CanConvertTo<T>() where T : IAggregate => this.baseEvent.CanConvertTo<T>();
 
-        public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate => throw new NotImplementedException();
+        public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate =>
+            this.baseEvent.ConvertTo<T>(this);
     }
 }

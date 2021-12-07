@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CleanEventSourcing.Persistence.ReadModel
 {
     public class InMemoryReadService : IReadService, INotificationHandler<CreatedItemEvent>,
-        INotificationHandler<UpdatedItemEvent>
+        INotificationHandler<UpdatedItemEvent>, INotificationHandler<DeletedItemEvent>
     {
         private readonly Context context;
 
@@ -29,6 +29,14 @@ namespace CleanEventSourcing.Persistence.ReadModel
                 {
                     Id = notification.Id, Description = notification.Description.IfNone(string.Empty),
                 }, cancellationToken);
+            await this.context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task Handle(DeletedItemEvent notification, CancellationToken cancellationToken)
+        {
+            ItemSummary item =
+                await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id), cancellationToken);
+            this.context.Items.Remove(item);
             await this.context.SaveChangesAsync(cancellationToken);
         }
 

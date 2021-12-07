@@ -52,5 +52,19 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
             ItemSummary summary = result.IfNone(new ItemSummary());
             summary.Description.Should().Be(receivedEvent.NewDescription.IfNone(string.Empty));
         }
+
+        [Fact]
+        public async Task HandleDeletedItemEvent_ShouldDeleteItem()
+        {
+            DeletedItemEvent receivedEvent = this.fixture.Create<DeletedItemEvent>();
+            await this.context.Items.AddAsync(
+                new ItemSummary {Id = receivedEvent.Id, Description = this.fixture.Create<string>()},
+                CancellationToken.None);
+            await this.context.SaveChangesAsync(CancellationToken.None);
+            InMemoryReadService service = new InMemoryReadService(this.context);
+            await service.Handle(receivedEvent, CancellationToken.None);
+            Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
+            result.IsNone.Should().Be(true);
+        }
     }
 }
