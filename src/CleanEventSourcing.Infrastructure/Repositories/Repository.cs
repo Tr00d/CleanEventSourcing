@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain;
 using Dawn;
 using LanguageExt;
 using MediatR;
-using static LanguageExt.Prelude;
 
 namespace CleanEventSourcing.Infrastructure.Repositories
 {
@@ -47,7 +45,7 @@ namespace CleanEventSourcing.Infrastructure.Repositories
             T aggregate = new();
             events
                 .ToList()
-                .ForEach(listItem => ApplyEvent(aggregate, listItem));
+                .ForEach(listItem => listItem.IfSome(value => ApplyEvent(aggregate, value)));
             return aggregate;
         }
 
@@ -57,8 +55,8 @@ namespace CleanEventSourcing.Infrastructure.Repositories
             await this.mediator.Publish(integrationEvent);
         }
 
-        private static void ApplyEvent(T aggregate, Option<IIntegrationEvent<T>> integrationEvent) =>
-            integrationEvent.IfSome(value => value.Apply(aggregate));
+        private static void ApplyEvent(T aggregate, IIntegrationEvent<T> integrationEvent) =>
+            integrationEvent.Apply(aggregate);
 
         private static string GetStream(Guid id) => $"{typeof(T).Name}-{id}";
     }

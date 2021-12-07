@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;

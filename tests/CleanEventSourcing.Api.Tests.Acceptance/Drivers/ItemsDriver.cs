@@ -48,11 +48,11 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         }
 
         public async Task<GetItemResponse> GetRetrievedItemAsync() => await this.context.GetRetrievedItemAsync();
-        
+
         public async Task DeleteItem(Guid id)
             => this.context.DeleteItemResponse =
-            await this.clientDriver
-                .ProcessRequest(HttpMethod.Delete, $"/api/items/{id}")
-                .ConfigureAwait(false);
+                await this.clientDriver
+                    .ProcessRequest(HttpMethod.Delete, $"/api/items/{id}")
+                    .ConfigureAwait(false);
     }
 }

@@ -24,21 +24,6 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
             TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data))
             .ConfigureAwait(false);
 
-        public async Task<TResponse> ProcessRequest<TResponse, TRequest>(HttpMethod method, string relativeUri,
-            TRequest data)
-        {
-            HttpResponseMessage response = await this.ProcessRequest(method, relativeUri, data).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TResponse>(await response.EnsureSuccessStatusCode().Content
-                .ReadAsStringAsync().ConfigureAwait(false));
-        }
-
-        public async Task<TResponse> ProcessRequest<TResponse>(HttpMethod method, string relativeUri)
-        {
-            HttpResponseMessage response = await this.ProcessRequest(method, relativeUri).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TResponse>(await response.EnsureSuccessStatusCode().Content
-                .ReadAsStringAsync().ConfigureAwait(false));
-        }
-
         private HttpRequestMessage CreateRequest<T>(HttpMethod method, string relativeUri, T data)
         {
             HttpRequestMessage requestMessage = this.CreateRequest(method, relativeUri);

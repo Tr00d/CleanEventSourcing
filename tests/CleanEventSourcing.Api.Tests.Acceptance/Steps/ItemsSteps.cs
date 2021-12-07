@@ -69,7 +69,8 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
             (await this.driver.GetRetrievedItemAsync()).Description.Should().Be(description);
 
         [When(@"a user deletes the created item")]
-        public async Task WhenAUserDeletesTheCreatedItem() => await this.driver.DeleteItem(await this.context.GetCreatedIdAsync());
+        public async Task WhenAUserDeletesTheCreatedItem() =>
+            await this.driver.DeleteItem(await this.context.GetCreatedIdAsync());
 
         [Then(@"the deletion response should return a ""(.*)"" status code")]
         public void ThenTheDeletionResponseShouldReturnAStatusCode(string statusCode) => VerifyStatusCode(
