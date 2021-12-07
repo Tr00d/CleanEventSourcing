@@ -67,7 +67,7 @@ Here are a couple of remediation for those issues :
 My proposal comes with a compromise on the workflow: an event applies its logic on an aggregate. This is not really a
 bad compromise as it would allow us to creates more events without affecting the aggregate (OCP). Keeping that in mind,
 I kept the logic in the Aggregate.Apply method for encapsulation reasons: an event calls the aggregate when passing
-himself as a parameter.
+himself as a parameter and triggers a change on the aggregate.
 
 ## Conclusion
 
