@@ -1,5 +1,8 @@
 # CleanEventSourcing
 
+Here's the rating on BetterCodeHub. The rating is 9/10 because everything is one assembly but being a kata, it's not really an issue.
+[![BCH compliance](https://bettercodehub.com/edge/badge/Tr00d/CleanEventSourcing?branch=main)](https://bettercodehub.com/)
+
 ## Summary
 
 This project came up as a personal challenge. This is a simple ToDoList Rest Api with CRUD and Event Sourcing like we
