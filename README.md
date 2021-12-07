@@ -5,8 +5,7 @@ Here's the rating on BetterCodeHub. The rating is 9/10 because everything is one
 
 ## Summary
 
-This project came up as a personal challenge. This is a simple ToDoList Rest Api with CRUD and Event Sourcing like we
-can find many on GitHub. This is **not** a production-ready solution as data stores are both in-memory but just a fun
+This project came up as a personal challenge. This is a simple ToDoList Rest Api with CRUD and Event Sourcing like many others on GitHub. This is **not** a production-ready solution as data stores are both in-memory but just a fun
 personal project.
 
 ## The "problem"
