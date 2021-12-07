@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Domain;
 using CleanEventSourcing.Domain.Items;
+using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
 using LanguageExt;
 using Moq;
@@ -42,6 +45,23 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
                         value.Match(item => item.Id, Guid.Empty).Equals(command.Id) && value
                             .Match(item => item.Description, string.Empty).Equals(command.Description))),
                 Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_ShouldCreateItem()
+        {
+            CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
+            CreateItemHandler handler = new CreateItemHandler(this.mockRepository.Object);
+            await handler.Handle(command, CancellationToken.None);
+            Option<Item> aggregate = this.mockRepository.Invocations.First().Arguments.FirstOrDefault() is Option<Item>
+                ? (Option<Item>) this.mockRepository.Invocations.First().Arguments.FirstOrDefault()
+                : Option<Item>.None;
+            aggregate.IsSome.Should().Be(true);
+            aggregate.IfNone(() => throw new InvalidOperationException()).GetIntegrationEvents().IsSome.Should()
+                .Be(true);
+            aggregate.IfNone(() => throw new InvalidOperationException()).GetIntegrationEvents()
+                .IfNone(Enumerable.Empty<IIntegrationEvent>()).First().Should()
+                .BeOfType<CreatedItemEvent>();
         }
     }
 }

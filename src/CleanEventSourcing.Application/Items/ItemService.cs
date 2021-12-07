@@ -24,7 +24,8 @@ namespace CleanEventSourcing.Application.Items
         }
 
         public async Task CreateAsync(Option<CreateItemRequest> request)
-            => await request.IfSomeAsync(value => this.mediator.Send(this.mapper.Map<CreateItemCommand>(value)))
+            => await request.Map(value => this.mapper.Map<CreateItemCommand>(value))
+                .IfSomeAsync(value => this.mediator.Send(value))
                 .ConfigureAwait(false);
 
         public async Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) =>
@@ -42,6 +43,9 @@ namespace CleanEventSourcing.Application.Items
                 .Map(request => this.mapper.Map<UpdateItemCommand>(request))
                 .IfSomeAsync(async command => await this.mediator.Send(command));
 
-        public Task DeleteAsync(Option<DeleteItemRequest> request) => throw new System.NotImplementedException();
+        public async Task DeleteAsync(Option<DeleteItemRequest> request) =>
+            await request
+                .Map(value => this.mapper.Map<DeleteItemCommand>(value))
+                .IfSomeAsync(command => this.mediator.Send(command));
     }
 }

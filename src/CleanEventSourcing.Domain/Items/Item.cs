@@ -24,6 +24,8 @@ namespace CleanEventSourcing.Domain.Items
 
         public Option<string> Description { get; private set; }
 
+        public bool IsDeleted { get; private set; }
+
         public Guid Id { get; private set; }
 
         public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
@@ -34,6 +36,12 @@ namespace CleanEventSourcing.Domain.Items
             Option<string> oldDescription = this.Description;
             this.Description = description;
             this.events.Add(new UpdatedItemEvent(this.Id, oldDescription, this.Description));
+        }
+
+        public void Delete()
+        {
+            this.IsDeleted = true;
+            this.events.Add(new DeletedItemEvent(this.Id));
         }
 
         public void Apply(Option<CreatedItemEvent> integrationEvent) => integrationEvent.IfSome(this.Apply);

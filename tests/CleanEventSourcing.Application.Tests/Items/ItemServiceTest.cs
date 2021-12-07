@@ -5,6 +5,7 @@ using AutoFixture;
 using AutoMapper;
 using CleanEventSourcing.Application.Items;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
@@ -100,7 +101,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
-        public async Task UpdateAsync_ShouldSendUpdateItemCommand()
+        public async Task UpdateAsync_ShouldSendUpdateItemCommand_GivenRequestIsSome()
         {
             UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
             UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
@@ -110,6 +111,47 @@ namespace CleanEventSourcing.Application.Tests.Items
             ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
             await service.UpdateAsync(routeRequest, bodyRequest);
             this.mockMediator.Verify(mediator => mediator.Send(command, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenRouteRequestIsNone()
+        {
+            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.UpdateAsync(Option<UpdateItemRouteRequest>.None, bodyRequest);
+            this.mockMediator.Verify(
+                mediator => mediator.Send(It.IsAny<UpdateItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenBodyRequestIsNone()
+        {
+            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.UpdateAsync(routeRequest, Option<UpdateItemBodyRequest>.None);
+            this.mockMediator.Verify(
+                mediator => mediator.Send(It.IsAny<UpdateItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldNotSendDeleteItemCommand_GivenRequestIsNone()
+        {
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.DeleteAsync(Option<DeleteItemRequest>.None);
+            this.mockMediator.Verify(
+                mediator => mediator.Send(It.IsAny<DeleteItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldSendDeleteItemCommand_GivenRequestIsSome()
+        {
+            DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();
+            DeleteItemCommand command = this.fixture.Create<DeleteItemCommand>();
+            this.mockMapper.Setup(mapper => mapper.Map<DeleteItemCommand>(request)).Returns(command);
+            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            await service.DeleteAsync(request);
+            this.mockMediator.Verify(
+                mediator => mediator.Send(It.IsAny<DeleteItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

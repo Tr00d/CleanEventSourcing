@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
+using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using FluentAssertions;
 using Xunit;
@@ -28,6 +29,7 @@ namespace CleanEventSourcing.Application.Tests
         {
             configurationExpression.AddProfile<CreateItemMappingProfile>();
             configurationExpression.AddProfile<GetItemMappingProfile>();
+            configurationExpression.AddProfile<DeleteItemMappingProfile>();
         });
 
         [Fact]

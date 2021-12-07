@@ -59,8 +59,21 @@ namespace CleanEventSourcing.Domain.Tests.Items
                 .ToArray();
             events.First().Should().BeOfType<UpdatedItemEvent>();
             UpdatedItemEvent result = (UpdatedItemEvent) events.First();
+            result.Id.Should().Be(item.Id);
             result.OldDescription.IsNone.Should().Be(true);
             result.NewDescription.IfNone(string.Empty).Should().Be(description);
+        }
+
+        [Fact]
+        public void GetIntegrationEvents_ShouldContainDeletedItemEvent_GivenItemIsDeleted()
+        {
+            Item item = new Item();
+            item.Delete();
+            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
+                .ToArray();
+            events.First().Should().BeOfType<DeletedItemEvent>();
+            DeletedItemEvent result = (DeletedItemEvent) events.First();
+            result.Id.Should().Be(item.Id);
         }
 
         [Fact]
@@ -70,6 +83,14 @@ namespace CleanEventSourcing.Domain.Tests.Items
             Item item = new Item();
             item.Update(description);
             item.Description.IfNone(string.Empty).Should().Be(description);
+        }
+
+        [Fact]
+        public void Delete_ShouldDeleteItem()
+        {
+            Item item = new Item();
+            item.Delete();
+            item.IsDeleted.Should().Be(true);
         }
 
         [Fact]

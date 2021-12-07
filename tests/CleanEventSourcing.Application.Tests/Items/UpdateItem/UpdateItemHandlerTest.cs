@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Application.Items.UpdateItem;
+using CleanEventSourcing.Domain;
 using CleanEventSourcing.Domain.Items;
+using CleanEventSourcing.Domain.Items.Events;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -31,6 +34,19 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
 
         [Fact]
         public async Task Handle_ShouldUpdateItem()
+        {
+            Item item = this.fixture.Create<Item>();
+            UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
+            this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(item);
+            UpdateItemHandler handler = new UpdateItemHandler(this.mockRepository.Object);
+            await handler.Handle(command, CancellationToken.None);
+            item.GetIntegrationEvents().IsSome.Should().Be(true);
+            item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).First().Should()
+                .BeOfType<UpdatedItemEvent>();
+        }
+
+        [Fact]
+        public async Task Handle_ShouldSaveItem()
         {
             Item item = this.fixture.Create<Item>();
             UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
