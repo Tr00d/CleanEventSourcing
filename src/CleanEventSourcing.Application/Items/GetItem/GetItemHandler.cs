@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain.Items;
 using Dawn;

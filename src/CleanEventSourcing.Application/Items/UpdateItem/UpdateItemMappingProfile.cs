@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 
 namespace CleanEventSourcing.Application.Items.UpdateItem

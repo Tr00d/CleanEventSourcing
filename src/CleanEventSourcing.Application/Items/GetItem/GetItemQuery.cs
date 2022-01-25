@@ -1,4 +1,3 @@
-using System;
 using CleanEventSourcing.Domain.Items;
 using LanguageExt;
 using MediatR;

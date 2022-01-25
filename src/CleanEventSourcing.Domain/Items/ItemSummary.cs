@@ -1,5 +1,3 @@
-using System;
-
 namespace CleanEventSourcing.Domain.Items
 {
     public class ItemSummary

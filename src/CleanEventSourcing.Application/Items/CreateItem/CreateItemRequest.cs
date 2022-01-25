@@ -1,5 +1,3 @@
-using System;
-
 namespace CleanEventSourcing.Application.Items.CreateItem
 {
     public class CreateItemRequest

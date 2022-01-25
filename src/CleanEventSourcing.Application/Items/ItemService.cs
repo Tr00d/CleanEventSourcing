@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
 using AutoMapper;
 using CleanEventSourcing.Application.Items.CreateItem;
 using CleanEventSourcing.Application.Items.DeleteItem;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
-using CleanEventSourcing.Domain.Items;
 using Dawn;
 using LanguageExt;
 using MediatR;
@@ -31,8 +29,7 @@ namespace CleanEventSourcing.Application.Items
         public async Task<Option<GetItemResponse>> GetAsync(Option<GetItemRequest> request) =>
             (await request
                 .Map(value => this.mapper.Map<GetItemQuery>(value))
-                .MapAsync(async query => await this.mediator.Send(query))
-                .IfNone(Option<ItemSummary>.None))
+                .MapAsync(async query => await this.mediator.Send(query)))
             .Map(summary => this.mapper.Map<GetItemResponse>(summary));
 
         public async Task UpdateAsync(Option<UpdateItemRouteRequest> routeRequest,

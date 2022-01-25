@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using CleanEventSourcing.Domain.Items.Events;
 using LanguageExt;
 

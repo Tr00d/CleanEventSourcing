@@ -1,4 +1,3 @@
-using System;
 using LanguageExt;
 
 namespace CleanEventSourcing.Domain.Items.Events
