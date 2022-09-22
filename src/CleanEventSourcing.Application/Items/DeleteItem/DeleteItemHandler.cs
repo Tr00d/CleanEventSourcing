@@ -1,9 +1,7 @@
 using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Domain.Items;
 using Dawn;
-using LanguageExt;
 using MediatR;
-using Unit = MediatR.Unit;
 
 namespace CleanEventSourcing.Application.Items.DeleteItem
 {
@@ -18,7 +16,7 @@ namespace CleanEventSourcing.Application.Items.DeleteItem
 
         public async Task<Unit> Handle(DeleteItemCommand request, CancellationToken cancellationToken)
         {
-            Option<Item> item = await this.repository.GetAsync(request.Id);
+            var item = await this.repository.GetAsync(request.Id);
             item.IfSome(value => value.Delete());
             await this.repository.SaveAsync(item);
             return Unit.Value;

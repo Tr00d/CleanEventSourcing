@@ -24,7 +24,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the creation response should return a ""(.*)"" status code")]
         public void ThenTheCreationResponseShouldReturnAStatusCode(string statusCode) =>
             VerifyStatusCode(this.context.CreateItemResponse,
-                (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+                (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"a user creates a new item ""(.*)""")]
         [Given(@"a user creates a new item ""(.*)""")]
@@ -42,7 +42,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the retrieval response should return a ""(.*)"" status code")]
         public void ThenTheRetrievalResponseShouldReturnAStatusCode(string statusCode) =>
             VerifyStatusCode(this.context.GetItemResponse,
-                (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+                (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         private static void VerifyStatusCode(HttpResponseMessage response, HttpStatusCode expectedStatusCode) =>
             response.StatusCode.Should().Be(expectedStatusCode);
@@ -58,7 +58,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the update response should return a ""(.*)"" status code")]
         public void ThenTheUpdateResponseShouldReturnAStatusCode(string statusCode) => VerifyStatusCode(
             this.context.UpdateItemResponse,
-            (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+            (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode));
 
         [When(@"a user updates the created item with the description ""(.*)""")]
         public async Task WhenAUserUpdatesTheCreatedItemWithTheDescription(string description) =>
@@ -75,6 +75,6 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [Then(@"the deletion response should return a ""(.*)"" status code")]
         public void ThenTheDeletionResponseShouldReturnAStatusCode(string statusCode) => VerifyStatusCode(
             this.context.DeleteItemResponse,
-            (HttpStatusCode) Enum.Parse(typeof(HttpStatusCode), statusCode));
+            (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode));
     }
 }

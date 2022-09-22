@@ -43,7 +43,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             ItemsController controller = new ItemsController(this.mockService.Object);
             IActionResult result = await controller.CreateAsync(request);
             result.Should().BeOfType<CreatedAtActionResult>();
-            CreatedAtActionResult createdResult = (CreatedAtActionResult) result;
+            CreatedAtActionResult createdResult = (CreatedAtActionResult)result;
             createdResult.ActionName.Should().Be("Get");
             createdResult.Value.Should().Be(request.Id);
             createdResult.RouteValues.First().Key.Should().Be(nameof(GetItemRequest.Id));
@@ -68,7 +68,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             ItemsController controller = new ItemsController(this.mockService.Object);
             IActionResult result = await controller.GetAsync(request);
             result.Should().BeOfType<NotFoundObjectResult>();
-            NotFoundObjectResult notFoundResult = (NotFoundObjectResult) result;
+            NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
             notFoundResult.Value.Should().Be(request);
         }
 
@@ -82,7 +82,7 @@ namespace CleanEventSourcing.Api.Tests.Items
             ItemsController controller = new ItemsController(this.mockService.Object);
             IActionResult result = await controller.GetAsync(request);
             result.Should().BeOfType<OkObjectResult>();
-            OkObjectResult okResult = (OkObjectResult) result;
+            OkObjectResult okResult = (OkObjectResult)result;
             okResult.Value.Should().Be(response);
         }
 

@@ -13,10 +13,10 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Hooks
         [BeforeScenario]
         public void BeforeScenario(HttpScenarioContext httpContext)
         {
-            string testDirectory = Directory.GetCurrentDirectory();
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+            var testDirectory = Directory.GetCurrentDirectory();
+            var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile(Path.Combine(testDirectory, "appsettings.Test.json"));
-            TestServer server = new TestServer(new WebHostBuilder().UseStartup<Startup>()
+            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>()
                 .UseConfiguration(configurationBuilder.Build()));
             httpContext.Client = server.CreateClient();
         }

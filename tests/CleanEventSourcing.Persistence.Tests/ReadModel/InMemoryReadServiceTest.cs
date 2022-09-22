@@ -5,7 +5,6 @@ using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
 using CleanEventSourcing.Persistence.ReadModel;
 using FluentAssertions;
-using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         public InMemoryReadServiceTest()
         {
             this.fixture = new Fixture();
-            DbContextOptions<Context> options = new DbContextOptionsBuilder<Context>()
+            var options = new DbContextOptionsBuilder<Context>()
                 .UseInMemoryDatabase(this.fixture.Create<string>()).Options;
             this.context = new Context(options);
         }
@@ -27,12 +26,12 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         [Fact]
         public async Task HandleCreatedItemEvent_ShouldCreateItem()
         {
-            CreatedItemEvent receivedEvent = this.fixture.Create<CreatedItemEvent>();
-            InMemoryReadService service = new InMemoryReadService(this.context);
+            var receivedEvent = this.fixture.Create<CreatedItemEvent>();
+            var service = new InMemoryReadService(this.context);
             await service.Handle(receivedEvent, CancellationToken.None);
-            Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
+            var result = await service.GetItemAsync(receivedEvent.Id);
             result.IsSome.Should().Be(true);
-            ItemSummary summary = result.IfNone(new ItemSummary());
+            var summary = result.IfNone(new ItemSummary());
             summary.Id.Should().Be(receivedEvent.Id);
             summary.Description.Should().Be(receivedEvent.Description.IfNone(string.Empty));
         }
@@ -40,30 +39,30 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         [Fact]
         public async Task HandleUpdatedItemEvent_ShouldUpdateItem()
         {
-            UpdatedItemEvent receivedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var receivedEvent = this.fixture.Create<UpdatedItemEvent>();
             await this.context.Items.AddAsync(
-                new ItemSummary {Id = receivedEvent.Id, Description = this.fixture.Create<string>()},
+                new ItemSummary { Id = receivedEvent.Id, Description = this.fixture.Create<string>() },
                 CancellationToken.None);
             await this.context.SaveChangesAsync(CancellationToken.None);
-            InMemoryReadService service = new InMemoryReadService(this.context);
+            var service = new InMemoryReadService(this.context);
             await service.Handle(receivedEvent, CancellationToken.None);
-            Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
+            var result = await service.GetItemAsync(receivedEvent.Id);
             result.IsSome.Should().Be(true);
-            ItemSummary summary = result.IfNone(new ItemSummary());
+            var summary = result.IfNone(new ItemSummary());
             summary.Description.Should().Be(receivedEvent.NewDescription.IfNone(string.Empty));
         }
 
         [Fact]
         public async Task HandleDeletedItemEvent_ShouldDeleteItem()
         {
-            DeletedItemEvent receivedEvent = this.fixture.Create<DeletedItemEvent>();
+            var receivedEvent = this.fixture.Create<DeletedItemEvent>();
             await this.context.Items.AddAsync(
-                new ItemSummary {Id = receivedEvent.Id, Description = this.fixture.Create<string>()},
+                new ItemSummary { Id = receivedEvent.Id, Description = this.fixture.Create<string>() },
                 CancellationToken.None);
             await this.context.SaveChangesAsync(CancellationToken.None);
-            InMemoryReadService service = new InMemoryReadService(this.context);
+            var service = new InMemoryReadService(this.context);
             await service.Handle(receivedEvent, CancellationToken.None);
-            Option<ItemSummary> result = await service.GetItemAsync(receivedEvent.Id);
+            var result = await service.GetItemAsync(receivedEvent.Id);
             result.IsNone.Should().Be(true);
         }
     }

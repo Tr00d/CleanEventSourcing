@@ -10,36 +10,36 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsNull()
         {
-            CreateItemRequest request = new CreateItemRequest();
-            CreateItemRequestValidation validator = new CreateItemRequestValidation();
-            TestValidationResult<CreateItemRequest> result = validator.TestValidate(request);
+            var request = new CreateItemRequest();
+            var validator = new CreateItemRequestValidation();
+            var result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsNull()
         {
-            CreateItemRequest request = new CreateItemRequest();
-            CreateItemRequestValidation validator = new CreateItemRequestValidation();
-            TestValidationResult<CreateItemRequest> result = await validator.TestValidateAsync(request);
+            var request = new CreateItemRequest();
+            var validator = new CreateItemRequestValidation();
+            var result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            CreateItemRequest request = new CreateItemRequest {Description = string.Empty};
-            CreateItemRequestValidation validator = new CreateItemRequestValidation();
-            TestValidationResult<CreateItemRequest> result = validator.TestValidate(request);
+            var request = new CreateItemRequest { Description = string.Empty };
+            var validator = new CreateItemRequestValidation();
+            var result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            CreateItemRequest request = new CreateItemRequest {Description = string.Empty};
-            CreateItemRequestValidation validator = new CreateItemRequestValidation();
-            TestValidationResult<CreateItemRequest> result = await validator.TestValidateAsync(request);
+            var request = new CreateItemRequest { Description = string.Empty };
+            var validator = new CreateItemRequestValidation();
+            var result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
     }

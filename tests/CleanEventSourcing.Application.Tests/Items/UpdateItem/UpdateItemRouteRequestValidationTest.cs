@@ -10,18 +10,18 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         [Fact]
         public void Validate_ShouldHaveErrors_GivenIdIsEmpty()
         {
-            UpdateItemRouteRequest request = new UpdateItemRouteRequest();
-            UpdateItemRouteRequestValidation validator = new UpdateItemRouteRequestValidation();
-            TestValidationResult<UpdateItemRouteRequest> result = validator.TestValidate(request);
+            var request = new UpdateItemRouteRequest();
+            var validator = new UpdateItemRouteRequestValidation();
+            var result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Id);
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenIdIsEmpty()
         {
-            UpdateItemRouteRequest request = new UpdateItemRouteRequest();
-            UpdateItemRouteRequestValidation validator = new UpdateItemRouteRequestValidation();
-            TestValidationResult<UpdateItemRouteRequest> result = await validator.TestValidateAsync(request);
+            var request = new UpdateItemRouteRequest();
+            var validator = new UpdateItemRouteRequestValidation();
+            var result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Id);
         }
     }

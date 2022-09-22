@@ -23,7 +23,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         public async Task CreateItem(string description) =>
             this.context.CreateItemResponse =
                 await this.clientDriver
-                    .ProcessRequest(HttpMethod.Post, "/api/items", new CreateItemRequest {Description = description})
+                    .ProcessRequest(HttpMethod.Post, "/api/items", new CreateItemRequest { Description = description })
                     .ConfigureAwait(false);
 
         public async Task GetItem(Guid id) =>
@@ -36,7 +36,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
             => this.context.UpdateItemResponse =
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Put, $"/api/items/{id}",
-                        new UpdateItemBodyRequest {Description = description})
+                        new UpdateItemBodyRequest { Description = description })
                     .ConfigureAwait(false);
 
         public async Task GetItemUsingLocationHeader()

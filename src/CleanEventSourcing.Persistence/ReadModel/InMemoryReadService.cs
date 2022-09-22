@@ -30,7 +30,7 @@ namespace CleanEventSourcing.Persistence.ReadModel
 
         public async Task Handle(DeletedItemEvent notification, CancellationToken cancellationToken)
         {
-            ItemSummary item =
+            var item =
                 await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id), cancellationToken);
             this.context.Items.Remove(item);
             await this.context.SaveChangesAsync(cancellationToken);
@@ -38,7 +38,7 @@ namespace CleanEventSourcing.Persistence.ReadModel
 
         public async Task Handle(UpdatedItemEvent notification, CancellationToken cancellationToken)
         {
-            ItemSummary item =
+            var item =
                 await this.context.Items.FirstAsync(item => item.Id.Equals(notification.Id), cancellationToken);
             item.Description = notification.NewDescription.IfNone(string.Empty);
             await this.context.SaveChangesAsync(cancellationToken);

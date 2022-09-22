@@ -10,36 +10,36 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsNull()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest();
-            UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
-            TestValidationResult<UpdateItemBodyRequest> result = validator.TestValidate(request);
+            var request = new UpdateItemBodyRequest();
+            var validator = new UpdateItemBodyRequestValidation();
+            var result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsNull()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest();
-            UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
-            TestValidationResult<UpdateItemBodyRequest> result = await validator.TestValidateAsync(request);
+            var request = new UpdateItemBodyRequest();
+            var validator = new UpdateItemBodyRequestValidation();
+            var result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest {Description = string.Empty};
-            UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
-            TestValidationResult<UpdateItemBodyRequest> result = validator.TestValidate(request);
+            var request = new UpdateItemBodyRequest { Description = string.Empty };
+            var validator = new UpdateItemBodyRequestValidation();
+            var result = validator.TestValidate(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
 
         [Fact]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
-            UpdateItemBodyRequest request = new UpdateItemBodyRequest {Description = string.Empty};
-            UpdateItemBodyRequestValidation validator = new UpdateItemBodyRequestValidation();
-            TestValidationResult<UpdateItemBodyRequest> result = await validator.TestValidateAsync(request);
+            var request = new UpdateItemBodyRequest { Description = string.Empty };
+            var validator = new UpdateItemBodyRequestValidation();
+            var result = await validator.TestValidateAsync(request);
             result.ShouldHaveValidationErrorFor(input => input.Description);
         }
     }

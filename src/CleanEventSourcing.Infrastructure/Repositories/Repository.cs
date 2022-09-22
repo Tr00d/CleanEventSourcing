@@ -19,8 +19,8 @@ namespace CleanEventSourcing.Infrastructure.Repositories
 
         public async Task SaveAsync(Option<T> aggregate)
         {
-            string stream = aggregate.Match(value => GetStream(value.Id), string.Empty);
-            IEnumerable<Task> tasks = aggregate
+            var stream = aggregate.Match(value => GetStream(value.Id), string.Empty);
+            var tasks = aggregate
                 .Map(value => value.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()))
                 .Map(events => events.Select(value => this.PublishEvent(value, stream)))
                 .IfNone(Enumerable.Empty<Task>());

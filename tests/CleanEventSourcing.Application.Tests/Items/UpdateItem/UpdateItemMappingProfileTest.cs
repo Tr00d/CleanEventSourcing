@@ -19,12 +19,12 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         [Fact]
         public void Map_ShouldConvertSourceToDestination()
         {
-            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
-            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
-            MapperConfiguration configuration = new MapperConfiguration(configurationExpression =>
+            var routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            var bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            var configuration = new MapperConfiguration(configurationExpression =>
                 configurationExpression.AddProfile<UpdateItemMappingProfile>());
-            IMapper mapper = configuration.CreateMapper();
-            UpdateItemCommand command = mapper.Map<UpdateItemCommand>(Tuple(routeRequest, bodyRequest));
+            var mapper = configuration.CreateMapper();
+            var command = mapper.Map<UpdateItemCommand>(Tuple(routeRequest, bodyRequest));
             command.Id.Should().Be(routeRequest.Id);
             command.Description.Should().Be(bodyRequest.Description);
         }

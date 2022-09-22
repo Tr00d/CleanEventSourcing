@@ -23,7 +23,7 @@ namespace CleanEventSourcing.Application.Tests
         }
 
         public static IEnumerable<object[]> GetMappingTypes => GetConfiguration().GetAllTypeMaps()
-            .Select(typeMap => new object[] {typeMap});
+            .Select(typeMap => new object[] { typeMap });
 
         private static MapperConfiguration GetConfiguration() => new MapperConfiguration(configurationExpression =>
         {
@@ -39,9 +39,9 @@ namespace CleanEventSourcing.Application.Tests
         [MemberData(nameof(GetMappingTypes))]
         public void Map_ShouldConvertObject_GivenMappingIsRegistered(TypeMap type)
         {
-            object sourceValue = new SpecimenContext(this.fixture).Resolve(type.SourceType);
-            IMapper mapper = this.configuration.CreateMapper();
-            object destinationValue = mapper.Map(sourceValue, type.SourceType, type.DestinationType);
+            var sourceValue = new SpecimenContext(this.fixture).Resolve(type.SourceType);
+            var mapper = this.configuration.CreateMapper();
+            var destinationValue = mapper.Map(sourceValue, type.SourceType, type.DestinationType);
             destinationValue.Should().BeEquivalentTo(sourceValue);
         }
     }

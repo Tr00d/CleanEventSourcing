@@ -17,7 +17,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         [Fact]
         public void Constructor_ShouldInstantiateRequestWithNonEmptyGuid()
         {
-            CreateItemRequest request = new CreateItemRequest();
+            var request = new CreateItemRequest();
             request.Id.Should().NotBeEmpty();
         }
     }

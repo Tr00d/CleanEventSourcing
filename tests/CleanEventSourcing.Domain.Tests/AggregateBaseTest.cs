@@ -17,8 +17,8 @@ namespace CleanEventSourcing.Domain.Tests
         [Fact]
         public void AddEvent_ShouldAddEvent()
         {
-            DummyEvent integrationEvent = this.fixture.Create<DummyEvent>();
-            AggregateBase aggregateBase = new AggregateBase();
+            var integrationEvent = this.fixture.Create<DummyEvent>();
+            var aggregateBase = new AggregateBase();
             aggregateBase.AddEvent(integrationEvent);
             aggregateBase.GetEvents().First().Should().Be(integrationEvent);
         }

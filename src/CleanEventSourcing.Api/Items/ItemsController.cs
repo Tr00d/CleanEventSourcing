@@ -26,13 +26,13 @@ namespace CleanEventSourcing.Api.Items
         public async Task<IActionResult> CreateAsync([FromBody] CreateItemRequest request)
         {
             await this.itemService.CreateAsync(request).ConfigureAwait(false);
-            return this.CreatedAtAction("Get", new GetItemRequest {Id = request.Id}, request.Id);
+            return this.CreatedAtAction("Get", new GetItemRequest { Id = request.Id }, request.Id);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request) =>
             (await this.itemService.GetAsync(request).ConfigureAwait(false)).Match(this.Ok,
-                (IActionResult) this.NotFound(request));
+                (IActionResult)this.NotFound(request));
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest,

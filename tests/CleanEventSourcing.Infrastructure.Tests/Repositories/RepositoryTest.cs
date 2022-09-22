@@ -47,48 +47,48 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         [Fact]
         public async Task GetAsync_ShouldReturnNone_GivenEventStoreReturnsNoEvents()
         {
-            Guid id = this.fixture.Create<Guid>();
+            var id = this.fixture.Create<Guid>();
             this.mockEventStore.Setup(store => store.GetEvents($"{nameof(DummyAggregate)}-{id}"))
                 .ReturnsAsync(Option<IEnumerable<IIntegrationEvent>>.None);
-            Repository<DummyAggregate> repository =
+            var repository =
                 new Repository<DummyAggregate>(this.mockEventStore.Object, this.mockMediator.Object);
-            Option<DummyAggregate> result = await repository.GetAsync(id);
+            var result = await repository.GetAsync(id);
             result.IsNone.Should().Be(true);
         }
 
         [Fact]
         public async Task GetAsync_ShouldReturnSome_GivenEventStoreReturnsEvents()
         {
-            Guid id = this.fixture.Create<Guid>();
+            var id = this.fixture.Create<Guid>();
             IEnumerable<IIntegrationEvent> events =
                 this.fixture.CreateMany<DummyEvent>();
             this.mockEventStore.Setup(store => store.GetEvents($"{nameof(DummyAggregate)}-{id}"))
                 .ReturnsAsync(Some(events));
-            Repository<DummyAggregate> repository =
+            var repository =
                 new Repository<DummyAggregate>(this.mockEventStore.Object, this.mockMediator.Object);
-            Option<DummyAggregate> result = await repository.GetAsync(id);
+            var result = await repository.GetAsync(id);
             result.IsSome.Should().Be(true);
         }
 
         [Fact]
         public async Task GetAsync_ShouldReturnUpToDateAggregate_GivenEventStoreReturnsEvents()
         {
-            Guid id = this.fixture.Create<Guid>();
+            var id = this.fixture.Create<Guid>();
             IEnumerable<IIntegrationEvent> integrationEvents = this.fixture.CreateMany<DummyEvent>().ToArray();
             this.mockEventStore.Setup(store => store.GetEvents($"{nameof(DummyAggregate)}-{id}"))
                 .ReturnsAsync(Some(integrationEvents));
-            Repository<DummyAggregate> repository =
+            var repository =
                 new Repository<DummyAggregate>(this.mockEventStore.Object, this.mockMediator.Object);
-            Option<DummyAggregate> result = await repository.GetAsync(id);
-            DummyAggregate aggregate = result.IfNone(() => throw new InvalidOperationException());
+            var result = await repository.GetAsync(id);
+            var aggregate = result.IfNone(() => throw new InvalidOperationException());
             aggregate.EventCount.Should().Be(integrationEvents.Count());
         }
 
         [Fact]
         public async Task SaveAsync_ShouldPublishEvents_GivenAggregateIsSome()
         {
-            DummyAggregate aggregate = this.fixture.Create<DummyAggregate>();
-            Repository<DummyAggregate> repository =
+            var aggregate = this.fixture.Create<DummyAggregate>();
+            var repository =
                 new Repository<DummyAggregate>(this.mockEventStore.Object, this.mockMediator.Object);
             await repository.SaveAsync(aggregate);
         }
@@ -96,7 +96,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         [Fact]
         public async Task SaveAsync_ShouldNotPublishAnyEvent_GivenAggregateIsNone()
         {
-            Repository<DummyAggregate> repository =
+            var repository =
                 new Repository<DummyAggregate>(this.mockEventStore.Object, this.mockMediator.Object);
             await repository.SaveAsync(Option<DummyAggregate>.None);
             this.mockMediator.Verify(

@@ -26,7 +26,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
 
         private HttpRequestMessage CreateRequest<T>(HttpMethod method, string relativeUri, T data)
         {
-            HttpRequestMessage requestMessage = this.CreateRequest(method, relativeUri);
+            var requestMessage = this.CreateRequest(method, relativeUri);
             requestMessage.Content =
                 new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             return requestMessage;

@@ -20,16 +20,16 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void Constructor_ShouldSetId()
         {
-            Guid id = this.fixture.Create<Guid>();
-            Item item = new Item(id, this.fixture.Create<string>());
+            var id = this.fixture.Create<Guid>();
+            var item = new Item(id, this.fixture.Create<string>());
             item.Id.Should().Be(id);
         }
 
         [Fact]
         public void Constructor_ShouldSetDescription()
         {
-            string description = this.fixture.Create<string>();
-            Item item = new Item(this.fixture.Create<Guid>(), description);
+            var description = this.fixture.Create<string>();
+            var item = new Item(this.fixture.Create<Guid>(), description);
             item.Description.IsSome.Should().Be(true);
             item.Description.IfNone(string.Empty).Should().Be(description);
         }
@@ -37,13 +37,13 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void GetIntegrationEvents_ShouldContainCreatedItemEvent_GivenItemIsCreated()
         {
-            Guid id = this.fixture.Create<Guid>();
-            string description = this.fixture.Create<string>();
-            Item item = new Item(id, description);
-            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
+            var id = this.fixture.Create<Guid>();
+            var description = this.fixture.Create<string>();
+            var item = new Item(id, description);
+            var events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
                 .ToArray();
             events.First().Should().BeOfType<CreatedItemEvent>();
-            CreatedItemEvent result = (CreatedItemEvent) events.First();
+            var result = (CreatedItemEvent)events.First();
             result.Id.Should().Be(id);
             result.Description.IsSome.Should().Be(true);
             result.Description.IfNone(string.Empty).Should().Be(description);
@@ -52,14 +52,14 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void GetIntegrationEvents_ShouldContainUpdatedItemEvent_GivenItemIsUpdated()
         {
-            string oldDescription = this.fixture.Create<string>();
-            string description = this.fixture.Create<string>();
-            Item item = new Item(this.fixture.Create<Guid>(), oldDescription);
+            var oldDescription = this.fixture.Create<string>();
+            var description = this.fixture.Create<string>();
+            var item = new Item(this.fixture.Create<Guid>(), oldDescription);
             item.Update(description);
-            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
+            var events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
                 .ToArray();
             events.Any(integrationEvent => integrationEvent.GetType() == typeof(UpdatedItemEvent)).Should().Be(true);
-            UpdatedItemEvent result = (UpdatedItemEvent) events.First(integrationEvent =>
+            var result = (UpdatedItemEvent)events.First(integrationEvent =>
                 integrationEvent.GetType() == typeof(UpdatedItemEvent));
             result.Id.Should().Be(item.Id);
             result.OldDescription.IfNone(string.Empty).Should().Be(oldDescription);
@@ -69,12 +69,12 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void GetIntegrationEvents_ShouldContainDeletedItemEvent_GivenItemIsDeleted()
         {
-            Item item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             item.Delete();
-            IIntegrationEvent[] events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
+            var events = item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>())
                 .ToArray();
             events.Any(integrationEvent => integrationEvent.GetType() == typeof(DeletedItemEvent)).Should().Be(true);
-            DeletedItemEvent result = (DeletedItemEvent) events.First(integrationEvent =>
+            var result = (DeletedItemEvent)events.First(integrationEvent =>
                 integrationEvent.GetType() == typeof(DeletedItemEvent));
             result.Id.Should().Be(item.Id);
         }
@@ -82,8 +82,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void Update_ShouldUpdateDescription()
         {
-            string description = this.fixture.Create<string>();
-            Item item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var description = this.fixture.Create<string>();
+            var item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             item.Update(description);
             item.Description.IfNone(string.Empty).Should().Be(description);
         }
@@ -91,7 +91,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void Delete_ShouldDeleteItem()
         {
-            Item item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             item.Delete();
             item.IsDeleted.Should().Be(true);
         }
@@ -99,8 +99,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void ApplyCreatedItemEvent_ShouldSetId_GivenAggregateIsSome()
         {
-            CreatedItemEvent createdEvent = this.fixture.Create<CreatedItemEvent>();
-            Item aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var createdEvent = this.fixture.Create<CreatedItemEvent>();
+            var aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             aggregate.Apply(createdEvent);
             aggregate.Id.Should().Be(createdEvent.Id);
         }
@@ -108,8 +108,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void ApplyCreatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {
-            CreatedItemEvent createdEvent = this.fixture.Create<CreatedItemEvent>();
-            Item aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var createdEvent = this.fixture.Create<CreatedItemEvent>();
+            var aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             aggregate.Apply(createdEvent);
             aggregate.Description.IsSome.Should().Be(true);
             aggregate.Description.IfNone(string.Empty).Should().Be(createdEvent.Description.IfNone(string.Empty));
@@ -118,8 +118,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void ApplyUpdatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
-            Item aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             aggregate.Apply(updatedEvent);
             aggregate.Description.IfNone(string.Empty).Should().Be(updatedEvent.NewDescription.IfNone(string.Empty));
         }
@@ -127,8 +127,8 @@ namespace CleanEventSourcing.Domain.Tests.Items
         [Fact]
         public void ApplyDeletedItemEvent_ShouldSetIsDeleted_GivenAggregateIsSome()
         {
-            DeletedItemEvent deletedEvent = this.fixture.Create<DeletedItemEvent>();
-            Item aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
+            var deletedEvent = this.fixture.Create<DeletedItemEvent>();
+            var aggregate = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
             aggregate.Apply(deletedEvent);
             aggregate.IsDeleted.Should().Be(true);
         }

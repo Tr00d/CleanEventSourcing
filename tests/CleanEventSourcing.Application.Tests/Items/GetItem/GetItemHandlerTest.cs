@@ -7,7 +7,6 @@ using CleanEventSourcing.Application.Interfaces;
 using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Domain.Items;
 using FluentAssertions;
-using LanguageExt;
 using Moq;
 using Xunit;
 
@@ -36,11 +35,11 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
         [Fact]
         public async Task Handle_ShouldReturnValueFromService()
         {
-            GetItemQuery query = this.fixture.Create<GetItemQuery>();
-            ItemSummary item = this.fixture.Create<ItemSummary>();
+            var query = this.fixture.Create<GetItemQuery>();
+            var item = this.fixture.Create<ItemSummary>();
             this.mockReadService.Setup(service => service.GetItemAsync(query.Id)).ReturnsAsync(item);
-            GetItemHandler handler = new GetItemHandler(this.mockReadService.Object);
-            Option<ItemSummary> result = await handler.Handle(query, CancellationToken.None);
+            var handler = new GetItemHandler(this.mockReadService.Object);
+            var result = await handler.Handle(query, CancellationToken.None);
         }
     }
 }

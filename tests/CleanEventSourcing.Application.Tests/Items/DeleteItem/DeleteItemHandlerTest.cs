@@ -35,10 +35,10 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         [Fact]
         public async Task Handle_ShouldDeleteItem()
         {
-            Item aggregate = this.fixture.Create<Item>();
-            DeleteItemCommand command = this.fixture.Create<DeleteItemCommand>();
+            var aggregate = this.fixture.Create<Item>();
+            var command = this.fixture.Create<DeleteItemCommand>();
             this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(aggregate);
-            DeleteItemHandler handler = new DeleteItemHandler(this.mockRepository.Object);
+            var handler = new DeleteItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
             aggregate.GetIntegrationEvents().IsSome.Should().Be(true);
             aggregate.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).First().Should()
@@ -48,10 +48,10 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         [Fact]
         public async Task Handle_ShouldSaveItem()
         {
-            Item aggregate = this.fixture.Create<Item>();
-            DeleteItemCommand command = this.fixture.Create<DeleteItemCommand>();
+            var aggregate = this.fixture.Create<Item>();
+            var command = this.fixture.Create<DeleteItemCommand>();
             this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(aggregate);
-            DeleteItemHandler handler = new DeleteItemHandler(this.mockRepository.Object);
+            var handler = new DeleteItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(repository => repository.SaveAsync(aggregate), Times.Once);
         }
