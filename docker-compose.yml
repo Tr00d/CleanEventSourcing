@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  database:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: clean-es-database
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password@123"
+    ports:
+      - "1433:1433"
