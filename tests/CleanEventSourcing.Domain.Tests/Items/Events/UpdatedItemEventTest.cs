@@ -2,6 +2,7 @@ using System;
 using AutoFixture;
 using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
+using CleanEventSourcing.Tests.Shared;
 using FluentAssertions;
 using Xunit;
 

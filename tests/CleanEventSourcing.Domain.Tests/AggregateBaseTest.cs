@@ -1,5 +1,6 @@
 using System.Linq;
 using AutoFixture;
+using CleanEventSourcing.Tests.Shared;
 using FluentAssertions;
 using Xunit;
 

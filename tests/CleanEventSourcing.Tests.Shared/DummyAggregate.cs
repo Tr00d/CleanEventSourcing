@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
+using CleanEventSourcing.Domain;
 using LanguageExt;
 
-namespace CleanEventSourcing.Domain.Tests
+namespace CleanEventSourcing.Tests.Shared
 {
     public class DummyAggregate : IAggregate
     {

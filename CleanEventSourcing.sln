@@ -36,6 +36,8 @@ ProjectSection(SolutionItems) = preProject
 	docker-compose.yml = docker-compose.yml
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEventSourcing.Tests.Shared", "tests\CleanEventSourcing.Tests.Shared\CleanEventSourcing.Tests.Shared.csproj", "{F579EEC4-D915-40F9-9054-52FDBBAC0E86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{F3B436B8-1ED9-4BB0-964E-0E132E3BBAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3B436B8-1ED9-4BB0-964E-0E132E3BBAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3B436B8-1ED9-4BB0-964E-0E132E3BBAFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F579EEC4-D915-40F9-9054-52FDBBAC0E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F579EEC4-D915-40F9-9054-52FDBBAC0E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F579EEC4-D915-40F9-9054-52FDBBAC0E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F579EEC4-D915-40F9-9054-52FDBBAC0E86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9B85396-295D-4AA7-8A27-EF11677ADDE0} = {FD17CF84-F299-4C0E-BA0C-94AB763A3A57}
@@ -101,5 +107,6 @@ Global
 		{213A31BF-C446-4C74-91ED-C843E52CD7F2} = {0AAE038F-E393-4CA7-B2A9-5DB902F108F5}
 		{65FEB19E-9CC5-45B0-9187-A5EAB3BE38A2} = {0AAE038F-E393-4CA7-B2A9-5DB902F108F5}
 		{F3B436B8-1ED9-4BB0-964E-0E132E3BBAFD} = {0AAE038F-E393-4CA7-B2A9-5DB902F108F5}
+		{F579EEC4-D915-40F9-9054-52FDBBAC0E86} = {0AAE038F-E393-4CA7-B2A9-5DB902F108F5}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,8 @@
-using System;
+using CleanEventSourcing.Domain;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
-namespace CleanEventSourcing.Domain.Tests
+namespace CleanEventSourcing.Tests.Shared
 {
     public class DummyEvent : IIntegrationEvent, IIntegrationEvent<DummyAggregate>
     {
