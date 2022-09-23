@@ -29,7 +29,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
         [When(@"a user creates a new item ""(.*)""")]
         [Given(@"a user creates a new item ""(.*)""")]
         public async Task WhenAUserCreatesANewItem(string description) =>
-            await this.driver.CreateItem(description).ConfigureAwait(false);
+            await this.driver.CreateItem(description);
 
         [Then(@"the creation response contains location header for retrieving the item")]
         public void ThenTheCreationResponseContainsLocationHeaderForRetrievingTheItem() =>
@@ -37,7 +37,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Steps
 
         [When(@"I retrieve the item using an empty id")]
         public async Task WhenIRetrieveTheItemUsingAnEmptyId() =>
-            await this.driver.GetItem(Guid.Empty).ConfigureAwait(false);
+            await this.driver.GetItem(Guid.Empty);
 
         [Then(@"the retrieval response should return a ""(.*)"" status code")]
         public void ThenTheRetrievalResponseShouldReturnAStatusCode(string statusCode) =>

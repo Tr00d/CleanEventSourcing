@@ -17,13 +17,13 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Contexts
         public HttpResponseMessage DeleteItemResponse { get; set; }
 
         public async Task<Guid> GetCreatedIdAsync() =>
-            await DeserializeResponse<Guid>(this.CreateItemResponse).ConfigureAwait(false);
+            await DeserializeResponse<Guid>(this.CreateItemResponse);
 
         public async Task<GetItemResponse> GetRetrievedItemAsync() =>
-            await DeserializeResponse<GetItemResponse>(this.GetItemResponse).ConfigureAwait(false);
+            await DeserializeResponse<GetItemResponse>(this.GetItemResponse);
 
         private static async Task<T> DeserializeResponse<T>(HttpResponseMessage response) =>
             JsonConvert.DeserializeObject<T>(await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync()
-                .ConfigureAwait(false));
+            );
     }
 }

@@ -1,4 +1,3 @@
-using AutoFixture;
 using CleanEventSourcing.Application.Items.CreateItem;
 using FluentAssertions;
 using Xunit;
@@ -7,19 +6,9 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
 {
     public class CreateItemRequestTest
     {
-        private readonly Fixture fixture;
-
-        public CreateItemRequestTest()
-        {
-            this.fixture = new Fixture();
-        }
-
         [Fact]
         [Trait("Category", "Unit")]
-        public void Constructor_ShouldInstantiateRequestWithNonEmptyGuid()
-        {
-            var request = new CreateItemRequest();
-            request.Id.Should().NotBeEmpty();
-        }
+        public void Constructor_ShouldInstantiateRequestWithNonEmptyGuid() =>
+            new CreateItemRequest().Id.Should().NotBeEmpty();
     }
 }

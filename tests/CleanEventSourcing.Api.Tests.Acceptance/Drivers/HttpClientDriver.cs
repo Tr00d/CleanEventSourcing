@@ -18,11 +18,10 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         }
 
         public async Task<HttpResponseMessage> ProcessRequest(HttpMethod method, string relativeUri) =>
-            await this.ProcessRequest(this.CreateRequest(method, relativeUri)).ConfigureAwait(false);
+            await this.ProcessRequest(this.CreateRequest(method, relativeUri));
 
         public async Task<HttpResponseMessage> ProcessRequest<TRequest>(HttpMethod method, string relativeUri,
-            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data))
-            .ConfigureAwait(false);
+            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data));
 
         private HttpRequestMessage CreateRequest<T>(HttpMethod method, string relativeUri, T data)
         {
@@ -40,6 +39,6 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
             };
 
         private async Task<HttpResponseMessage> ProcessRequest(HttpRequestMessage message) =>
-            await this.client.SendAsync(message).ConfigureAwait(false);
+            await this.client.SendAsync(message);
     }
 }

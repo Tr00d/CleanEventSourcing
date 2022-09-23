@@ -16,6 +16,6 @@ namespace CleanEventSourcing.Application.Items.GetItem
         }
 
         public async Task<Option<ItemSummary>> Handle(GetItemQuery request, CancellationToken cancellationToken) =>
-            await this.readService.GetItemAsync(request.Id).ConfigureAwait(false);
+            await this.readService.GetItemAsync(request.Id);
     }
 }
