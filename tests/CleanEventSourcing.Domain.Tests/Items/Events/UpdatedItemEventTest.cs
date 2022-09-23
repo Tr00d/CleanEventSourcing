@@ -17,6 +17,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetOldDescription()
         {
             var description = this.fixture.Create<string>();
@@ -27,6 +28,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetNewDescription()
         {
             var description = this.fixture.Create<string>();
@@ -37,6 +39,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetId()
         {
             var id = this.fixture.Create<Guid>();
@@ -46,6 +49,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnTrue_GivenTypeIsItem()
         {
             var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -54,6 +58,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnFalse_GivenTypeIsNotItem()
         {
             var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -62,6 +67,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnNone_GivenTypeIsNotItem()
         {
             var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -70,6 +76,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnSome_GivenTypeIsItem()
         {
             var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -78,6 +85,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Apply_ShouldSetDescription_GivenAggregateIsSome()
         {
             var aggregate = new Item();

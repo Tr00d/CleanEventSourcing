@@ -26,6 +26,7 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenReadServiceIsNull()
         {
             Action instantiation = () => new GetItemHandler(null);
@@ -33,6 +34,7 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldReturnValueFromService()
         {
             var query = this.fixture.Create<GetItemQuery>();

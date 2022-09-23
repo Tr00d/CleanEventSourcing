@@ -8,6 +8,7 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
     public class DeleteItemRequestValidationTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public void Validate_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new DeleteItemRequest();
@@ -17,6 +18,7 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task ValidateAsync_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new DeleteItemRequest();

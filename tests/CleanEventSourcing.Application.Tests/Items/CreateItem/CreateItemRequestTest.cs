@@ -15,6 +15,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldInstantiateRequestWithNonEmptyGuid()
         {
             var request = new CreateItemRequest();

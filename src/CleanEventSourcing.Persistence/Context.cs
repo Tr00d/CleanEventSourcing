@@ -13,7 +13,6 @@ namespace CleanEventSourcing.Persistence
         {
         }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public DbSet<ItemSummary> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

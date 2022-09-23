@@ -32,6 +32,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenMediatorIsNull()
         {
             Action instantiation = () => new ItemService(null, this.mockMapper.Object);
@@ -39,6 +40,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenMapperIsNull()
         {
             Action instantiation = () => new ItemService(this.mockMediator.Object, null);
@@ -46,6 +48,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldSendCommand_GivenRequestContainsSome()
         {
             var request = this.fixture.Create<CreateItemRequest>();
@@ -57,6 +60,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldNotSendCommand_GivenRequestContainsNone()
         {
             var service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
@@ -66,6 +70,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldNotSendQuery_GivenRequestContainsNone()
         {
             var service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
@@ -75,6 +80,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnNone_GivenRequestContainsNone()
         {
             var service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
@@ -84,6 +90,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnSome_GivenRequestContainsSome()
         {
             var request = this.fixture.Create<GetItemRequest>();
@@ -101,6 +108,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldSendUpdateItemCommand_GivenRequestIsSome()
         {
             var bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
@@ -114,6 +122,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenRouteRequestIsNone()
         {
             var bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
@@ -124,6 +133,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenBodyRequestIsNone()
         {
             var routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
@@ -134,6 +144,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldNotSendDeleteItemCommand_GivenRequestIsNone()
         {
             var service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
@@ -143,6 +154,7 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldSendDeleteItemCommand_GivenRequestIsSome()
         {
             var request = this.fixture.Create<DeleteItemRequest>();

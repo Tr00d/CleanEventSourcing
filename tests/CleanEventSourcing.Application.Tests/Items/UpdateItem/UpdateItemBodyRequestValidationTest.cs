@@ -8,6 +8,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
     public class UpdateItemBodyRequestValidationTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsNull()
         {
             var request = new UpdateItemBodyRequest();
@@ -17,6 +18,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsNull()
         {
             var request = new UpdateItemBodyRequest();
@@ -26,6 +28,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Validate_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
             var request = new UpdateItemBodyRequest { Description = string.Empty };
@@ -35,6 +38,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task ValidateAsync_ShouldHaveErrors_GivenDescriptionIsEmpty()
         {
             var request = new UpdateItemBodyRequest { Description = string.Empty };

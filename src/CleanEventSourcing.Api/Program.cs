@@ -6,16 +6,18 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceCollectionExtension = CleanEventSourcing.Application.ServiceCollectionExtension;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRouting();
 builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.AddControllers();
-builder.Services.AddMvc();
-builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddControllers().AddFluentValidation(configuration =>
+{
+    configuration.RegisterValidatorsFromAssembly(typeof(ServiceCollectionExtension).Assembly);
+});
 builder.Services.RegisterApplication();
-
-//builder.Services.RegisterPersistence(this.databaseName);
+builder.Services.RegisterPersistence(builder.Configuration);
 builder.Services.RegisterInfrastructure();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

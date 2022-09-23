@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace CleanEventSourcing.Api.Tests.Acceptance.Contexts
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
     public class ItemsContext
     {
         public HttpResponseMessage CreateItemResponse { get; set; }

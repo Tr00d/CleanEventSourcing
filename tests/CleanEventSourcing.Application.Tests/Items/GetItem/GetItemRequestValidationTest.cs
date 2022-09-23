@@ -8,6 +8,7 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
     public class GetItemRequestValidationTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public void Validate_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new GetItemRequest();
@@ -17,6 +18,7 @@ namespace CleanEventSourcing.Application.Tests.Items.GetItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task ValidateAsync_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new GetItemRequest();

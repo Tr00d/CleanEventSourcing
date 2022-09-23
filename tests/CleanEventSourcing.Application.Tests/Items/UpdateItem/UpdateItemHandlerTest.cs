@@ -26,6 +26,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenEventStoreIsNull()
         {
             Action instantiation = () => new UpdateItemHandler(null);
@@ -33,6 +34,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldUpdateItem()
         {
             var item = this.fixture.Create<Item>();
@@ -46,6 +48,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldSaveItem()
         {
             var item = this.fixture.Create<Item>();

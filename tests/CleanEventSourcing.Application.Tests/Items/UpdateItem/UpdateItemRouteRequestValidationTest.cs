@@ -8,6 +8,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
     public class UpdateItemRouteRequestValidationTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public void Validate_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new UpdateItemRouteRequest();
@@ -17,6 +18,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task ValidateAsync_ShouldHaveErrors_GivenIdIsEmpty()
         {
             var request = new UpdateItemRouteRequest();

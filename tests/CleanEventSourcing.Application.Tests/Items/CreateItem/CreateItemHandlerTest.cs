@@ -27,6 +27,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenRepositoryIsNull()
         {
             Action instantiation = () => new CreateItemHandler(null);
@@ -34,6 +35,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldSaveItem()
         {
             var command = this.fixture.Create<CreateItemCommand>();
@@ -48,6 +50,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldCreateItem()
         {
             var command = this.fixture.Create<CreateItemCommand>();

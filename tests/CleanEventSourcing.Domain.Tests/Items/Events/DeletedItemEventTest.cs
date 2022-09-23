@@ -17,6 +17,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetId()
         {
             var id = this.fixture.Create<Guid>();
@@ -26,6 +27,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnTrue_GivenTypeIsItem()
         {
             var deletedEvent = this.fixture.Create<DeletedItemEvent>();
@@ -34,6 +36,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnFalse_GivenTypeIsNotItem()
         {
             var deletedEvent = this.fixture.Create<DeletedItemEvent>();
@@ -42,6 +45,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnNone_GivenTypeIsNotItem()
         {
             var deletedEvent = this.fixture.Create<DeletedItemEvent>();
@@ -50,6 +54,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnSome_GivenTypeIsItem()
         {
             var deletedEvent = this.fixture.Create<DeletedItemEvent>();
@@ -58,6 +63,7 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Apply_ShouldSetIsDeleted_GivenAggregateIsSome()
         {
             var aggregate = new Item();

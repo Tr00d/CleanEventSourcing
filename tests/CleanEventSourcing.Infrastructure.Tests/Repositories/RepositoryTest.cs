@@ -31,6 +31,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenEventStoreIsNull()
         {
             Action instantiation = () => new Repository<DummyAggregate>(null, this.mockMediator.Object);
@@ -38,6 +39,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenMediatorIsNull()
         {
             Action instantiation = () => new Repository<DummyAggregate>(this.mockEventStore.Object, null);
@@ -45,6 +47,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnNone_GivenEventStoreReturnsNoEvents()
         {
             var id = this.fixture.Create<Guid>();
@@ -57,6 +60,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnSome_GivenEventStoreReturnsEvents()
         {
             var id = this.fixture.Create<Guid>();
@@ -71,6 +75,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnUpToDateAggregate_GivenEventStoreReturnsEvents()
         {
             var id = this.fixture.Create<Guid>();
@@ -85,6 +90,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task SaveAsync_ShouldPublishEvents_GivenAggregateIsSome()
         {
             var aggregate = this.fixture.Create<DummyAggregate>();
@@ -94,6 +100,7 @@ namespace CleanEventSourcing.Infrastructure.Tests.Repositories
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task SaveAsync_ShouldNotPublishAnyEvent_GivenAggregateIsNone()
         {
             var repository =

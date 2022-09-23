@@ -12,9 +12,9 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
     {
         private readonly HttpClient client;
 
-        public HttpClientDriver(HttpScenarioContext context)
+        public HttpClientDriver(AcceptanceContext context)
         {
-            this.client = context.Client;
+            this.client = context.HttpClient;
         }
 
         public async Task<HttpResponseMessage> ProcessRequest(HttpMethod method, string relativeUri) =>
@@ -33,7 +33,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         }
 
         private HttpRequestMessage CreateRequest(HttpMethod method, string relativeUri) =>
-            new HttpRequestMessage
+            new()
             {
                 Method = method,
                 RequestUri = new Uri(this.client.BaseAddress, relativeUri),

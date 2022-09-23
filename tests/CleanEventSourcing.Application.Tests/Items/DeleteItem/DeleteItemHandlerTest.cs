@@ -26,6 +26,7 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenRepositoryIsNull()
         {
             Action instantiation = () => new DeleteItemHandler(null);
@@ -33,6 +34,7 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldDeleteItem()
         {
             var aggregate = this.fixture.Create<Item>();
@@ -46,6 +48,7 @@ namespace CleanEventSourcing.Application.Tests.Items.DeleteItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldSaveItem()
         {
             var aggregate = this.fixture.Create<Item>();

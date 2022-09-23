@@ -14,8 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-// ReSharper disable All
-
 namespace CleanEventSourcing.Api.Tests.Items
 {
     public class ItemsControllerTest
@@ -30,6 +28,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenItemServiceIsNull()
         {
             Action instantiation = () => new ItemsController(null);
@@ -37,6 +36,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldReturnCreatedStatus()
         {
             CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
@@ -51,6 +51,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldCreateItem()
         {
             CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
@@ -60,6 +61,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnNotFound_GivenRetrievedItemIsNone()
         {
             GetItemRequest request = this.fixture.Create<GetItemRequest>();
@@ -73,6 +75,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnOk_GivenRetrievedItemIsSome()
         {
             GetItemResponse response = this.fixture.Create<GetItemResponse>();
@@ -87,6 +90,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldUpdateItem()
         {
             UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
@@ -97,6 +101,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldReturnNoContent()
         {
             UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
@@ -107,6 +112,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldReturnNoContent()
         {
             DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();
@@ -116,6 +122,7 @@ namespace CleanEventSourcing.Api.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldDeleteItem()
         {
             DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();

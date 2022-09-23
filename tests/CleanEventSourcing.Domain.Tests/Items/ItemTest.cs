@@ -18,6 +18,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetId()
         {
             var id = this.fixture.Create<Guid>();
@@ -26,6 +27,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetDescription()
         {
             var description = this.fixture.Create<string>();
@@ -35,6 +37,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void GetIntegrationEvents_ShouldContainCreatedItemEvent_GivenItemIsCreated()
         {
             var id = this.fixture.Create<Guid>();
@@ -50,6 +53,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void GetIntegrationEvents_ShouldContainUpdatedItemEvent_GivenItemIsUpdated()
         {
             var oldDescription = this.fixture.Create<string>();
@@ -67,6 +71,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void GetIntegrationEvents_ShouldContainDeletedItemEvent_GivenItemIsDeleted()
         {
             var item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
@@ -80,6 +85,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Update_ShouldUpdateDescription()
         {
             var description = this.fixture.Create<string>();
@@ -89,6 +95,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Delete_ShouldDeleteItem()
         {
             var item = new Item(this.fixture.Create<Guid>(), this.fixture.Create<string>());
@@ -97,6 +104,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ApplyCreatedItemEvent_ShouldSetId_GivenAggregateIsSome()
         {
             var createdEvent = this.fixture.Create<CreatedItemEvent>();
@@ -106,6 +114,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ApplyCreatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {
             var createdEvent = this.fixture.Create<CreatedItemEvent>();
@@ -116,6 +125,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ApplyUpdatedItemEvent_ShouldSetDescription_GivenAggregateIsSome()
         {
             var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -125,6 +135,7 @@ namespace CleanEventSourcing.Domain.Tests.Items
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ApplyDeletedItemEvent_ShouldSetIsDeleted_GivenAggregateIsSome()
         {
             var deletedEvent = this.fixture.Create<DeletedItemEvent>();

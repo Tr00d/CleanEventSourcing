@@ -20,6 +20,7 @@ namespace CleanEventSourcing.Persistence.Tests.EventStore
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task HandleCreatedItemEvent_ShouldStoreEvent()
         {
             var stream = this.fixture.Create<string>();

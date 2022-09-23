@@ -15,6 +15,7 @@ namespace CleanEventSourcing.Domain.Tests
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void AddEvent_ShouldAddEvent()
         {
             var integrationEvent = this.fixture.Create<DummyEvent>();

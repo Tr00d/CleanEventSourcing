@@ -17,6 +17,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Map_ShouldConvertSourceToDestination()
         {
             var routeRequest = this.fixture.Create<UpdateItemRouteRequest>();

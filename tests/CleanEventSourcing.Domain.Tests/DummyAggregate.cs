@@ -10,7 +10,7 @@ namespace CleanEventSourcing.Domain.Tests
         public Guid Id { get; set; }
 
         public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
-            new List<DummyEvent> { new DummyEvent() };
+            new List<DummyEvent> { new() };
 
         public Option<string> GetStream() => $"{nameof(DummyAggregate)}-{this.Id}";
     }

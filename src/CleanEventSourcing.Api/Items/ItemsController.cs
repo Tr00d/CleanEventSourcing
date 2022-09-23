@@ -7,8 +7,6 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 using Dawn;
 using Microsoft.AspNetCore.Mvc;
 
-// ReSharper disable All
-
 namespace CleanEventSourcing.Api.Items
 {
     [Route("api/[controller]")]

@@ -24,6 +24,7 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         }
 
         [Fact]
+        [Trait("Category", "Integration")]
         public async Task HandleCreatedItemEvent_ShouldCreateItem()
         {
             var receivedEvent = this.fixture.Create<CreatedItemEvent>();
@@ -37,6 +38,7 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         }
 
         [Fact]
+        [Trait("Category", "Integration")]
         public async Task HandleUpdatedItemEvent_ShouldUpdateItem()
         {
             var receivedEvent = this.fixture.Create<UpdatedItemEvent>();
@@ -53,6 +55,7 @@ namespace CleanEventSourcing.Persistence.Tests.ReadModel
         }
 
         [Fact]
+        [Trait("Category", "Integration")]
         public async Task HandleDeletedItemEvent_ShouldDeleteItem()
         {
             var receivedEvent = this.fixture.Create<DeletedItemEvent>();
