@@ -16,7 +16,7 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Hooks
             var testDirectory = Directory.GetCurrentDirectory();
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile(Path.Combine(testDirectory, "appsettings.Test.json"));
-            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>()
+            var server = new TestServer(new WebHostBuilder().UseStartup<Program>()
                 .UseConfiguration(configurationBuilder.Build()));
             httpContext.Client = server.CreateClient();
         }
