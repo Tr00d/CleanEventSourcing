@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution 
 ProjectSection(SolutionItems) = preProject
 	README.md = README.md
 	docker-compose.yml = docker-compose.yml
+	.github\workflows\build.yml = .github\workflows\build.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEventSourcing.Tests.Shared", "tests\CleanEventSourcing.Tests.Shared\CleanEventSourcing.Tests.Shared.csproj", "{F579EEC4-D915-40F9-9054-52FDBBAC0E86}"
