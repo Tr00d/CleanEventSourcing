@@ -2,8 +2,8 @@ using System;
 using AutoFixture;
 using CleanEventSourcing.Domain.Items;
 using CleanEventSourcing.Domain.Items.Events;
+using CleanEventSourcing.Tests.Shared;
 using FluentAssertions;
-using LanguageExt;
 using Xunit;
 
 namespace CleanEventSourcing.Domain.Tests.Items.Events
@@ -18,71 +18,79 @@ namespace CleanEventSourcing.Domain.Tests.Items.Events
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetOldDescription()
         {
-            string description = this.fixture.Create<string>();
+            var description = this.fixture.Create<string>();
             ;
-            UpdatedItemEvent updatedEvent =
+            var updatedEvent =
                 new UpdatedItemEvent(this.fixture.Create<Guid>(), description, this.fixture.Create<string>());
             updatedEvent.OldDescription.IfNone(string.Empty).Should().Be(description);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetNewDescription()
         {
-            string description = this.fixture.Create<string>();
+            var description = this.fixture.Create<string>();
             ;
-            UpdatedItemEvent updatedEvent =
+            var updatedEvent =
                 new UpdatedItemEvent(this.fixture.Create<Guid>(), this.fixture.Create<string>(), description);
             updatedEvent.NewDescription.IfNone(string.Empty).Should().Be(description);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldSetId()
         {
-            Guid id = this.fixture.Create<Guid>();
-            UpdatedItemEvent updatedEvent =
+            var id = this.fixture.Create<Guid>();
+            var updatedEvent =
                 new UpdatedItemEvent(id, this.fixture.Create<string>(), this.fixture.Create<string>());
             updatedEvent.Id.Should().Be(id);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnTrue_GivenTypeIsItem()
         {
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
-            bool result = updatedEvent.CanConvertTo<Item>();
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var result = updatedEvent.CanConvertTo<Item>();
             result.Should().Be(true);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void CanConvertTo_ShouldReturnFalse_GivenTypeIsNotItem()
         {
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
-            bool result = updatedEvent.CanConvertTo<DummyAggregate>();
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var result = updatedEvent.CanConvertTo<DummyAggregate>();
             result.Should().Be(false);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnNone_GivenTypeIsNotItem()
         {
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
-            Option<IIntegrationEvent<DummyAggregate>> result = updatedEvent.ConvertTo<DummyAggregate>();
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var result = updatedEvent.ConvertTo<DummyAggregate>();
             result.IsNone.Should().Be(true);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void ConvertTo_ShouldReturnSome_GivenTypeIsItem()
         {
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
-            Option<IIntegrationEvent<Item>> result = updatedEvent.ConvertTo<Item>();
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var result = updatedEvent.ConvertTo<Item>();
             result.IsSome.Should().Be(true);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Apply_ShouldSetDescription_GivenAggregateIsSome()
         {
-            Item aggregate = new Item();
-            UpdatedItemEvent updatedEvent = this.fixture.Create<UpdatedItemEvent>();
+            var aggregate = new Item();
+            var updatedEvent = this.fixture.Create<UpdatedItemEvent>();
             updatedEvent.Apply(aggregate);
             aggregate.Description.IsSome.Should().Be(true);
             aggregate.Description.IfNone(string.Empty).Should().Be(updatedEvent.NewDescription.IfNone(string.Empty));

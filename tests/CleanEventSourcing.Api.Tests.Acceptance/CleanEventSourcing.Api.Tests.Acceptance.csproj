@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.17.0"/>
-        <PackageReference Include="LanguageExt.Core" Version="4.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.21"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.2.9"/>
+        <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.9"/>
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.9"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
+        <PackageReference Include="Respawn" Version="5.0.1"/>
         <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57"/>
-        <PackageReference Include="SpecFlow.xUnit" Version="3.9.40"/>
+        <PackageReference Include="SpecFlow.xUnit" Version="3.9.74"/>
         <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.extensibility.core" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
@@ -26,9 +30,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="appsettings.Test.json">
+        <Content Include="appsettings.Acceptance.json">
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
     </ItemGroup>

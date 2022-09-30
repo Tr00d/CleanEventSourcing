@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -10,6 +10,7 @@ using CleanEventSourcing.Application.Items.GetItem;
 using CleanEventSourcing.Application.Items.UpdateItem;
 using CleanEventSourcing.Domain.Items;
 using FluentAssertions;
+using FluentValidation;
 using LanguageExt;
 using MediatR;
 using Moq;
@@ -32,123 +33,122 @@ namespace CleanEventSourcing.Application.Tests.Items
         }
 
         [Fact]
-        public void Constructor_ShouldThrowArgumentNullException_GivenMediatorIsNull()
-        {
-            Action instantiation = () => new ItemService(null, this.mockMapper.Object);
-            instantiation.Should().ThrowExactly<ArgumentNullException>().WithParameterName("mediator");
-        }
-
-        [Fact]
-        public void Constructor_ShouldThrowArgumentNullException_GivenMapperIsNull()
-        {
-            Action instantiation = () => new ItemService(this.mockMediator.Object, null);
-            instantiation.Should().ThrowExactly<ArgumentNullException>().WithParameterName("mapper");
-        }
-
-        [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldSendCommand_GivenRequestContainsSome()
         {
-            CreateItemRequest request = this.fixture.Create<CreateItemRequest>();
-            CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
+            var request = this.fixture.Create<CreateItemRequest>();
+            var command = this.fixture.Create<CreateItemCommand>();
             this.mockMapper.Setup(mapper => mapper.Map<CreateItemCommand>(request)).Returns(command);
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            await service.CreateAsync(request).ConfigureAwait(false);
+            var service = this.BuildService();
+            await service.CreateAsync(request);
             this.mockMediator.Verify(mediator => mediator.Send(command, It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        private ItemService BuildService() =>
+            new(this.mockMediator.Object, this.mockMapper.Object, Enumerable.Empty<IValidator>());
+
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task CreateAsync_ShouldNotSendCommand_GivenRequestContainsNone()
         {
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            await service.CreateAsync(Option<CreateItemRequest>.None).ConfigureAwait(false);
+            var service = this.BuildService();
+            await service.CreateAsync(Option<CreateItemRequest>.None);
             this.mockMediator.Verify(mediator => mediator.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldNotSendQuery_GivenRequestContainsNone()
         {
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
+            var service = this.BuildService();
+            await service.GetAsync(Option<GetItemRequest>.None);
             this.mockMediator.Verify(mediator => mediator.Send(It.IsAny<IRequest>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnNone_GivenRequestContainsNone()
         {
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            Option<GetItemResponse> response =
-                await service.GetAsync(Option<GetItemRequest>.None).ConfigureAwait(false);
+            var service = this.BuildService();
+            var response =
+                await service.GetAsync(Option<GetItemRequest>.None);
             response.IsNone.Should().Be(true);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAsync_ShouldReturnSome_GivenRequestContainsSome()
         {
-            GetItemRequest request = this.fixture.Create<GetItemRequest>();
-            GetItemQuery query = this.fixture.Create<GetItemQuery>();
-            GetItemResponse response = this.fixture.Create<GetItemResponse>();
-            ItemSummary summary = this.fixture.Create<ItemSummary>();
+            var request = this.fixture.Create<GetItemRequest>();
+            var query = this.fixture.Create<GetItemQuery>();
+            var response = this.fixture.Create<GetItemResponse>();
+            var summary = this.fixture.Create<ItemSummary>();
             this.mockMapper.Setup(mapper => mapper.Map<GetItemQuery>(request)).Returns(query);
             this.mockMapper.Setup(mapper => mapper.Map<GetItemResponse>(summary)).Returns(response);
             this.mockMediator.Setup(mediator => mediator.Send(query, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(summary);
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
-            Option<GetItemResponse> result = await service.GetAsync(request).ConfigureAwait(false);
+            var service = this.BuildService();
+            var result = await service.GetAsync(request);
             result.IsSome.Should().Be(true);
             result.IfNone(new GetItemResponse()).Should().Be(response);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldSendUpdateItemCommand_GivenRequestIsSome()
         {
-            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
-            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
-            UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
+            var bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            var routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            var command = this.fixture.Create<UpdateItemCommand>();
             this.mockMapper.Setup(mapper => mapper.Map<UpdateItemCommand>(Tuple(routeRequest, bodyRequest)))
                 .Returns(command);
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            var service = this.BuildService();
             await service.UpdateAsync(routeRequest, bodyRequest);
             this.mockMediator.Verify(mediator => mediator.Send(command, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenRouteRequestIsNone()
         {
-            UpdateItemBodyRequest bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            var bodyRequest = this.fixture.Create<UpdateItemBodyRequest>();
+            var service = this.BuildService();
             await service.UpdateAsync(Option<UpdateItemRouteRequest>.None, bodyRequest);
             this.mockMediator.Verify(
                 mediator => mediator.Send(It.IsAny<UpdateItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdateAsync_ShouldNotSendUpdateItemCommand_GivenBodyRequestIsNone()
         {
-            UpdateItemRouteRequest routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            var routeRequest = this.fixture.Create<UpdateItemRouteRequest>();
+            var service = this.BuildService();
             await service.UpdateAsync(routeRequest, Option<UpdateItemBodyRequest>.None);
             this.mockMediator.Verify(
                 mediator => mediator.Send(It.IsAny<UpdateItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldNotSendDeleteItemCommand_GivenRequestIsNone()
         {
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            var service = this.BuildService();
             await service.DeleteAsync(Option<DeleteItemRequest>.None);
             this.mockMediator.Verify(
                 mediator => mediator.Send(It.IsAny<DeleteItemCommand>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeleteAsync_ShouldSendDeleteItemCommand_GivenRequestIsSome()
         {
-            DeleteItemRequest request = this.fixture.Create<DeleteItemRequest>();
-            DeleteItemCommand command = this.fixture.Create<DeleteItemCommand>();
+            var request = this.fixture.Create<DeleteItemRequest>();
+            var command = this.fixture.Create<DeleteItemCommand>();
             this.mockMapper.Setup(mapper => mapper.Map<DeleteItemCommand>(request)).Returns(command);
-            ItemService service = new ItemService(this.mockMediator.Object, this.mockMapper.Object);
+            var service = this.BuildService();
             await service.DeleteAsync(request);
             this.mockMediator.Verify(
                 mediator => mediator.Send(It.IsAny<DeleteItemCommand>(), It.IsAny<CancellationToken>()), Times.Once);

@@ -27,6 +27,7 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenRepositoryIsNull()
         {
             Action instantiation = () => new CreateItemHandler(null);
@@ -34,10 +35,11 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldSaveItem()
         {
-            CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
-            CreateItemHandler handler = new CreateItemHandler(this.mockRepository.Object);
+            var command = this.fixture.Create<CreateItemCommand>();
+            var handler = new CreateItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(
                 repository => repository.SaveAsync(
@@ -48,13 +50,14 @@ namespace CleanEventSourcing.Application.Tests.Items.CreateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldCreateItem()
         {
-            CreateItemCommand command = this.fixture.Create<CreateItemCommand>();
-            CreateItemHandler handler = new CreateItemHandler(this.mockRepository.Object);
+            var command = this.fixture.Create<CreateItemCommand>();
+            var handler = new CreateItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
-            Option<Item> aggregate = this.mockRepository.Invocations.First().Arguments.FirstOrDefault() is Option<Item>
-                ? (Option<Item>) this.mockRepository.Invocations.First().Arguments.FirstOrDefault()
+            var aggregate = this.mockRepository.Invocations.First().Arguments.FirstOrDefault() is Option<Item>
+                ? (Option<Item>)this.mockRepository.Invocations.First().Arguments.FirstOrDefault()
                 : Option<Item>.None;
             aggregate.IsSome.Should().Be(true);
             aggregate.IfNone(() => throw new InvalidOperationException()).GetIntegrationEvents().IsSome.Should()

@@ -23,28 +23,25 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         public async Task CreateItem(string description) =>
             this.context.CreateItemResponse =
                 await this.clientDriver
-                    .ProcessRequest(HttpMethod.Post, "/api/items", new CreateItemRequest {Description = description})
-                    .ConfigureAwait(false);
+                    .ProcessRequest(HttpMethod.Post, "/api/items", new CreateItemRequest { Description = description });
 
         public async Task GetItem(Guid id) =>
             this.context.GetItemResponse =
                 await this.clientDriver
-                    .ProcessRequest(HttpMethod.Get, $"/api/items/{id}")
-                    .ConfigureAwait(false);
+                    .ProcessRequest(HttpMethod.Get, $"/api/items/{id}");
 
         public async Task UpdateItem(Guid id, string description)
             => this.context.UpdateItemResponse =
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Put, $"/api/items/{id}",
-                        new UpdateItemBodyRequest {Description = description})
-                    .ConfigureAwait(false);
+                        new UpdateItemBodyRequest { Description = description });
 
         public async Task GetItemUsingLocationHeader()
         {
             this.context.GetItemResponse =
                 await this.clientDriver
                     .ProcessRequest(HttpMethod.Get, this.context.CreateItemResponse.Headers.Location.AbsolutePath)
-                    .ConfigureAwait(false);
+                ;
         }
 
         public async Task<GetItemResponse> GetRetrievedItemAsync() => await this.context.GetRetrievedItemAsync();
@@ -52,7 +49,6 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
         public async Task DeleteItem(Guid id)
             => this.context.DeleteItemResponse =
                 await this.clientDriver
-                    .ProcessRequest(HttpMethod.Delete, $"/api/items/{id}")
-                    .ConfigureAwait(false);
+                    .ProcessRequest(HttpMethod.Delete, $"/api/items/{id}");
     }
 }

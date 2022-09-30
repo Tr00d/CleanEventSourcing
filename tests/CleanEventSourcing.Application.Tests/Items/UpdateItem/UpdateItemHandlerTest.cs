@@ -26,6 +26,7 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Constructor_ShouldThrowArgumentNullException_GivenEventStoreIsNull()
         {
             Action instantiation = () => new UpdateItemHandler(null);
@@ -33,12 +34,13 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldUpdateItem()
         {
-            Item item = this.fixture.Create<Item>();
-            UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
+            var item = this.fixture.Create<Item>();
+            var command = this.fixture.Create<UpdateItemCommand>();
             this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(item);
-            UpdateItemHandler handler = new UpdateItemHandler(this.mockRepository.Object);
+            var handler = new UpdateItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
             item.GetIntegrationEvents().IsSome.Should().Be(true);
             item.GetIntegrationEvents().IfNone(Enumerable.Empty<IIntegrationEvent>()).First().Should()
@@ -46,12 +48,13 @@ namespace CleanEventSourcing.Application.Tests.Items.UpdateItem
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Handle_ShouldSaveItem()
         {
-            Item item = this.fixture.Create<Item>();
-            UpdateItemCommand command = this.fixture.Create<UpdateItemCommand>();
+            var item = this.fixture.Create<Item>();
+            var command = this.fixture.Create<UpdateItemCommand>();
             this.mockRepository.Setup(repository => repository.GetAsync(command.Id)).ReturnsAsync(item);
-            UpdateItemHandler handler = new UpdateItemHandler(this.mockRepository.Object);
+            var handler = new UpdateItemHandler(this.mockRepository.Object);
             await handler.Handle(command, CancellationToken.None);
             this.mockRepository.Verify(repository => repository.SaveAsync(item), Times.Once);
         }

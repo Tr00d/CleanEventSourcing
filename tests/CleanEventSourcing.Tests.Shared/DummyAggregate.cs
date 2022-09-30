@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
+using CleanEventSourcing.Domain;
 using LanguageExt;
 
-namespace CleanEventSourcing.Domain.Tests
+namespace CleanEventSourcing.Tests.Shared
 {
     public class DummyAggregate : IAggregate
     {
@@ -10,7 +9,7 @@ namespace CleanEventSourcing.Domain.Tests
         public Guid Id { get; set; }
 
         public Option<IEnumerable<IIntegrationEvent>> GetIntegrationEvents() =>
-            new List<DummyEvent> {new DummyEvent()};
+            new List<DummyEvent> { new() };
 
         public Option<string> GetStream() => $"{nameof(DummyAggregate)}-{this.Id}";
     }

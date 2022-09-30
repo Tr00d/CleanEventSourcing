@@ -12,34 +12,33 @@ namespace CleanEventSourcing.Api.Tests.Acceptance.Drivers
     {
         private readonly HttpClient client;
 
-        public HttpClientDriver(HttpScenarioContext context)
+        public HttpClientDriver(AcceptanceContext context)
         {
-            this.client = context.Client;
+            this.client = context.HttpClient;
         }
 
         public async Task<HttpResponseMessage> ProcessRequest(HttpMethod method, string relativeUri) =>
-            await this.ProcessRequest(this.CreateRequest(method, relativeUri)).ConfigureAwait(false);
+            await this.ProcessRequest(this.CreateRequest(method, relativeUri));
 
         public async Task<HttpResponseMessage> ProcessRequest<TRequest>(HttpMethod method, string relativeUri,
-            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data))
-            .ConfigureAwait(false);
+            TRequest data) => await this.ProcessRequest(this.CreateRequest(method, relativeUri, data));
 
         private HttpRequestMessage CreateRequest<T>(HttpMethod method, string relativeUri, T data)
         {
-            HttpRequestMessage requestMessage = this.CreateRequest(method, relativeUri);
+            var requestMessage = this.CreateRequest(method, relativeUri);
             requestMessage.Content =
                 new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
             return requestMessage;
         }
 
         private HttpRequestMessage CreateRequest(HttpMethod method, string relativeUri) =>
-            new HttpRequestMessage
+            new()
             {
                 Method = method,
                 RequestUri = new Uri(this.client.BaseAddress, relativeUri),
             };
 
         private async Task<HttpResponseMessage> ProcessRequest(HttpRequestMessage message) =>
-            await this.client.SendAsync(message).ConfigureAwait(false);
+            await this.client.SendAsync(message);
     }
 }

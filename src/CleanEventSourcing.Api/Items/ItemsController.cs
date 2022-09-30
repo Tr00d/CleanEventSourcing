@@ -7,8 +7,6 @@ using CleanEventSourcing.Application.Items.UpdateItem;
 using Dawn;
 using Microsoft.AspNetCore.Mvc;
 
-// ReSharper disable All
-
 namespace CleanEventSourcing.Api.Items
 {
     [Route("api/[controller]")]
@@ -25,20 +23,20 @@ namespace CleanEventSourcing.Api.Items
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateItemRequest request)
         {
-            await this.itemService.CreateAsync(request).ConfigureAwait(false);
-            return this.CreatedAtAction("Get", new GetItemRequest {Id = request.Id}, request.Id);
+            await this.itemService.CreateAsync(request);
+            return this.CreatedAtAction("Get", new GetItemRequest { Id = request.Id }, request.Id);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] GetItemRequest request) =>
-            (await this.itemService.GetAsync(request).ConfigureAwait(false)).Match(this.Ok,
-                (IActionResult) this.NotFound(request));
+            (await this.itemService.GetAsync(request)).Match(this.Ok,
+                (IActionResult)this.NotFound(request));
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] UpdateItemRouteRequest routeRequest,
             [FromBody] UpdateItemBodyRequest bodyRequest)
         {
-            await this.itemService.UpdateAsync(routeRequest, bodyRequest).ConfigureAwait(false);
+            await this.itemService.UpdateAsync(routeRequest, bodyRequest);
             return this.NoContent();
         }
 

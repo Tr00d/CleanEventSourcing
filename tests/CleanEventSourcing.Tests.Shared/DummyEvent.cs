@@ -1,8 +1,8 @@
-using System;
+using CleanEventSourcing.Domain;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
-namespace CleanEventSourcing.Domain.Tests
+namespace CleanEventSourcing.Tests.Shared
 {
     public class DummyEvent : IIntegrationEvent, IIntegrationEvent<DummyAggregate>
     {
@@ -11,7 +11,7 @@ namespace CleanEventSourcing.Domain.Tests
         public bool CanConvertTo<T>() where T : IAggregate => typeof(T) == typeof(DummyAggregate);
 
         public Option<IIntegrationEvent<T>> ConvertTo<T>() where T : IAggregate => this.CanConvertTo<T>()
-            ? Some((IIntegrationEvent<T>) this)
+            ? Some((IIntegrationEvent<T>)this)
             : Option<IIntegrationEvent<T>>.None;
 
         public void Apply(Option<DummyAggregate> aggregate) => aggregate.IfSome(value => value.EventCount++);

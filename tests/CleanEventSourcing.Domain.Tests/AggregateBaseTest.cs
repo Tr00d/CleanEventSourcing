@@ -1,5 +1,6 @@
 using System.Linq;
 using AutoFixture;
+using CleanEventSourcing.Tests.Shared;
 using FluentAssertions;
 using Xunit;
 
@@ -15,10 +16,11 @@ namespace CleanEventSourcing.Domain.Tests
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void AddEvent_ShouldAddEvent()
         {
-            DummyEvent integrationEvent = this.fixture.Create<DummyEvent>();
-            AggregateBase aggregateBase = new AggregateBase();
+            var integrationEvent = this.fixture.Create<DummyEvent>();
+            var aggregateBase = new AggregateBase();
             aggregateBase.AddEvent(integrationEvent);
             aggregateBase.GetEvents().First().Should().Be(integrationEvent);
         }

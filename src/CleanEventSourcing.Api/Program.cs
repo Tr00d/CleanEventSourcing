@@ -1,17 +1,44 @@
-using Microsoft.AspNetCore.Hosting;
+using CleanEventSourcing.Application;
+using CleanEventSourcing.Infrastructure;
+using CleanEventSourcing.Persistence;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceCollectionExtension = CleanEventSourcing.Application.ServiceCollectionExtension;
 
-namespace CleanEventSourcing.Api
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRouting();
+builder.Services.AddMediatR(typeof(Program).Assembly);
+builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(configuration =>
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    configuration.RegisterValidatorsFromAssembly(typeof(ServiceCollectionExtension).Assembly);
+});
+builder.Services.RegisterApplication();
+builder.Services.RegisterPersistence(builder.Configuration);
+builder.Services.RegisterInfrastructure();
+var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-    }
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(endpoints => endpoints.MapControllers());
+app.MapControllers();
+EnsureDatabaseCreated(app);
+app.Run();
+
+void EnsureDatabaseCreated(IHost webApplication)
+{
+    var context = webApplication.Services.CreateScope().ServiceProvider.GetRequiredService<Context>();
+    context.Database.EnsureCreated();
+}
+
+public partial class Program
+{
 }

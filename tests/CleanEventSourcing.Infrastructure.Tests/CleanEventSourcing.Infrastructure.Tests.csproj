@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
@@ -9,13 +9,16 @@
 
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.17.0"/>
-        <PackageReference Include="FluentAssertions" Version="6.2.0"/>
-        <PackageReference Include="LanguageExt.Core" Version="4.0.3"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
-        <PackageReference Include="Moq" Version="4.16.1"/>
-        <PackageReference Include="coverlet.collector" Version="3.1.0"/>
-        <PackageReference Include="xunit.extensibility.core" Version="2.4.1"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+        <PackageReference Include="FluentAssertions" Version="6.7.0"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.2.9"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1"/>
+        <PackageReference Include="Moq" Version="4.18.2"/>
+        <PackageReference Include="coverlet.collector" Version="3.1.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="xunit.extensibility.core" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -24,7 +27,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\CleanEventSourcing.Application\CleanEventSourcing.Application.csproj"/>
         <ProjectReference Include="..\..\src\CleanEventSourcing.Infrastructure\CleanEventSourcing.Infrastructure.csproj"/>
-        <ProjectReference Include="..\CleanEventSourcing.Domain.Tests\CleanEventSourcing.Domain.Tests.csproj"/>
+        <ProjectReference Include="..\CleanEventSourcing.Tests.Shared\CleanEventSourcing.Tests.Shared.csproj"/>
     </ItemGroup>
 
 </Project>

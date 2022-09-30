@@ -30,7 +30,7 @@ namespace CleanEventSourcing.Domain.Items
 
         public void Update(Option<string> description)
         {
-            Option<string> oldDescription = this.Description;
+            var oldDescription = this.Description;
             this.Description = description;
             this.baseAggregate.AddEvent(new UpdatedItemEvent(this.Id, oldDescription, this.Description));
         }

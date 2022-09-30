@@ -9,6 +9,6 @@ namespace CleanEventSourcing.Domain.Items.Events
 
         public Option<IIntegrationEvent<T>> ConvertTo<T>(IIntegrationEvent<Item> integrationEvent)
             where T : IAggregate =>
-            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>) integrationEvent) : Option<IIntegrationEvent<T>>.None;
+            this.CanConvertTo<T>() ? Some((IIntegrationEvent<T>)integrationEvent) : Option<IIntegrationEvent<T>>.None;
     }
 }
