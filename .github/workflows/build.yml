@@ -24,7 +24,7 @@ jobs:
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
-         dotnet tool update dotnet-sonarscanner
+         dotnet tool update dotnet-sonarscanner --tool-path .\
           
       - name: Install coverlet
         id: install-coverlet
