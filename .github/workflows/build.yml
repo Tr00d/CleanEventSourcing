@@ -19,6 +19,9 @@ jobs:
         id: build
         run: |
           dotnet build --no-incremental
+          
+      - name: Display structure of downloaded files
+        run: ls -l
       
       - name: Docker Compose Action
         uses: isbang/compose-action@v1.2.0
