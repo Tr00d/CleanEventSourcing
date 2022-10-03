@@ -20,11 +20,21 @@ jobs:
         run: |
           dotnet build --no-incremental
           
-      - name: Display structure of downloaded files
+      - name: Display file structure
         run: ls -l
       
       - name: Docker Compose Action
         uses: isbang/compose-action@v1.2.0
+        
+      - uses: actions/upload-artifact@master
+        with:
+          name: src
+          path: src
+          
+      - uses: actions/upload-artifact@master
+        with:
+          name: tests
+          path: tests
 
       - name: Test
         id: test
@@ -51,8 +61,6 @@ jobs:
          dotnet tool update --global dotnet-sonarscanner
           
       - uses: actions/download-artifact@v3
-        with:
-          name: coverage-file
           
       - name: Display structure of downloaded files
         run: dir
