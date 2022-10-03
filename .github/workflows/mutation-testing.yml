@@ -1,7 +1,7 @@
 name: Mutation Testing
 on: workflow_dispatch
 jobs:
-  build-test:
+  mutation:
     name: Run mutation testing
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +20,7 @@ jobs:
           cd tests/CleanEventSourcing.Api.Tests
           dotnet stryker
 
-      - name: Display structure of downloaded files
-        run: ls tests/CleanEventSourcing.Api.Tests -l
-          
-          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: report
+          path: tests/CleanEventSourcing.Api.Tests/StrykerOutput/**/reports/mutation-report.html
