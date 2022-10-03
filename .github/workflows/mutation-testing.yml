@@ -1,0 +1,26 @@
+name: Mutation Testing
+on: workflow_dispatch
+jobs:
+  build-test:
+    name: Run mutation testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
+          
+      - name: Install Stryker
+        id: install-stryker
+        run: |
+          dotnet tool install -g dotnet-stryker
+          
+      - name: Mutation
+        id: mutation
+        run: |
+          cd tests/CleanEventSourcing.Api.Tests
+          dotnet stryker
+
+      - name: Display structure of downloaded files
+        run: ls tests/CleanEventSourcing.Api.Tests -l
+          
+          
