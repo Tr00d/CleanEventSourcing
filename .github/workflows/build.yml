@@ -19,12 +19,10 @@ jobs:
         id: build
         run: |
           dotnet build --no-incremental
-          
-      - name: Docker Up
-        id: docker-up
-        run: |
-          docker compose up
-          
+      
+      - name: Docker Compose Action
+        uses: isbang/compose-action@v1.2.0
+
       - name: Test
         id: test
         run: |
