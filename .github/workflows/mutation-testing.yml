@@ -22,7 +22,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: report
           path: tests/CleanEventSourcing.Api.Tests/StrykerOutput/**/reports/mutation-report.html
-          
-          
