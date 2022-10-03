@@ -1,13 +1,42 @@
 name: Build
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: [push]
 jobs:
-  build:
-    name: Build
+  build-test:
+    timeout-minutes: 5
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
+          
+      - name: Install coverlet
+        id: install-coverlet
+        run: |
+          dotnet tool install --global dotnet-coverage
+          
+      - name: Build
+        id: build
+        run: |
+          dotnet build --no-incremental
+      
+      - name: Docker Compose Action
+        uses: isbang/compose-action@v1.2.0
+
+      - name: Test
+        id: test
+        run: |
+          dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+          
+      - uses: actions/upload-artifact@master
+        with:
+          name: coverage-file
+          path: coverage.xml
+  
+  sonarsource:
+    needs: build-test
+    timeout-minutes: 5
+    name: Sonarsource Analysis
     runs-on: windows-latest
     steps:
       - name: Set up JDK 11
@@ -19,40 +48,21 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-          
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-          
       - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+         dotnet tool update --global dotnet-sonarscanner
           
-      - name: Install coverlet
-        id: install-coverlet
-        run: |
-          dotnet tool install --global dotnet-coverage
+      - uses: actions/download-artifact@v3
           
-      - name: Build and analyze
+      - name: Display structure of downloaded files
+        run: dir
+          
+      - name: Sonarsource Coverage
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Tr00d_CleanEventSourcing" /o:"tr00d-orga" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet-sonarscanner begin /k:"Tr00d_CleanEventSourcing" /o:"tr00d-orga" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build --no-incremental
-          dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
