@@ -20,11 +20,6 @@ builder.Services.RegisterApplication();
 builder.Services.RegisterPersistence(builder.Configuration);
 builder.Services.RegisterInfrastructure();
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
