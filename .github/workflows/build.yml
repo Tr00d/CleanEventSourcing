@@ -27,11 +27,6 @@ jobs:
         id: test
         run: |
           dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
-
-      - name: Docker Down
-        id: docker-down
-        run: |
-          docker compose down
           
       - uses: actions/upload-artifact@master
         with:
@@ -55,6 +50,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: coverage-file
+          
+      - name: Display structure of downloaded files
+        run: dir
           
       - name: Sonarsource Coverage
         env:
