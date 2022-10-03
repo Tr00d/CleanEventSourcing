@@ -34,7 +34,7 @@ jobs:
           path: coverage.xml
   
   sonarsource:
-    if: success()
+    needs: build-test
     timeout-minutes: 5
     name: Sonarsource Analysis
     runs-on: windows-latest
