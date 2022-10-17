@@ -1,7 +1,10 @@
 # CleanEventSourcing
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Tr00d_CleanEventSourcing&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Tr00d_CleanEventSourcing)
+
 Here's the rating on BetterCodeHub. The rating is 9/10 because everything is one assembly but being a kata, it's not
 really an issue.
+
 [![BCH compliance](https://bettercodehub.com/edge/badge/Tr00d/CleanEventSourcing?branch=main)](https://bettercodehub.com/)
 
 ## Summary

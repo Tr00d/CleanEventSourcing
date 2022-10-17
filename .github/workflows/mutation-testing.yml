@@ -22,5 +22,3 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls tests/CleanEventSourcing.Api.Tests -l
-          
-          
